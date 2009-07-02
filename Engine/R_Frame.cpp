@@ -177,6 +177,7 @@ void R_Frame_SetupClipPlanes(R_Frustum frustum)
 	PlaneSort swap;
 	int i, j;
 
+    return;
 
 	planeSort[0].i=0;
 	planeSort[0].d=frustum.x00d-frustum.x0;

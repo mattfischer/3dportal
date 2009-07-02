@@ -74,10 +74,16 @@ void I_ProcessMouse(float time)
 {
 	DIMOUSESTATE diMouseState;
 	POINT cursorPoint;
-	float mouseAnglesize=50;
+	float mouseAnglesize=20;
 	M_Vector rotation;
 	float x, y;
 	float angleClamp=20;
+    static int lastInput=0;
+
+    if(GetTickCount() - lastInput < 10) return;
+    
+    time = (GetTickCount() - lastInput) / 1000.0;
+    lastInput = GetTickCount();
 
 	if(KEY_DOWN(VK_RBUTTON)) //thrust+=M_Vector(0, 0, 6);
 		//position.z+=stepsize*time;

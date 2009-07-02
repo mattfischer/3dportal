@@ -15,6 +15,7 @@ W_Surface::W_Surface()
 	offsetU = offsetV = 0;
 	slideU = 0;
 	slideV = 0;
+    flag = 0;
 	moveDelta = M_Vector(0,0,0);
 	moveVector = M_Vector(0,0,0);
 }

@@ -28,7 +28,7 @@ void R_Model::Draw(float distance2, float light, M_Vector tint, JK_Key *key, flo
 	int LOD;
 	int i;
 
-	if(!drawThings) return;
+	//if(!drawThings) return;
 
 	if(G_GoodFramerate()) LOD=0;
 	else
@@ -57,7 +57,7 @@ void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, JK_Key *
 
 	if( key )
 	{
-		key->interpolateFrame( node->name, keyTime, keyPosition, keyOrientation );
+	//	key->interpolateFrame( node->name, keyTime, keyPosition, keyOrientation );
 	}
 
 	mesh=&geoSets[g].meshes[node->mesh];

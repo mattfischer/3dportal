@@ -12,7 +12,7 @@
 
 extern bool fullLight;
 extern bool drawPolygons;
-
+extern bool drawThings;
 void W_Poly::Clip(M_Plane &c)
 {
 	int i;

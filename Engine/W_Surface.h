@@ -55,7 +55,7 @@ public:
 	bool PerformActivate( M_Vector position, M_Vector point );
 	void SurfaceCollisions( W_Thing* thing );
 	bool FloorCollisions( W_Thing* thing );
-
+int flag;
 protected:
 
 	int num;
@@ -71,7 +71,7 @@ protected:
 	int visible;
 	int adjoinFlags;
 	int drawCounter;
-
+    
 	vector<C_Script*> cogLinks;
 
 	float r;

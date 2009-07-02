@@ -25,8 +25,7 @@ void W_Surface::Draw(M_Vector tint, R_Frustum frustum, float light)
 	M_Vector tempVector;
 	
 	if(geo==JK_GEO_NO_DRAW) return;
-
-
+    
 	position=player->GetEyePosition();
 	rotation=player->GetCompositeRotation();
 
@@ -84,6 +83,8 @@ void W_Surface::Draw(M_Vector tint, R_Frustum frustum, float light)
 	}
 	else
 	{
+        if(flag == globalFlag) return;
+        flag = globalFlag;
 		if(face&JK_FACE_TRANSLUCENT)
 			polygon.Draw(tint, light, true, false, cel, offsetU, offsetV);
 		else

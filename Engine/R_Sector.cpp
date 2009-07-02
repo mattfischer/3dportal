@@ -52,8 +52,14 @@ void W_Sector::Draw( R_Frustum frustum, W_Surface *ignore )
 
 				if( newFrustum.x0 >= newFrustum.x1 || newFrustum.y0 >= newFrustum.y1 )
 					continue;
-		
-				surfaces[i]->GetAdjoin()->Draw( newFrustum, surfaces[i]->GetMirror() );
+
+                clipped = surfaces[i]->GetPoly();
+                clipped.Clip(R_WindowFrustum);
+                newFrustum = clipped.CreateFrustum();
+
+		        if(surfaces[i]->flag != globalFlag)
+				    surfaces[i]->GetAdjoin()->Draw( newFrustum, surfaces[i]->GetMirror() );
+                surfaces[i]->flag = globalFlag;
 				//delete[] newFrustum.planeNormals;
 
 				R_Frame_SetupClipPlanes( frustum );
