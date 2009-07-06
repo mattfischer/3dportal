@@ -80,6 +80,9 @@ W_Thing::W_Thing(W_Thing &c)
 
 	walkTimer=GetTickCount();
 	walkSide=0;
+
+    key = c.key;
+	keyTime = c.keyTime;
 }
 
 W_Thing::~W_Thing()

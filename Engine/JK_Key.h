@@ -13,6 +13,8 @@ struct JK_K_Frame
 
 	M_Vector position;
 	M_Vector orientation;
+    M_Vector deltaPosition;
+    M_Vector deltaOrientation;
 };
 
 struct JK_K_Node

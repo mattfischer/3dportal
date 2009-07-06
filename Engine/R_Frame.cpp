@@ -140,16 +140,8 @@ void R_Frame_Render()
 	R_WindowFrustum.x00d=R_WindowFrustum.x01d=R_WindowFrustum.x0;
 	R_WindowFrustum.x10d=R_WindowFrustum.x11d=R_WindowFrustum.x1;
 	
-	/*R_WindowFrustum.numPlanes=4;
-	R_WindowFrustum.planeNormals=new M_Vector[4];
-	R_WindowFrustum.planeNormals[0]=M_Vector(-SX, -SY, -1)%M_Vector(-SX, SY, -1);
-	R_WindowFrustum.planeNormals[1]=M_Vector(-SX, SY, -1)%M_Vector(SX, SY, -1);
-	R_WindowFrustum.planeNormals[2]=M_Vector(SX, SY, -1)%M_Vector(SX, -SY, -1);
-	R_WindowFrustum.planeNormals[3]=M_Vector(SX, -SY, -1)%M_Vector(-SX, -SY, -1);*/
-
 	player->GetSector()->Draw(R_WindowFrustum,NULL);
 
-	//glTranslatef( position.x, position.z, -position.y );
 	if( povModel )
 	{
 		glLoadIdentity();
@@ -157,138 +149,8 @@ void R_Frame_Render()
 		glRotatef( 90, 1, 0, 0 );
 		povModel->Draw( 0, 1, M_Vector( 0, 0, 0 ), NULL, 0 );
 	}
-	//delete[] R_WindowFrustum.planeNormals;
 
 	SwapBuffers(hDC);
 
 	globalFlag++;
-}
-
-
-struct PlaneSort {
-	int i;
-	float d;
-};
-
-void R_Frame_SetupClipPlanes(R_Frustum frustum)
-{
-	double coeffs[4];
-	PlaneSort planeSort[4];
-	PlaneSort swap;
-	int i, j;
-
-    return;
-
-	planeSort[0].i=0;
-	planeSort[0].d=frustum.x00d-frustum.x0;
-
-	planeSort[1].i=1;
-	planeSort[1].d=frustum.x1-frustum.x10d;
-
-	planeSort[2].i=2;
-	planeSort[2].d=frustum.x01d-frustum.x0;
-
-	planeSort[3].i=3;
-	planeSort[3].d=frustum.x1-frustum.x11d;
-
-	for(i=0;i<4;i++)
-		for(j=0;j<i;j++)
-			if(planeSort[i].d>planeSort[j].d)
-			{
-				swap=planeSort[i];
-				planeSort[i]=planeSort[j];
-				planeSort[j]=swap;
-			}
-
-	glPushMatrix();
-	glLoadIdentity();
-
-	
-	glEnable(GL_CLIP_PLANE0);
-	glEnable(GL_CLIP_PLANE0+1);
-	glEnable(GL_CLIP_PLANE0+2);
-	glEnable(GL_CLIP_PLANE0+3);
-
-	coeffs[0]=1;
-	coeffs[1]=0;
-	coeffs[2]=frustum.x0;
-	coeffs[3]=0;
-
-	glClipPlane(GL_CLIP_PLANE0,coeffs);
-
-	coeffs[0]=-1;
-	coeffs[1]=0;
-	coeffs[2]=-frustum.x1;
-	coeffs[3]=0;
-
-	glClipPlane(GL_CLIP_PLANE0+1,coeffs);
-
-	coeffs[0]=0;
-	coeffs[1]=1;
-	coeffs[2]=frustum.y0;
-	coeffs[3]=0;
-
-	glClipPlane(GL_CLIP_PLANE0+2,coeffs);
-
-	coeffs[0]=0;
-	coeffs[1]=-1;
-	coeffs[2]=-frustum.y1;
-	coeffs[3]=0;
-
-	glClipPlane(GL_CLIP_PLANE0+3,coeffs);
-
-	for(i=0;i<2;i++)
-	{
-		if(planeSort[i].d<0)
-		{
-			glDisable(GL_CLIP_PLANE0+4+i);
-			continue;
-		}
-
-		switch(planeSort[i].i)
-		{
-		case 0:
-			coeffs[0]=1;
-			coeffs[1]=1;
-			coeffs[2]=frustum.x00d+frustum.y0;
-			coeffs[3]=0;
-			break;
-
-		case 1:
-			coeffs[0]=-1;
-			coeffs[1]=1;
-			coeffs[2]=frustum.y0-frustum.x10d;
-			coeffs[3]=0;
-			break;
-
-		case 2:
-			coeffs[0]=1;
-			coeffs[1]=-1;
-			coeffs[2]=frustum.x01d-frustum.y1;
-			coeffs[3]=0;
-			break;
-
-		case 3:
-			coeffs[0]=-1;
-			coeffs[1]=-1;
-			coeffs[2]=-frustum.x11d-frustum.y1;
-			coeffs[3]=0;
-			break;
-		}
-
-		glEnable(GL_CLIP_PLANE0+4+i);
-		glClipPlane(GL_CLIP_PLANE0+4+i, coeffs);
-	}
-
-	glPopMatrix();	
-}
-
-void R_Frame_DisableClipPlanes()
-{
-	glDisable(GL_CLIP_PLANE0);
-	glDisable(GL_CLIP_PLANE0+1);
-	glDisable(GL_CLIP_PLANE0+2);
-	glDisable(GL_CLIP_PLANE0+3);
-	glDisable(GL_CLIP_PLANE0+4);
-	glDisable(GL_CLIP_PLANE0+5);
 }

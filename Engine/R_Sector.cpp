@@ -30,8 +30,6 @@ void W_Sector::Draw( R_Frustum frustum, W_Surface *ignore )
 	
 	drawing = true;
 	
-	R_Frame_SetupClipPlanes( frustum );
-	
 	for( i = 0 ; i < numSurfaces ; i++ )
 	{
 		if( ignore != NULL && surfaces[i] == ignore ) continue;
@@ -53,21 +51,12 @@ void W_Sector::Draw( R_Frustum frustum, W_Surface *ignore )
 				if( newFrustum.x0 >= newFrustum.x1 || newFrustum.y0 >= newFrustum.y1 )
 					continue;
 
-                clipped = surfaces[i]->GetPoly();
-                clipped.Clip(R_WindowFrustum);
-                newFrustum = clipped.CreateFrustum();
-
-		        if(surfaces[i]->flag != globalFlag)
-				    surfaces[i]->GetAdjoin()->Draw( newFrustum, surfaces[i]->GetMirror() );
-                surfaces[i]->flag = globalFlag;
-				//delete[] newFrustum.planeNormals;
-
-				R_Frame_SetupClipPlanes( frustum );
+    		    surfaces[i]->GetAdjoin()->Draw( newFrustum, surfaces[i]->GetMirror() );
 			}
-			surfaces[i]->Draw( tint, frustum, extraLight );
+			surfaces[i]->Draw( tint, extraLight );
 		}
 		else
-			surfaces[i]->Draw( tint, frustum, extraLight );
+			surfaces[i]->Draw( tint, extraLight );
 	}
 	
 	drawing = false;	
@@ -76,8 +65,6 @@ void W_Sector::Draw( R_Frustum frustum, W_Surface *ignore )
 	{
 		if( things.size() > 0 )
 		{
-			R_Frame_SetupClipPlanes( R_WindowFrustum );
-
 			EnterCriticalSection( &critSec );
 			for( i = 0 ; i < things.size() ; i++ )
 			{

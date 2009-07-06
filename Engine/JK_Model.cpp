@@ -112,7 +112,7 @@ R_Model::R_Model( const string& filename )
 			line = JKP_GetNonEmptyLine( data, pos, size, error );
 			pos2 = 0;
 			JKP_MatchString( line, pos2, "NAME", error );
-			geoSets[g].meshes[m].name = JKP_GetString( line, pos2, error );
+			geoSets[g].meshes[m].name = U_Lowercase( JKP_GetString( line, pos2, error ) );
 
 			JKP_GetNonEmptyLine( data, pos, size, error );
 			JKP_GetNonEmptyLine( data, pos, size, error );

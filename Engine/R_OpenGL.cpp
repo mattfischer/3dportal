@@ -77,14 +77,9 @@ int R_OpenGL_Initialize(HWND hWnd)
 	//glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
   
-	/*glEnable(GL_CLIP_PLANE0);
-	glEnable(GL_CLIP_PLANE0+1);
-	glEnable(GL_CLIP_PLANE0+2);
-	glEnable(GL_CLIP_PLANE0+3);*/
-
 	glPointSize(5.0);
 	glLineWidth(1.0);
-	//glEnable(GL_CULL_FACE);
+	
 	glCullFace(GL_BACK);
 	
 	

@@ -49,7 +49,7 @@ public:
 	M_Vector GetMoveDelta();
 
 	// R_Surface.cpp
-	void Draw( M_Vector tint, R_Frustum frustum, float light );
+	void Draw( M_Vector tint, float light );
 
 	// P_Surface.cpp
 	bool PerformActivate( M_Vector position, M_Vector point );

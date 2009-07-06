@@ -123,7 +123,7 @@ public:
 
 	// R_Thing.cpp
 	void Draw( R_Frustum frustum, float light, M_Vector tint );
-
+JK_Key *key;
 protected:
 
 	//int num;
@@ -188,7 +188,7 @@ protected:
 
 	Type type;
 
-	JK_Key *key;
+	
 	float keyTime;
 
 	// P_Thing.cpp

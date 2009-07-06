@@ -39,6 +39,4 @@ extern R_Frustum R_WindowFrustum;
 
 void R_Frame_Render();
 
-void R_Frame_SetupClipPlanes( R_Frustum frustum );
-void R_Frame_DisableClipPlanes();
 #endif

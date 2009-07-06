@@ -678,6 +678,18 @@ void JK_Level_Load( const string& name )
 		
 		currentLevel.sectors[index].AddThing( currentLevel.things[i].get() );
 
+        if(text == "probedroid") {
+            currentLevel.things[i]->key = currentLevel.keyframes["pbidle.key"];
+        }
+
+        if(text == "stormtroop") {
+            currentLevel.things[i]->key = currentLevel.keyframes["stidle.key"];
+        }
+
+        if(text == "iofficer") {
+            currentLevel.things[i]->key = currentLevel.keyframes["ioidle.key"];
+        }
+
 		while( 1 )
 		{ 
 			error = 0;
@@ -687,6 +699,8 @@ void JK_Level_Load( const string& name )
 			currentLevel.things[i]->GetTemplate()->AddParam( text );
 		}
 		currentLevel.things[i]->ProcessTemplate();
+
+        
 	}
 
 	for( i = 0 ; i < currentLevel.cogs.size() ; i++ )

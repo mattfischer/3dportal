@@ -5,7 +5,7 @@
 
 class M_Vector {
 public:
-	M_Vector() {}
+	M_Vector() { x = y = z = 0; }
 	M_Vector( float m_x, float m_y, float m_z );
 	float operator*( M_Vector &b );
 	M_Vector operator*( float b );

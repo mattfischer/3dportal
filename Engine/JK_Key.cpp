@@ -3,6 +3,8 @@
 #include "JK_Parse.h"
 #include "JK_GOB.h"
 
+#include "U_Lowercase.h"
+
 JK_Key::JK_Key( const string& filename )
 {
 	string fullname;
@@ -90,7 +92,7 @@ JK_Key::JK_Key( const string& filename )
 		line = JKP_GetNonEmptyLine( data, pos, size, error );
 		pos2 = 0;
 		JKP_MatchString( line, pos2, "MESH NAME", error );
-		nodes[i].name = JKP_GetString( line, pos2, error );
+		nodes[i].name = U_Lowercase( JKP_GetString( line, pos2, error ) );
 
 		line = JKP_GetNonEmptyLine( data, pos, size, error );
 		pos2 = 0;
@@ -118,6 +120,15 @@ JK_Key::JK_Key( const string& filename )
 
 			line = JKP_GetNonEmptyLine( data, pos, size, error );
 			pos2 = 0;
+            f1 = JKP_GetFloat( line, pos2, error );
+			f2 = JKP_GetFloat( line, pos2, error );
+			f3 = JKP_GetFloat( line, pos2, error );
+			nodes[i].entries[j].deltaPosition = M_Vector( f1, f2, f3 );
+			
+			f1 = JKP_GetFloat( line, pos2, error );
+			f2 = JKP_GetFloat( line, pos2, error );
+			f3 = JKP_GetFloat( line, pos2, error );
+			nodes[i].entries[j].deltaOrientation = M_Vector( f1, f2, f3 );
 		}
 	}
 }
@@ -125,7 +136,7 @@ JK_Key::JK_Key( const string& filename )
 void JK_Key::interpolateFrame( const string &node, float time, M_Vector &position, M_Vector &orientation )
 {
 	int i;
-	int frame;
+	float frame;
 	int e;
 	float t;
 
@@ -137,15 +148,15 @@ void JK_Key::interpolateFrame( const string &node, float time, M_Vector &positio
 	if( i == numNodes ) return;
 
 	frame = time * fps;
-	while(frame>numFrames) frame -= numFrames;
+	if(frame>numFrames) frame -= ((int)(frame / numFrames)) * numFrames;
 
-	for( e = 0 ; e < nodes[i].numEntries - 1 ; e++ )
+	for( e = 0 ; e < nodes[i].numEntries ; e++ )
 	{
-		if( nodes[i].entries[e].frame <= frame && nodes[i].entries[e+1].frame > frame )
+		if( nodes[i].entries[e].frame <= frame && (e == nodes[i].numEntries - 1 || nodes[i].entries[e+1].frame > frame ))
 		{
-			t = ( frame - nodes[i].entries[e].frame ) / ( nodes[i].entries[e+1].frame - nodes[i].entries[e].frame );
-			position = nodes[i].entries[e].position + ( nodes[i].entries[e+1].position - nodes[i].entries[e].position ) * t;
-			orientation = nodes[i].entries[e].orientation + ( nodes[i].entries[e+1].orientation - nodes[i].entries[e].orientation ) * t;
+			t = ( frame - nodes[i].entries[e].frame );
+			position = nodes[i].entries[e].position + nodes[i].entries[e].deltaPosition * t;
+			orientation = nodes[i].entries[e].orientation + nodes[i].entries[e].deltaOrientation * t;
 			return;
 		}
 	}

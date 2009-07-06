@@ -14,7 +14,7 @@
 
 extern shared_ptr<W_Thing> player;
 
-void W_Surface::Draw(M_Vector tint, R_Frustum frustum, float light)
+void W_Surface::Draw(M_Vector tint, float light)
 {
 	int k;
 	int i;
@@ -25,9 +25,12 @@ void W_Surface::Draw(M_Vector tint, R_Frustum frustum, float light)
 	M_Vector tempVector;
 	
 	if(geo==JK_GEO_NO_DRAW) return;
-    
+    if(flag == globalFlag) return;
+
 	position=player->GetEyePosition();
 	rotation=player->GetCompositeRotation();
+
+    glEnable(GL_CULL_FACE);
 
 	if(flags&JK_SURFACE_CEILING_SKY)
 	{
@@ -50,10 +53,9 @@ void W_Surface::Draw(M_Vector tint, R_Frustum frustum, float light)
 	else if(flags&JK_SURFACE_HORIZON_SKY)
 	{
 		W_Poly poly2(polygon);
-		poly2.Clip(frustum);
+		poly2.Clip(R_WindowFrustum);
 		poly2.Transform(totalTransformationMatrix);
 
-		R_Frame_DisableClipPlanes();
 		glPushMatrix();
 		glLoadIdentity();
 			
@@ -79,12 +81,9 @@ void W_Surface::Draw(M_Vector tint, R_Frustum frustum, float light)
 
 		poly2.Draw(tint, 1.0, false, false, 0, 0, 0);
 		glPopMatrix();
-		R_Frame_SetupClipPlanes(frustum);
 	}
 	else
 	{
-        if(flag == globalFlag) return;
-        flag = globalFlag;
 		if(face&JK_FACE_TRANSLUCENT)
 			polygon.Draw(tint, light, true, false, cel, offsetU, offsetV);
 		else
@@ -92,4 +91,5 @@ void W_Surface::Draw(M_Vector tint, R_Frustum frustum, float light)
 	
 	}
 	Update();
+    flag = globalFlag;
 }

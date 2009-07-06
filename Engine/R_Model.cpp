@@ -52,20 +52,25 @@ void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, JK_Key *
 {
 	int i;
 	R_Mesh *mesh;
-	M_Vector keyPosition;
-	M_Vector keyOrientation;
+	M_Vector position;
+	M_Vector rotation;
 
 	if( key )
 	{
-	//	key->interpolateFrame( node->name, keyTime, keyPosition, keyOrientation );
+		key->interpolateFrame( node->name, keyTime, position, rotation );
 	}
+    else
+    {
+        position = node->position;
+        rotation = node->rotation;
+    }
 
 	mesh=&geoSets[g].meshes[node->mesh];
-	glTranslatef( node->position.x + keyPosition.x, node->position.z + keyPosition.z, -( node->position.y + keyPosition.y ) );
+	glTranslatef( position.x, position.z, -( position.y ) );
 		
-	glRotatef( node->rotation.x + keyOrientation.x, 1, 0, 0 );
-	glRotatef( node->rotation.y + keyOrientation.y, 0, 1, 0 );
-	glRotatef( node->rotation.z + keyOrientation.z, 0, 0, -1 );
+	glRotatef( rotation.x, 1, 0, 0 );
+	glRotatef( rotation.y, 0, 1, 0 );
+	glRotatef( rotation.z, 0, 0, -1 );
 
 	if( node->mesh != -1 )
 	{
@@ -81,10 +86,10 @@ void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, JK_Key *
 	for( i = 0 ; i < node->numChildren ; i++ )
 		DrawNode( &node->children[i], g, light, tint, key, keyTime );
 
-	glRotatef( -( node->rotation.z + keyOrientation.z ), 0, 0, -1 );
-	glRotatef( -( node->rotation.y + keyOrientation.y ), 0, 1, 0 );
-	glRotatef( -( node->rotation.x + keyOrientation.x ), 1, 0, 0 );
-	glTranslatef( -( node->position.x + keyPosition.x ), -( node->position.z + keyPosition.z ), node->position.y + keyPosition.y );
+	glRotatef( -( rotation.z ), 0, 0, -1 );
+	glRotatef( -( rotation.y ), 0, 1, 0 );
+	glRotatef( -( rotation.x ), 1, 0, 0 );
+	glTranslatef( -( position.x ), -( position.z ), position.y );
 }
 /*
 char *R_Model::GetName()
