@@ -251,6 +251,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\JK_AnimClass.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\JK_Colormap.cpp"
 				>
 			</File>
@@ -442,6 +446,10 @@
 			</File>
 			<File
 				RelativePath=".\I_Input.h"
+				>
+			</File>
+			<File
+				RelativePath=".\JK_AnimClass.h"
 				>
 			</File>
 			<File

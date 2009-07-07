@@ -3,6 +3,7 @@
 #include "JK_Template.h"
 #include "JK_GOB.h"
 #include "JK_Key.h"
+#include "JK_AnimClass.h"
 #include "JK_Colormap.h"
 #include "S_SoundClass.h"
 
@@ -522,6 +523,32 @@ void JK_Level_Load( const string& name )
 
 // =====================================================================
 
+	JKP_FindString( data, pos, size, "Section: ANIMCLASS", error );
+
+	pos2 = 0;
+	line = JKP_GetNonEmptyLine( data, pos, size, error );
+	JKP_MatchString( line, pos2, "World puppets", error );
+	numEntries = JKP_GetInt( line, pos2, error );
+
+	for( i = 0 ; i < numEntries ; i++ )
+	{
+		line = JKP_GetNonEmptyLine( data, pos, size, error );
+		pos2 = 0;
+		
+		JKP_MatchString( line, pos2, "end", error );
+		if( error==0 )
+		{
+			break;
+		}
+		error = 0;
+		JKP_GetInt( line, pos2, error );
+
+		filename = JKP_GetString( line, pos2, error );
+		currentLevel.animClasses.push_back( new JK_AnimClass( filename ), filename );
+	}
+
+// =====================================================================
+
 	JKP_FindString( data, pos, size, "Section: Soundclass", error );
 
 	pos2 = 0;
@@ -677,18 +704,6 @@ void JK_Level_Load( const string& name )
 		}
 		
 		currentLevel.sectors[index].AddThing( currentLevel.things[i].get() );
-
-        if(text == "probedroid") {
-            currentLevel.things[i]->key = currentLevel.keyframes["pbidle.key"];
-        }
-
-        if(text == "stormtroop") {
-            currentLevel.things[i]->key = currentLevel.keyframes["stidle.key"];
-        }
-
-        if(text == "iofficer") {
-            currentLevel.things[i]->key = currentLevel.keyframes["ioidle.key"];
-        }
 
 		while( 1 )
 		{ 

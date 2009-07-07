@@ -110,5 +110,21 @@ void W_Thing::ProcessTemplate()
 	velocity = M_Vector( 0, 0, 0 );
 	thingTemplate->GetVector( "vel", velocity );
 
+    if( thingTemplate->GetString( "puppet", s ) )
+    {
+        animClass = currentLevel.animClasses[s];
+        if(animClass->modes.size() > 0)
+        {
+            std::string filename = animClass->modes[0].submodes["stand"].key;
+            if(filename != "")
+            {
+                key = currentLevel.keyframes[filename];
+            }
+        }
+    }
+    else 
+    {
+        animClass = NULL;
+    }
 }
 

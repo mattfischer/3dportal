@@ -8,6 +8,7 @@
 
 #include "JK_Template.h"
 #include "JK_Key.h"
+#include "JK_AnimClass.h"
 
 #include "U_Collection.h"
 
@@ -123,7 +124,7 @@ public:
 
 	// R_Thing.cpp
 	void Draw( R_Frustum frustum, float light, M_Vector tint );
-JK_Key *key;
+
 protected:
 
 	//int num;
@@ -188,8 +189,10 @@ protected:
 
 	Type type;
 
-	
+	JK_Key *key;
 	float keyTime;
+
+    JK_AnimClass *animClass;
 
 	// P_Thing.cpp
 	void UpdatePath(float time);
