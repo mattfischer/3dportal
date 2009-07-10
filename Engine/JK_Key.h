@@ -35,7 +35,7 @@ class JK_Key
 public:
 	JK_Key( const string& filename );
 
-	void interpolateFrame( const string& node, float time, M_Vector& position, M_Vector& orientation );
+	void interpolateFrame( const string& node, float time, int flags, M_Vector& position, M_Vector& orientation );
 
 protected:
 	string name;
@@ -51,6 +51,16 @@ protected:
 
 	int numNodes;
 	JK_K_Node *nodes;
+};
+
+struct JK_Key_Instance
+{
+    JK_Key *key;
+    float time;
+    int flags;
+
+    JK_Key_Instance() : key(NULL), time(0), flags(0) {}
+    JK_Key_Instance(JK_Key *_key, float _time, int _flags) : key(_key), time(_time), flags(_flags) {}
 };
 
 #endif

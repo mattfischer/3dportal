@@ -37,6 +37,6 @@ extern int globalFlag;
 
 extern R_Frustum R_WindowFrustum;
 
-void R_Frame_Render();
+void R_Frame_Render(float time);
 
 #endif

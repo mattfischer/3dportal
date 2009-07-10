@@ -21,4 +21,4 @@
 02_skywaycrates.cog
 00_secretareas.cog
 pow_
-
+weap_

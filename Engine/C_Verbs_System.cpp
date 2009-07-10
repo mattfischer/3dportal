@@ -28,6 +28,11 @@ C_Type_Void TakeItem( C_Type_Thing thing_num, C_Type_Thing player_num )
 	}
 }
 
+C_Type_Int GetAutoSwitch()
+{
+    return 0; // ****
+}
+
 C_Type_Variant GetSenderRef( C_Context& c )
 {
 	C_Type_Variant retval;

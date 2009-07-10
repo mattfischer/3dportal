@@ -133,7 +133,7 @@ JK_Key::JK_Key( const string& filename )
 	}
 }
 
-void JK_Key::interpolateFrame( const string &node, float time, M_Vector &position, M_Vector &orientation )
+void JK_Key::interpolateFrame( const string &node, float time, int flags, M_Vector &position, M_Vector &orientation )
 {
 	int i;
 	float frame;
@@ -148,8 +148,21 @@ void JK_Key::interpolateFrame( const string &node, float time, M_Vector &positio
 	if( i == numNodes ) return;
 
 	frame = time * fps;
-	if(frame>numFrames) frame -= ((int)(frame / numFrames)) * numFrames;
-
+	if( frame > numFrames )
+    {
+        switch( flags )
+        {
+        case 0:
+            frame -= ((int)(frame / numFrames)) * numFrames;
+            break;
+            
+        case 0x14:
+        default:
+            frame = numFrames - 1;
+            break;
+        }
+    }
+    
 	for( e = 0 ; e < nodes[i].numEntries ; e++ )
 	{
 		if( nodes[i].entries[e].frame <= frame && (e == nodes[i].numEntries - 1 || nodes[i].entries[e+1].frame > frame ))
@@ -157,6 +170,12 @@ void JK_Key::interpolateFrame( const string &node, float time, M_Vector &positio
 			t = ( frame - nodes[i].entries[e].frame );
 			position = nodes[i].entries[e].position + nodes[i].entries[e].deltaPosition * t;
 			orientation = nodes[i].entries[e].orientation + nodes[i].entries[e].deltaOrientation * t;
+            if(orientation.x < 0) orientation.x += 360;
+            if(orientation.y < 0) orientation.y += 360;
+            if(orientation.z < 0) orientation.z += 360;
+            if(orientation.x >= 360) orientation.x -= 360;
+            if(orientation.y >= 360) orientation.y -= 360;
+            if(orientation.z >= 360) orientation.z -= 360;
 			return;
 		}
 	}

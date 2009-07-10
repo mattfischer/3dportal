@@ -192,7 +192,18 @@ R_Model::R_Model( const string& filename )
 				if( index < 0 || index >= numMaterials )
 					geoSets[g].meshes[m].faces[f].poly.SetTexture( NULL );
 				else
-					geoSets[g].meshes[m].faces[f].poly.SetTexture( currentLevel.textures[textureNames[index]] );
+                {
+                    string filename = textureNames[index];
+                    int texIndex = currentLevel.textures.index( filename );
+                    if( texIndex == -1 )
+                    {
+                        R_Texture *newTexture = new R_Texture( filename );
+                        newTexture->Register( currentLevel.colormaps );
+                        currentLevel.textures.push_back( newTexture, filename );
+                        texIndex = currentLevel.textures.index( filename );
+                    }
+					geoSets[g].meshes[m].faces[f].poly.SetTexture( currentLevel.textures[texIndex] );
+                }
 				
 				for( i = 0 ; i < numVertices ; i++ )
 				{
@@ -262,7 +273,7 @@ R_Model::R_Model( const string& filename )
 		nodes[i].node.pivot.y = JKP_GetFloat( line, pos2, error );
 		nodes[i].node.pivot.z = JKP_GetFloat( line, pos2, error );
 		
-		nodes[i].node.name = JKP_GetString( line, pos2, error );
+		nodes[i].node.name = U_Lowercase( JKP_GetString( line, pos2, error ) );
 
 		nodes[i].node.mesh = nodes[i].mesh;
 		nodes[i].node.numChildren = nodes[i].numChildren;

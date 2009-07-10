@@ -12,7 +12,8 @@ C_Type_Float ChangeInv( C_Type_Thing thing_num, C_Type_Int bin, C_Type_Float del
 
 /* -------- C_Verbs_Anim_Key.cpp -------- */
 C_Type_Void jkSetPovModel( C_Type_Thing thing_num, C_Type_Model model_num );
-C_Type_Int jkPlayPovKey( C_Type_Int param0, C_Type_Int param1, C_Type_Int param2, C_Type_Int param3 );
+C_Type_Int jkPlayPovKey( C_Type_Thing thing_num, C_Type_Keyframe key, C_Type_Int param2, C_Type_Int flags );
+C_Type_Int PlayKey( C_Type_Thing thing_num, C_Type_Keyframe key, C_Type_Int param2, C_Type_Int flags );
 C_Type_Int GetKeyLen( C_Type_Keyframe key );
 
 /* -------- C_Verbs_Output.cpp -------- */
@@ -46,6 +47,7 @@ C_Type_Void SlideWall( C_Type_Surface surface_num, C_Type_Vector direction, C_Ty
 C_Type_Void sleep( C_Type_Float delay );
 C_Type_Float Rand();
 C_Type_Void TakeItem( C_Type_Thing thing_num, C_Type_Thing player_num );
+C_Type_Int GetAutoSwitch();
 C_Type_Variant GetSenderRef( C_Context& c );
 C_Type_Int GetSourceRef( C_Context& c );
 C_Type_Int GetSenderId( C_Context& c );

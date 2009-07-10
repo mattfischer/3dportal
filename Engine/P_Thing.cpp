@@ -507,7 +507,10 @@ void W_Thing::UpdateFinalize(float time)
 	}
 	DoFoley();
 
-	keyTime += time;
+    if( keyInstance.key )
+    {
+	    keyInstance.time += time;
+    }
 }
 
 void W_Thing::ArrestMotion(M_Vector normal)

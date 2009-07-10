@@ -58,7 +58,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,LPSTR Cmdline,int nShow)
 	j=i;
 	while(Cmdline[j]!=' ' && Cmdline[j]!='\0') j++;
 		
-	if(j==i) strcpy(levelName, "06bbarons.jkl");
+	if(j==i) strcpy(levelName, "09fuelstation.jkl");
 	else
 	{
 		strncpy(levelName, Cmdline, j);

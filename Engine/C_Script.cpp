@@ -15,6 +15,8 @@
 #include "JK_Template.h"
 #include "JK_GOB.h"
 
+#include "R_Model.h"
+
 #include "S_Sound.h"
 
 #include "G_Console.h"
@@ -361,16 +363,37 @@ void C_Script::SetupSymbolTable( C_ASTNode *symbolsNode )
 				break;
 			case C_TYPE_AI: 
 			case C_TYPE_COG: 
-			case C_TYPE_KEYFRAME: 
-			case C_TYPE_MATERIAL:
+            case C_TYPE_MATERIAL:
 				break;
 
+			case C_TYPE_KEYFRAME: 
+                *(int*)symbols[i].data = currentLevel.keyframes.index( (char*)node->children[0]->lexData );
+                break;
+
 			case C_TYPE_MODEL: 
-				*(int*)symbols[i].data = currentLevel.models.index( (char*)node->children[0]->lexData );
+                {
+                    string filename = (char*)node->children[0]->lexData;
+                    int index = currentLevel.models.index( filename );
+                    if( index == -1 )
+                    {
+                        currentLevel.models.push_back( new R_Model( filename ), filename );
+                        index = currentLevel.models.index( filename );
+                    }
+				    *(int*)symbols[i].data = index;
+                }
 				break;
 
 			case C_TYPE_SOUND: 
-				*(int*)symbols[i].data = currentLevel.sounds.index( (char*)node->children[0]->lexData );
+                {
+                    string filename = (char*)node->children[0]->lexData;
+                    int index = currentLevel.sounds.index( filename );
+                    if( index == -1 )
+                    {
+                        currentLevel.sounds.push_back( new S_Sound( filename ), filename );
+                        index = currentLevel.sounds.index( filename );
+                    }
+				    *(int*)symbols[i].data = index;
+                }
 				break;
 
 			case C_TYPE_TEMPLATE:

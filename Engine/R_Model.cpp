@@ -23,41 +23,41 @@ M_Vector R_Model::GetInsertOffset()
 	return insertOffset;
 }
 
-void R_Model::Draw(float distance2, float light, M_Vector tint, JK_Key *key, float keyTime )
+void R_Model::Draw(float distance2, float light, M_Vector tint, JK_Key_Instance *keyInstance )
 {
 	int LOD;
 	int i;
 
 	//if(!drawThings) return;
 
-	if(G_GoodFramerate()) LOD=0;
+	if( G_GoodFramerate() ) LOD=0;
 	else
 	{
-		LOD=numGeoSets-1;
-		for(i=0;i<4;i++)
+		LOD = numGeoSets - 1;
+		for( i = 0; i < 4; i++ )
 		{
-			if(numGeoSets==i) break;
-			if(distance2<currentLevel.LODDistances[i]*currentLevel.LODDistances[i])
+			if( numGeoSets == i) break;
+			if( distance2 < currentLevel.LODDistances[i] * currentLevel.LODDistances[i] )
 			{
-				LOD=i;
+				LOD = i;
 				break;
 			}
 		}
 	}
 
-	DrawNode(rootNode, LOD, light, tint, key, keyTime);
+	DrawNode( rootNode, LOD, light, tint, keyInstance );
 }
 
-void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, JK_Key *key, float keyTime )
+void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, JK_Key_Instance *keyInstance )
 {
 	int i;
 	R_Mesh *mesh;
 	M_Vector position;
 	M_Vector rotation;
 
-	if( key )
+	if( keyInstance && keyInstance->key )
 	{
-		key->interpolateFrame( node->name, keyTime, position, rotation );
+		keyInstance->key->interpolateFrame( node->name, keyInstance->time, keyInstance->flags, position, rotation );
 	}
     else
     {
@@ -65,12 +65,12 @@ void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, JK_Key *
         rotation = node->rotation;
     }
 
-	mesh=&geoSets[g].meshes[node->mesh];
+	mesh = &geoSets[g].meshes[node->mesh];
 	glTranslatef( position.x, position.z, -( position.y ) );
-		
-	glRotatef( rotation.x, 1, 0, 0 );
-	glRotatef( rotation.y, 0, 1, 0 );
-	glRotatef( rotation.z, 0, 0, -1 );
+	
+    glRotatef( rotation.y, 0, 1, 0 );
+    glRotatef( rotation.x, 1, 0, 0 );	    
+    glRotatef( rotation.z, 0, 0, -1 );
 
 	if( node->mesh != -1 )
 	{
@@ -84,11 +84,12 @@ void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, JK_Key *
 	
 
 	for( i = 0 ; i < node->numChildren ; i++ )
-		DrawNode( &node->children[i], g, light, tint, key, keyTime );
+		DrawNode( &node->children[i], g, light, tint, keyInstance );
 
-	glRotatef( -( rotation.z ), 0, 0, -1 );
-	glRotatef( -( rotation.y ), 0, 1, 0 );
-	glRotatef( -( rotation.x ), 1, 0, 0 );
+    glRotatef( -( rotation.z ), 0, 0, -1 );
+    glRotatef( -( rotation.x ), 1, 0, 0 );
+    glRotatef( -( rotation.y ), 0, 1, 0 );
+	
 	glTranslatef( -( position.x ), -( position.z ), position.y );
 }
 /*

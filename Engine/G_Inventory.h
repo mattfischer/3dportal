@@ -14,5 +14,8 @@ struct G_Item
 
 void G_SetupInventory();
 
+void G_ActivateBin(int bin);
+void G_DeactivateBin(int bin);
+
 extern G_Item G_Items[200];
 #endif

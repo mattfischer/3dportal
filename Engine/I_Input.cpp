@@ -205,7 +205,7 @@ void I_ProcessKeyboard( float time )
 			CON_ToggleVisible();
 			controlTimer = GetTickCount();
 		}
-		if( KEY_DOWN( '2' ) ) 
+		if( KEY_DOWN( VK_F2 ) ) 
 		{
 			for( i = 1 ; i < currentLevel.things.size() ; i++ )
 				if( currentLevel.things[( i + player->GetNum() ) % currentLevel.things.size()]->GetTemplate()->GetName() == "walkplayer" )
@@ -215,7 +215,7 @@ void I_ProcessKeyboard( float time )
 				}
 			controlTimer = GetTickCount();
 		}
-		if( KEY_DOWN( '1' ) ) 
+		if( KEY_DOWN( VK_F1 ) ) 
 		{
 			for( i = currentLevel.things.size() - 2 ; i >=0 ; i-- )
 				if( currentLevel.things[( i + player->GetNum() ) % currentLevel.things.size()]->GetTemplate()->GetName() == "walkplayer" )
@@ -225,6 +225,26 @@ void I_ProcessKeyboard( float time )
 				}
 			controlTimer = GetTickCount();
 		}
+
+        for(int i=1; i<=9; i++)
+        {
+            if( KEY_DOWN( '0' + i ) )
+            {
+                static int activeBin = 0;
+                if( activeBin != i )
+                {
+                    if( activeBin != 0 )
+                    {
+                        G_DeactivateBin( activeBin );
+                    }
+                    
+                    G_ActivateBin( i );
+                    activeBin = i;
+
+                    controlTimer = GetTickCount();
+                }
+            }
+        }
 	}
 	
 	if( KEY_DOWN( VK_SPACE ) )

@@ -79,8 +79,6 @@ void G_Initialize()
 			currentLevel.cogs[i]->Message("startup", -1, 0, -1);
 
 	JK_GOB_CloseFiles();
-
-	G_Items[2].cog->Message( "selected", -1, 0, currentLevel.playerNum );
 }
 
 void G_GameLoop()
@@ -104,7 +102,7 @@ void G_GameLoop()
 	I_Process(average);
 	W_Thing::UpdateThings(average);
 	S_Update();
-	R_Frame_Render();
+	R_Frame_Render(average);
 	
 	frames++;
 	if(GetTickCount()>fpsTimer+1000)

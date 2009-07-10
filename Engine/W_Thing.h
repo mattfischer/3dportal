@@ -92,6 +92,8 @@ public:
 	void AddCogLink( C_Script *cogScript );
 	void SendCogMessages( const string& message, int source, bool synchronous = false );
 
+    void playKey( JK_Key *key, int flags );
+
 	// P_Thing.cpp
 	static void UpdateThings( float time );
 
@@ -189,9 +191,8 @@ protected:
 
 	Type type;
 
-	JK_Key *key;
-	float keyTime;
-
+    JK_Key_Instance keyInstance;
+	
     JK_AnimClass *animClass;
 
 	// P_Thing.cpp

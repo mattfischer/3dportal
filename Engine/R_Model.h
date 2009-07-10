@@ -51,7 +51,7 @@ public:
 	R_Model( const string& filename );
 
 	// R_Model.cpp
-	void Draw( float distance2, float light, M_Vector tint, JK_Key *key, float keyTime );
+	void Draw( float distance2, float light, M_Vector tint, JK_Key_Instance *keyInstance );
 	float GetRadius();
 	M_Vector GetInsertOffset();
 	R_Mesh *GetMesh( int g, int m );
@@ -63,7 +63,7 @@ protected:
 	M_Vector insertOffset;
 	float radius;
 
-	void DrawNode( R_Node *node, int g, float light, M_Vector tint, JK_Key *key, float keyTime );
+	void DrawNode( R_Node *node, int g, float light, M_Vector tint, JK_Key_Instance *keyInstance );
 };
 
 void JK_Level_Load3DO( const string& name, R_Model *newModel );

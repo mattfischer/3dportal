@@ -13,6 +13,7 @@
 extern shared_ptr<W_Thing> player;
 
 R_Model *povModel = NULL;
+JK_Key_Instance povKeyInstance;
 
 int ScreenX=1280;
 int ScreenY=800;
@@ -113,10 +114,10 @@ void R_Frame_ConstructMatricies()
 	rotationInverseMatrix=mi2*mi3*mi4*coordConversionInverseMatrix;
 }
 
-void R_Frame_Render()
+void R_Frame_Render(float time)
 {
 	M_Vector position, rotation;
-
+    
 	position=player->GetEyePosition();
 	rotation=player->GetCompositeRotation();
 
@@ -145,9 +146,14 @@ void R_Frame_Render()
 	if( povModel )
 	{
 		glLoadIdentity();
-		glTranslatef( 0, -.01, -.01 );
-		glRotatef( 90, 1, 0, 0 );
-		povModel->Draw( 0, 1, M_Vector( 0, 0, 0 ), NULL, 0 );
+		glTranslatef( 0, -.04, -.02 );
+		
+        if( povKeyInstance.key )
+        {
+            povKeyInstance.time += time;
+        }
+
+		povModel->Draw( 0, 1, M_Vector( 0, 0, 0 ), &povKeyInstance );
 	}
 
 	SwapBuffers(hDC);

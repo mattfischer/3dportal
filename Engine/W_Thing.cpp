@@ -47,9 +47,6 @@ W_Thing::W_Thing(JK_Template *t, M_Vector p, M_Vector r, W_Sector *s)
 
 	walkTimer=GetTickCount();
 	walkSide=0;
-
-	key = NULL;
-	keyTime = 0;
 }
 
 W_Thing::W_Thing(W_Thing &c) 
@@ -81,8 +78,7 @@ W_Thing::W_Thing(W_Thing &c)
 	walkTimer=GetTickCount();
 	walkSide=0;
 
-    key = c.key;
-	keyTime = c.keyTime;
+    keyInstance = c.keyInstance;
 }
 
 W_Thing::~W_Thing()
@@ -447,3 +443,10 @@ void W_Thing::Unlock()
 {
 	LeaveCriticalSection(&critSec);
 }*/
+
+void W_Thing::playKey( JK_Key *key, int flags )
+{
+    keyInstance.key = key;
+    keyInstance.time = 0;
+    keyInstance.flags = flags;
+}
