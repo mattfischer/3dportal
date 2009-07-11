@@ -30,7 +30,7 @@ bool drawPolygons=true;
 
 void QuitGame();
 
-
+extern int curWeapon;
 
 LPDIRECTINPUT         lpdi;         // DirectInput interface
 LPDIRECTINPUTDEVICE   lpdiMouse;    // mouse device interface
@@ -79,6 +79,7 @@ void I_ProcessMouse(float time)
 	float x, y;
 	float angleClamp=20;
     static int lastInput=0;
+	static LONG controlTimer = 0;
 
     if(GetTickCount() - lastInput < 10) return;
     
@@ -90,7 +91,15 @@ void I_ProcessMouse(float time)
 		player->Jump();
 
 	if(KEY_DOWN(VK_LBUTTON))
-		G_Items[2].cog->Message("fire", 0, 0, player->GetNum());
+	{
+		if(GetTickCount() > controlTimer + 500)
+		{
+			if(curWeapon != -1)
+				G_Items[curWeapon].cog->Message("fire", 0, 0, player->GetNum());
+			controlTimer = GetTickCount();
+		}
+	}
+
 	
 	lpdiMouse->GetDeviceState(sizeof(diMouseState), &diMouseState);
        

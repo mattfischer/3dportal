@@ -7,6 +7,8 @@
 #include "S_Manager.h"
 #include <math.h>
 
+int curWeapon = -1;
+
 C_Type_Int GetAutoReload() // ****
 {	
 	return 0;
@@ -24,7 +26,7 @@ C_Type_Int GetWeaponPriority( C_Type_Int thing_num, C_Type_Int weapon, C_Type_In
 
 C_Type_Int GetCurWeapon( C_Type_Thing thing_num, C_Type_Int param ) // ?????
 {
-	return 0;
+	return curWeapon;
 }
 
 C_Type_Void SelectWeapon( C_Type_Thing thing_num, C_Type_Int bin )
@@ -77,10 +79,16 @@ C_Type_Thing FireProjectile( C_Type_Thing thing_num, C_Type_Template template_nu
 	currentLevel.things.push_back( new_thing );
 	
 	new_thing->ProcessTemplate();
-	new_thing->SetVelocity( m * m2 * new_thing->GetVelocity() );
+	new_thing->SetRotation( thing->GetRotation() );
 	new_thing->GetSector()->AddThing( new_thing.get() );
 
-	S_PlayLocal( currentLevel.sounds[sound_num], 1.0, 0 );
+	if( sound_num != -1 )
+		S_PlayLocal( currentLevel.sounds[sound_num], 1.0, 0 );
 
 	return retval;
+}
+
+C_Type_Void SetCurWeapon( C_Type_Thing thing_num, C_Type_Int bin )
+{
+	curWeapon = bin;
 }

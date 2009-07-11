@@ -66,3 +66,18 @@ C_Type_Void SetTimer( C_Type_Flex time, C_Script* script )
 {
 	script->StartTimer( time );
 }
+
+C_Type_Vector VectorSet( C_Type_Flex x, C_Type_Flex y, C_Type_Flex z )
+{
+	return M_Vector( x, y, z );
+}
+
+C_Type_Vector VectorScale( C_Type_Vector v, C_Type_Flex scale )
+{
+	return v * scale;
+}
+
+C_Type_Vector RandVec()
+{
+	return M_Vector( (rand() % 256) / 255.0, (rand() % 256) / 255.0, (rand() % 256) / 255.0);
+}

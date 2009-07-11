@@ -54,6 +54,9 @@ C_Type_Int GetSenderId( C_Context& c );
 C_Type_Int GetDifficulty();
 C_Type_Float GetLevelTime();
 C_Type_Void SetTimer( C_Type_Flex t, C_Script* script );
+C_Type_Vector VectorSet( C_Type_Flex x, C_Type_Flex y, C_Type_Flex z );
+C_Type_Vector VectorScale( C_Type_Vector v, C_Type_Flex scale );
+C_Type_Vector RandVec();
 
 /* -------- C_Verbs_Thing.cpp -------- */
 C_Type_Int GetCurFrame( C_Type_Thing thing_num );
@@ -69,6 +72,7 @@ C_Type_Float GetHealth( C_Type_Thing thing_num );
 C_Type_Void DestroyThing( C_Type_Thing thing_num );
 C_Type_Thing CreateThing( C_Type_Template template_num, C_Type_Thing position_num );
 C_Type_Void CaptureThing( C_Type_Thing thing_num, C_Script* script );
+C_Type_Vector GetThingLVec( C_Type_Thing thing_num );
 
 /* -------- C_Verbs_Weapon.cpp -------- */
 C_Type_Int GetAutoReload();
@@ -78,5 +82,6 @@ C_Type_Int GetCurWeapon( C_Type_Thing thing_num, C_Type_Int param );
 C_Type_Void SelectWeapon( C_Type_Thing thing_num, C_Type_Int bin );
 C_Type_Int AutoselectWeapon( C_Type_Thing thing_num, C_Type_Int bin );
 C_Type_Thing FireProjectile( C_Type_Thing thing_num, C_Type_Template template_num, C_Type_Sound sound_num, C_Type_Int mode, C_Type_Vector offset, C_Type_Vector error, C_Type_Flex unk, C_Type_Int flags, C_Type_Flex fov, C_Type_Flex maxDistance );
+C_Type_Void SetCurWeapon( C_Type_Thing thing_num, C_Type_Int bin );
 
 #endif
