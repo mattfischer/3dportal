@@ -49,7 +49,6 @@ M_Vector W_Poly::SpherePlaneOffset(M_Vector position, float radius, bool &direct
 
 	direct=true;
 	if(posD>planeD+radius) return M_Vector(0,0,0);
-	if(posD<planeD) return M_Vector(0,0,0);
 
 	if(!VectorIn(position))
 	{

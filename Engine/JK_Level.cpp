@@ -13,6 +13,7 @@
 
 #include "R_Texture.h"
 #include "R_Model.h"
+#include "R_Sprite.h"
 
 #include "C_Script.h"
 
@@ -493,6 +494,32 @@ void JK_Level_Load( const string& name )
 
 		filename = JKP_GetString( line, pos2, error );
 		currentLevel.models.push_back( new R_Model( filename ), filename );
+	}
+
+	// =====================================================================
+
+	JKP_FindString( data, pos, size, "Section: SPRITES", error );
+
+	pos2 = 0;
+	line = JKP_GetNonEmptyLine( data, pos, size, error );
+	JKP_MatchString( line, pos2, "World sprites", error );
+	numEntries = JKP_GetInt( line, pos2, error );
+
+	for( i = 0 ; i < numEntries ; i++ )
+	{
+		line = JKP_GetNonEmptyLine( data, pos, size, error );
+		pos2 = 0;
+		
+		JKP_MatchString( line, pos2, "end", error );
+		if( error==0 )
+		{
+			break;
+		}
+		error = 0;
+		JKP_GetInt( line, pos2, error );
+
+		filename = JKP_GetString( line, pos2, error );
+		currentLevel.sprites.push_back( new R_Sprite( filename ), filename );
 	}
 
 	// =====================================================================

@@ -6,6 +6,8 @@
 #include "M_Vector.h"
 #include "W_Poly.h"
 
+#include "R_Sprite.h"
+
 #include "JK_Template.h"
 #include "JK_Key.h"
 #include "JK_AnimClass.h"
@@ -202,6 +204,8 @@ protected:
 	JK_AnimClass *animClass;
 
 	JK_Template *explodeTemplate;
+
+	R_Sprite *sprite;
 
 	// P_Thing.cpp
 	void UpdatePath(float time);

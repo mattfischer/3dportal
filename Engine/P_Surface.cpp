@@ -53,16 +53,16 @@ void W_Surface::SurfaceCollisions( W_Thing* thing )
 	{
 		if( !adjoined || ( doThingCollisions && flags&JK_SURFACE_IMPASSABLE ) )
 		{
-			if( thing->GetType() == W_Thing::WEAPON && ( thing->GetTypeFlags() & JK_WEAPON_EXPLODE_SURFACE ) )
-			{
-				thing->Explode();
-			}
-
 			plane = polygon.GetPlane();
 
 			thing->SetPosition( thing->GetPosition() + offset );
 			if( direct )
 				thing->ArrestMotion( plane.normal );
+
+			if( thing->GetType() == W_Thing::WEAPON && ( thing->GetTypeFlags() & JK_WEAPON_EXPLODE_SURFACE ) )
+			{
+				thing->Explode();
+			}
 		}
 		else
 			adjoin->SurfaceCollisions( thing, mirror );

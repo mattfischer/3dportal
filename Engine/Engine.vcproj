@@ -287,6 +287,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\JK_Sprite.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\JK_Template.cpp"
 				>
 			</File>
@@ -344,6 +348,10 @@
 			</File>
 			<File
 				RelativePath=".\R_Sector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\R_Sprite.cpp"
 				>
 			</File>
 			<File
@@ -502,6 +510,10 @@
 			</File>
 			<File
 				RelativePath=".\R_OpenGL.h"
+				>
+			</File>
+			<File
+				RelativePath=".\R_Sprite.h"
 				>
 			</File>
 			<File

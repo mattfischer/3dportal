@@ -28,6 +28,7 @@ class JK_Colormap;
 class W_Thing;
 class JK_Key;
 class JK_AnimClass;
+class R_Sprite;
 
 using boost::shared_ptr;
 
@@ -41,7 +42,8 @@ struct JK_Level {
 	U_VectorMap<S_SoundClass*> soundClasses;
 	U_VectorMap<R_Model*> models;
 	U_VectorMap<JK_Key*> keyframes;
-    U_VectorMap<JK_AnimClass*> animClasses;
+	U_VectorMap<JK_AnimClass*> animClasses;
+	U_VectorMap<R_Sprite*> sprites;
 
 	std::vector<shared_ptr<W_Thing> > things;
 	std::vector<C_Script*> cogs;

@@ -73,11 +73,10 @@ void W_Thing::Draw( R_Frustum frustum, float light, M_Vector tint )
 	float distance2;
 	M_Vector compositeRotation;
 
-	if( model == NULL ) return;
 	if( flagValue == globalFlag ) return;
 	if( player.get() == this) return;
 
-	if( !SphereInFrustum( position, model->GetRadius(), frustum ) ) return;
+	if( model && !SphereInFrustum( position, model->GetRadius(), frustum ) ) return;
 
 	distance2 = ( player->GetPosition() - position ).Magnitude2();
 
@@ -89,7 +88,11 @@ void W_Thing::Draw( R_Frustum frustum, float light, M_Vector tint )
 	glRotatef( compositeRotation.y, 0, 1, 0 );
 	glRotatef( compositeRotation.z, 0, 0, -1 );
 		
-	model->Draw( distance2, light, tint, &keyInstance );
+	if( model )
+		model->Draw( distance2, light, tint, &keyInstance );
+
+	if( sprite )
+		sprite->Draw();
 	
 	glPopMatrix();
 	

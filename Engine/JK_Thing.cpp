@@ -132,6 +132,12 @@ void W_Thing::ProcessTemplate()
 	{
 		explodeTemplate = currentLevel.templates[s];
 	}
+
+	sprite = NULL;
+	if( thingTemplate->GetString( "sprite", s ) )
+	{
+		sprite = currentLevel.sprites[s];
+	}
 }
 
 void W_Thing::Explode()
@@ -141,5 +147,5 @@ void W_Thing::Explode()
 		W_Thing::Create( explodeTemplate, position, rotation, sector );
 	}
 
-	//Destroy();
+	Destroy();
 }
