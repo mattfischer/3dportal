@@ -388,7 +388,7 @@ void W_Thing::UpdateForces( float time )
 	float nudgeVelocity = .5;
 	M_Vector oldPosition;
 
-	if( collide != JK_COLLIDE_SPHERE ) return;
+	//if( collide != JK_COLLIDE_SPHERE && type != WEAPON ) return;
 
 	oldPosition = GetEyePosition();
 	if( type==ACTOR || type==PLAYER )

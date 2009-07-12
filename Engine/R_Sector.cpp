@@ -51,7 +51,7 @@ void W_Sector::Draw( R_Frustum frustum, W_Surface *ignore )
 				if( newFrustum.x0 >= newFrustum.x1 || newFrustum.y0 >= newFrustum.y1 )
 					continue;
 
-    		    surfaces[i]->GetAdjoin()->Draw( newFrustum, surfaces[i]->GetMirror() );
+    				surfaces[i]->GetAdjoin()->Draw( newFrustum, surfaces[i]->GetMirror() );
 			}
 			surfaces[i]->Draw( tint, extraLight );
 		}
@@ -68,10 +68,13 @@ void W_Sector::Draw( R_Frustum frustum, W_Surface *ignore )
 			EnterCriticalSection( &critSec );
 			for( i = 0 ; i < things.size() ; i++ )
 			{
-				thing = currentLevel.things[things[i]];
-				if( thing )
+				if( things[i] < currentLevel.things.size() )
 				{
-					thing->Draw( frustum, extraLight + ambientLight, tint );
+					thing = currentLevel.things[things[i]];
+					if( thing )
+					{
+						thing->Draw( frustum, extraLight + ambientLight, tint );
+					}
 				}
 			}
 			LeaveCriticalSection( &critSec );

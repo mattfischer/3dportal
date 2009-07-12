@@ -68,6 +68,9 @@ void W_Thing::ProcessTemplate()
 	physicsFlags = 0;
 	thingTemplate->GetHex( "physflags", physicsFlags );
 
+	typeFlags = 0;
+	thingTemplate->GetHex( "typeflags", typeFlags );
+
 	rotVelocity = M_Vector( 0, 0, 0 );
 	thingTemplate->GetVector( "angvel", rotVelocity );
 
@@ -109,22 +112,34 @@ void W_Thing::ProcessTemplate()
 
 	velocity = M_Vector( 0, 0, 0 );
 	thingTemplate->GetVector( "vel", velocity );
-
-    if( thingTemplate->GetString( "puppet", s ) )
-    {
-        animClass = currentLevel.animClasses[s];
-        if(animClass->modes.size() > 0)
-        {
-            std::string filename = animClass->modes[0].submodes["stand"].key;
-            if(filename != "")
-            {
-                keyInstance = JK_Key_Instance( currentLevel.keyframes[filename], 0, 0 );
-            }
-        }
-    }
-    else 
-    {
-        animClass = NULL;
-    }
+	
+	animClass = NULL;
+	if( thingTemplate->GetString( "puppet", s ) )
+	{
+		animClass = currentLevel.animClasses[s];
+		if(animClass->modes.size() > 0)
+		{
+		    std::string filename = animClass->modes[0].submodes["stand"].key;
+		    if(filename != "")
+		    {
+			keyInstance = JK_Key_Instance( currentLevel.keyframes[filename], 0, 0 );
+		    }
+		}
+	}
+    
+	explodeTemplate = NULL;
+	if( thingTemplate->GetString( "explode", s ) )
+	{
+		explodeTemplate = currentLevel.templates[s];
+	}
 }
 
+void W_Thing::Explode()
+{
+	if( explodeTemplate )
+	{
+		W_Thing::Create( explodeTemplate, position, rotation, sector );
+	}
+
+	//Destroy();
+}

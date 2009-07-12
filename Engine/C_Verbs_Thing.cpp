@@ -102,24 +102,14 @@ C_Type_Void DestroyThing( C_Type_Thing thing_num )
 C_Type_Thing CreateThing( C_Type_Thing template_num, C_Type_Thing position_num )
 {
 	shared_ptr<W_Thing> thing;
-	int retval = 0;
-
 	thing = currentLevel.things[position_num];
 
 	if( thing )
 	{
-		shared_ptr<W_Thing> new_thing( new W_Thing( *thing ) );
-
-		retval = currentLevel.things.size();
-		new_thing->SetNum( retval );
-		currentLevel.things.push_back( new_thing );
-
-		new_thing->GetTemplate()->CopyParams( currentLevel.templates[template_num] );
-		new_thing->ProcessTemplate();
-		new_thing->GetSector()->AddThing( new_thing.get() );
+		return W_Thing::CreateFromThing( thing.get(), currentLevel.templates[template_num] );
 	}
 
-	return retval;
+	return -1;
 }
 
 C_Type_Void CaptureThing( C_Type_Thing thing_num, C_Script* script )

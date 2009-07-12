@@ -38,18 +38,20 @@ struct W_Frame {
 class W_Thing : public U_RefCountedItem, public U_NumerableItem
 {
 	enum MoveType {MOVE_NONE, MOVE_PATH, MOVE_PHYSICS};
-	enum Type { ACTOR, WEAPON, ITEM, EXPLOSION, COG, GHOST, CORPSE, PLAYER, PARTICLE};
-
+	
 	friend void JK_Level_Load( const string& name );
 public:
+	enum Type { ACTOR, WEAPON, ITEM, EXPLOSION, COG, GHOST, CORPSE, PLAYER, PARTICLE};
+
 	// W_Thing.cpp
 	W_Thing( JK_Template *t, M_Vector p, M_Vector r, W_Sector *s );
 	W_Thing( W_Thing &c );
 
+	static int Create( JK_Template *t, M_Vector p, M_Vector r, W_Sector *s );
+	static int CreateFromThing( W_Thing *thing, JK_Template *newTemplate );
+
 	virtual ~W_Thing();
 	W_Thing &operator=( W_Thing &c );
-
-	static int Create( JK_Template *newTemplate, W_Thing *thingPos );
 
 	M_Vector GetPosition();
 	void SetPosition( M_Vector p );
@@ -64,6 +66,8 @@ public:
 	int GetFlagValue();
 	void Destroy();
 
+	int GetType();
+	int GetTypeFlags();
 	int GetThingFlags();
 	int GetPhysicsFlags();
 	int GetCollide();
@@ -92,7 +96,7 @@ public:
 	void AddCogLink( C_Script *cogScript );
 	void SendCogMessages( const string& message, int source, bool synchronous = false );
 
-    void playKey( JK_Key *key, int flags );
+	void playKey( JK_Key *key, int flags );
 
 	// P_Thing.cpp
 	static void UpdateThings( float time );
@@ -123,6 +127,7 @@ public:
 
 	// JK_Thing.cpp
 	void ProcessTemplate();
+	void Explode();
 
 	// R_Thing.cpp
 	void Draw( R_Frustum frustum, float light, M_Vector tint );
@@ -151,6 +156,7 @@ protected:
 	float size;
 	float moveSize;
 	M_Vector eyeOffset;
+	int typeFlags;
 	int thingFlags;
 	int physicsFlags;
 	M_Vector rotVelocity;
@@ -191,9 +197,11 @@ protected:
 
 	Type type;
 
-    JK_Key_Instance keyInstance;
+	JK_Key_Instance keyInstance;
 	
-    JK_AnimClass *animClass;
+	JK_AnimClass *animClass;
+
+	JK_Template *explodeTemplate;
 
 	// P_Thing.cpp
 	void UpdatePath(float time);

@@ -83,7 +83,77 @@ W_Thing::W_Thing(W_Thing &c)
 
 W_Thing::~W_Thing()
 {
-	//sector->RemoveThing( shared_ptr<W_Thing>( this ) );
+}
+
+int W_Thing::Create( JK_Template *t, M_Vector p, M_Vector r, W_Sector *s )
+{
+	shared_ptr<W_Thing> newThing( new W_Thing( t, p, r, s ) );
+
+	newThing->ProcessTemplate();
+	
+	int i;
+	for( i = 0; i < currentLevel.things.size(); i++ )
+	{
+		if( !currentLevel.things[i] )
+		{
+			break;
+		}
+	}
+
+	if( i == currentLevel.things.size() )
+	{
+		currentLevel.things.push_back( newThing );
+	}
+	else
+	{
+		currentLevel.things[i] = newThing;
+	}
+
+	newThing->SetNum( i );
+
+	newThing->GetSector()->AddThing( newThing.get() );
+
+	if( newThing->soundClass )
+	{
+		newThing->soundClass->Play( "create", i );
+	}
+
+	return i;
+}
+
+int W_Thing::CreateFromThing( W_Thing *thing, JK_Template *newTemplate )
+{
+	shared_ptr<W_Thing> newThing( new W_Thing( *thing ) );
+	newThing->GetTemplate()->CopyParams( newTemplate );
+	newThing->ProcessTemplate();
+	
+	int i;
+	for( i = 0; i < currentLevel.things.size(); i++ )
+	{
+		if( !currentLevel.things[i] )
+		{
+			break;
+		}
+	}
+
+	if( i == currentLevel.things.size() )
+	{
+		currentLevel.things.push_back( newThing );
+	}
+	else
+	{
+		currentLevel.things[i] = newThing;
+	}
+
+	newThing->SetNum( i );
+	newThing->GetSector()->AddThing(newThing.get());
+
+	if( newThing->soundClass )
+	{
+		newThing->soundClass->Play( "create", i );
+	}
+
+	return i;
 }
 
 M_Vector W_Thing::GetPosition()
@@ -233,9 +303,19 @@ W_Surface *W_Thing::GetAttachSurface()
 	return attachSurface;
 }
 
+int W_Thing::GetType()
+{
+	return type;
+}
+
 int W_Thing::GetThingFlags()
 {
 	return thingFlags;
+}
+
+int W_Thing::GetTypeFlags()
+{
+	return typeFlags;
 }
 
 int W_Thing::GetPhysicsFlags()
@@ -302,7 +382,8 @@ bool W_Thing::WasAttached()
 
 void W_Thing::Destroy()
 {
-	//currentLevel.things.Remove(num);
+	sector->RemoveThing( this );
+	currentLevel.things[num] = shared_ptr<W_Thing> ();
 }
 
 void W_Thing::DoFoley()
@@ -416,23 +497,6 @@ int W_Thing::GetSurfaceType()
 	return surfaceType;
 }
 
-int W_Thing::Create(JK_Template *newTemplate, W_Thing *thingPos) // **** Potential overflow
-{
-	int i;
-	/*for(i=0;1;i++)
-	{
-		if(!currentLevel.things[i].Exists())
-		{
-			currentLevel.things[i]=*thingPos;
-//			currentLevel.things[i].GetTemplate()->CopyParams(newTemplate);
-			currentLevel.things[i].ProcessTemplate();
-			currentLevel.things[i].SetNum(i);
-			if(i>=currentLevel.numThings) currentLevel.numThings++;
-			return i;
-		}
-	}*/
-	return 0;
-}
 /*
 void W_Thing::Lock()
 {

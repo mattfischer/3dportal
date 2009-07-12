@@ -47,6 +47,8 @@ void G_SetupInventory()
 			G_Items[id].cog->Message( "startup", -1, 0, 0 );
 		}
 	}
+
+	G_Items[11].value = 100;
 }
 
 void G_ActivateBin( int bin )

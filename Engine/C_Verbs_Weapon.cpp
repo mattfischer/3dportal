@@ -72,20 +72,13 @@ C_Type_Thing FireProjectile( C_Type_Thing thing_num, C_Type_Template template_nu
 			);
 	fireOffset = m * m2 * offset;
 
-	shared_ptr<W_Thing> new_thing( new W_Thing( currentLevel.templates[template_num], thing->GetPosition() + fireOffset, M_Vector(0,0,0), thing->GetSector() ) );
+	int thingNum = W_Thing::Create( currentLevel.templates[template_num], thing->GetPosition() + fireOffset, M_Vector(0, 0, 0), thing->GetSector());
 
-	retval = currentLevel.things.size();
-	new_thing->SetNum( retval );
-	currentLevel.things.push_back( new_thing );
-	
-	new_thing->ProcessTemplate();
-	new_thing->SetRotation( thing->GetRotation() );
-	new_thing->GetSector()->AddThing( new_thing.get() );
-
+	currentLevel.things[thingNum]->SetRotation( thing->GetRotation() );
 	if( sound_num != -1 )
 		S_PlayLocal( currentLevel.sounds[sound_num], 1.0, 0 );
 
-	return retval;
+	return thingNum;
 }
 
 C_Type_Void SetCurWeapon( C_Type_Thing thing_num, C_Type_Int bin )
