@@ -84,6 +84,18 @@ void W_Thing::Draw( R_Frustum frustum, float light, M_Vector tint )
 	
 	glPushMatrix();
 	glTranslatef( position.x, position.z, -position.y );
+
+	glPushMatrix();
+
+	glRotatef( player->GetRotation().y, 0, 1, 0 );
+	glRotatef( player->GetRotation().x, 1, 0, 0 );
+	glRotatef( player->GetRotation().z, 0, 0, 1 );
+	
+	if( sprite )
+		sprite->Draw( spriteFrame++ );
+
+	glPopMatrix();
+
 	glRotatef( compositeRotation.x, 1, 0, 0 );
 	glRotatef( compositeRotation.y, 0, 1, 0 );
 	glRotatef( compositeRotation.z, 0, 0, -1 );
@@ -91,9 +103,6 @@ void W_Thing::Draw( R_Frustum frustum, float light, M_Vector tint )
 	if( model )
 		model->Draw( distance2, light, tint, &keyInstance );
 
-	if( sprite )
-		sprite->Draw();
-	
 	glPopMatrix();
 	
 	flagValue = globalFlag;

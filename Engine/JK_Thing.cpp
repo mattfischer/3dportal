@@ -138,6 +138,13 @@ void W_Thing::ProcessTemplate()
 	{
 		sprite = currentLevel.sprites[s];
 	}
+
+	killTime = -1;
+	float timer;
+	if( thingTemplate->GetFloat( "timer", timer ) )
+	{
+		killTime = GetTickCount() + timer * 1000;
+	}
 }
 
 void W_Thing::Explode()

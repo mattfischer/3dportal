@@ -206,6 +206,9 @@ protected:
 	JK_Template *explodeTemplate;
 
 	R_Sprite *sprite;
+	int spriteFrame;
+
+	LONG killTime;
 
 	// P_Thing.cpp
 	void UpdatePath(float time);

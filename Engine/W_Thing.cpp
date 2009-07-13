@@ -47,6 +47,11 @@ W_Thing::W_Thing(JK_Template *t, M_Vector p, M_Vector r, W_Sector *s)
 
 	walkTimer=GetTickCount();
 	walkSide=0;
+
+	sprite = NULL;
+	spriteFrame = 0;
+
+	killTime = -1;
 }
 
 W_Thing::W_Thing(W_Thing &c) 
@@ -78,7 +83,12 @@ W_Thing::W_Thing(W_Thing &c)
 	walkTimer=GetTickCount();
 	walkSide=0;
 
-    keyInstance = c.keyInstance;
+	keyInstance = c.keyInstance;
+
+	sprite = c.sprite;
+	spriteFrame = c.spriteFrame;
+
+	killTime = c.killTime;
 }
 
 W_Thing::~W_Thing()

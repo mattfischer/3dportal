@@ -42,3 +42,8 @@ R_Sprite::R_Sprite( const string &filename )
 	z = JKP_GetFloat( line, pos2, error );
 	offset = M_Vector( x, y, z );
 }
+
+int R_Sprite::NumFrames()
+{
+	return texture->NumCels();
+}

@@ -507,10 +507,15 @@ void W_Thing::UpdateFinalize(float time)
 	}
 	DoFoley();
 
-    if( keyInstance.key )
-    {
-	    keyInstance.time += time;
-    }
+	if( keyInstance.key )
+	{
+		keyInstance.time += time;
+	}
+
+	if( killTime > -1 && GetTickCount() > killTime )
+	{
+		Destroy();
+	}
 }
 
 void W_Thing::ArrestMotion(M_Vector normal)
@@ -545,7 +550,7 @@ void W_Thing::UpdateThings( float time )
 	for( i = 0 ;  i < currentLevel.things.size() ; i++ )
 	{
 		thing = currentLevel.things[i];
-		if( thing && thing->IsPhysicsMove() && ( thing==player || thing->GetFlagValue()==globalFlag-1 || i%currentLevel.things.size() == globalFlag%currentLevel.things.size() ) )
+		if( thing && ( thing==player || thing->GetFlagValue()==globalFlag-1 || i%currentLevel.things.size() == globalFlag%currentLevel.things.size() ) )
 			thing->UpdateFinalize( time );
 	}
 }

@@ -12,8 +12,10 @@ public:
 	// JK_Sprite.cpp
 	R_Sprite( const string& filename );
 
+	int NumFrames();
+
 	// R_Sprite.cpp
-	void Draw();
+	void Draw( int frame );
 
 protected:
 	R_Texture *texture;
