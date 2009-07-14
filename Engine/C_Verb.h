@@ -44,6 +44,9 @@ C_Type_Void StopSurfaceAnim( C_Type_Surface surface_num );
 C_Type_Void SlideWall( C_Type_Surface surface_num, C_Type_Vector direction, C_Type_Flex speed );
 
 /* -------- C_Verbs_System.cpp -------- */
+C_Type_Int jkGetSaberCam();
+C_Type_Int GetCurrentCamera();
+C_Type_Int GetPrimaryFocus();
 C_Type_Void sleep( C_Type_Float delay );
 C_Type_Float Rand();
 C_Type_Void TakeItem( C_Type_Thing thing_num, C_Type_Thing player_num );

@@ -11,6 +11,7 @@
 
 #include "M_Vector.h"
 
+#include "JK_Key.h"
 #include "JK_Level.h"
 #include "JK_Template.h"
 #include "JK_GOB.h"
@@ -23,6 +24,8 @@
 #include <windows.h>
 #include <process.h>
 #include <stdio.h>
+
+#include "U_Lowercase.h"
 
 #ifndef SAFECOGSINTERNAL
 char **C_Script::safeCogs;
@@ -367,12 +370,21 @@ void C_Script::SetupSymbolTable( C_ASTNode *symbolsNode )
 				break;
 
 			case C_TYPE_KEYFRAME: 
-                *(int*)symbols[i].data = currentLevel.keyframes.index( (char*)node->children[0]->lexData );
+                {
+                    string filename = U_Lowercase( (char*)node->children[0]->lexData );
+                    int index = currentLevel.keyframes.index( filename );
+                    if( index == -1 )
+                    {
+                        currentLevel.keyframes.push_back( new JK_Key( filename ), filename );
+                        index = currentLevel.keyframes.index( filename );
+                    }
+				    *(int*)symbols[i].data = index;
+                }
                 break;
 
 			case C_TYPE_MODEL: 
                 {
-                    string filename = (char*)node->children[0]->lexData;
+                    string filename = U_Lowercase( (char*)node->children[0]->lexData );
                     int index = currentLevel.models.index( filename );
                     if( index == -1 )
                     {
@@ -385,7 +397,7 @@ void C_Script::SetupSymbolTable( C_ASTNode *symbolsNode )
 
 			case C_TYPE_SOUND: 
                 {
-                    string filename = (char*)node->children[0]->lexData;
+                    string filename = U_Lowercase( (char*)node->children[0]->lexData );
                     int index = currentLevel.sounds.index( filename );
                     if( index == -1 )
                     {

@@ -5,6 +5,21 @@
 
 using boost::shared_ptr;
 
+C_Type_Int jkGetSaberCam()
+{
+    return 0; // ****
+}
+
+C_Type_Int GetCurrentCamera()
+{
+    return 0; // ****
+}
+
+C_Type_Int GetPrimaryFocus()
+{
+    return 0; // ****
+}
+
 C_Type_Void sleep( C_Type_Float delay )
 {
 	Sleep( delay * 1000 );

@@ -235,20 +235,23 @@ void I_ProcessKeyboard( float time )
 			controlTimer = GetTickCount();
 		}
 
-        for(int i=1; i<=9; i++)
+        for(int i=0; i<=9; i++)
         {
             if( KEY_DOWN( '0' + i ) )
             {
+                int bin = i;
+                if( bin == 0 ) bin = 10;
+
                 static int activeBin = 0;
-                if( activeBin != i )
+                if( activeBin != bin )
                 {
                     if( activeBin != 0 )
                     {
                         G_DeactivateBin( activeBin );
                     }
                     
-                    G_ActivateBin( i );
-                    activeBin = i;
+                    G_ActivateBin( bin );
+                    activeBin = bin;
 
                     controlTimer = GetTickCount();
                 }
