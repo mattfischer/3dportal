@@ -92,7 +92,7 @@ void W_Thing::Draw( R_Frustum frustum, float light, M_Vector tint )
 	glRotatef( player->GetRotation().z, 0, 0, 1 );
 	
 	if( sprite )
-		sprite->Draw( spriteFrame++ );
+		sprite->Draw( spriteTime * 15 );
 
 	glPopMatrix();
 

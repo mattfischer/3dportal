@@ -512,6 +512,11 @@ void W_Thing::UpdateFinalize(float time)
 		keyInstance.time += time;
 	}
 
+    if( sprite )
+    {
+        spriteTime += time;
+    }
+
 	if( killTime > -1 && GetTickCount() > killTime )
 	{
 		Destroy();

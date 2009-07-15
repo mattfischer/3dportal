@@ -206,7 +206,7 @@ protected:
 	JK_Template *explodeTemplate;
 
 	R_Sprite *sprite;
-	int spriteFrame;
+	float spriteTime;
 
 	LONG killTime;
 

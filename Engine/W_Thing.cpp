@@ -51,7 +51,7 @@ W_Thing::W_Thing(JK_Template *t, M_Vector p, M_Vector r, W_Sector *s)
 	walkSide=0;
 
 	sprite = NULL;
-	spriteFrame = 0;
+	spriteTime = 0;
 
 	killTime = -1;
 }
@@ -88,7 +88,7 @@ W_Thing::W_Thing(W_Thing &c)
 	keyInstance = c.keyInstance;
 
 	sprite = c.sprite;
-	spriteFrame = c.spriteFrame;
+	spriteTime = c.spriteTime;
 
 	killTime = c.killTime;
 }
