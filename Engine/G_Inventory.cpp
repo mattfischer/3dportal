@@ -9,35 +9,29 @@ G_Item G_Items[200];
 void G_SetupInventory()
 {
 	string data;
-	string line;
+    Jk::Parser::Line line;
 	string text;
-	int pos, pos2;
 	int id;
-	int error;
-    int size;
+	bool error;
 
     data = Jk::Gob::getFile( "misc\\items.dat" );
-    size = data.size();
+    Jk::Parser parser(data);
 
-	pos = 0;
 	while( 1 )
 	{
-		error = 0;
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
+		line = parser.getLine( error );
 		if( error ) break;
 
-		pos2 = 0;
+		text = line.getString( error );
 
-		text = JKP_GetString( line, pos2, error );
+		id = line.getInt( error );
 
-		id = JKP_GetInt( line, pos2, error );
-
-		G_Items[id].min = JKP_GetFloat( line, pos2, error );
+		G_Items[id].min = line.getFloat( error );
 		G_Items[id].value = G_Items[id].min;
-		G_Items[id].max = JKP_GetFloat( line, pos2, error );
-		G_Items[id].flags = JKP_GetHex( line, pos2, error );
+		G_Items[id].max = line.getFloat( error );
+		G_Items[id].flags = line.getHex( error );
 
-		text = JKP_GetString( line, pos2, error );
+		text = line.getString( error );
 		if( error == 0 && text[0] != '#' )
 		{
 			G_Items[id].cog = new C_Script( text.substr( 4 ) );

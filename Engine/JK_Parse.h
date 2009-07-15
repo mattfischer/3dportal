@@ -9,12 +9,42 @@
 
 using std::string;
 
-string JKP_GetNonEmptyLine( const string& input, int& start, int size, int& error );
-float JKP_GetFloat( const string& input, int& start, int& error );
-int JKP_GetInt( const string& input, int& start, int& error );
-string JKP_GetString( const string& input, int& start, int& error );
-void JKP_FindString( const string& input, int& start, int size, const string& match, int& error );
-void JKP_MatchString( const string& input, int& start, const string& match, int& error );
-int JKP_GetHex( const string& input, int& start, int& error );
+namespace Jk
+{
+    class Parser
+    {
+    public:
+        class Line
+        {
+        public:
+            Line(const string &input);
+            Line();
 
+            int getInt(bool &error);
+            float getFloat(bool &error);
+            string getString(bool &error);
+            int getHex(bool &error);
+
+            void matchString(const string &match, bool &error);
+
+            const string &line();
+            string rest();
+
+        private:
+            string data;
+            int p;
+        };
+
+        Parser(const string &input);
+
+        Line getLine(bool &error);
+        void findString(const string &match, bool &error);
+
+        void reset();
+
+    private:
+        string data;
+        int p;
+    };
+}
 #endif

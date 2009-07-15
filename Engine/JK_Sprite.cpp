@@ -6,38 +6,33 @@
 R_Sprite::R_Sprite( const string &filename )
 {
 	string fullname;
-	string line;
+    Jk::Parser::Line line;
 	string data;
-    int size;
-	int error;
-	int pos, pos2;
+	bool error;
 
 	name = filename;
 	
 	fullname = "misc\\spr\\" + filename;
 
     data = Jk::Gob::getFile( fullname );
-    size = data.size();
+    Jk::Parser parser(data);
 
-	pos = 0;
+	line = parser.getLine( error );
 
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	pos2 = 0;
-
-	string mat = JKP_GetString( line, pos2, error );
+	string mat = line.getString( error );
 	texture = currentLevel.textures[mat];
 
-	type = JKP_GetInt( line, pos2, error );
-	width = JKP_GetFloat( line, pos2, error );
-	height = JKP_GetFloat( line, pos2, error );
-	geo = JKP_GetInt( line, pos2, error );
-	light = JKP_GetInt( line, pos2, error );
-	tex = JKP_GetInt( line, pos2, error );
-	extraLight = JKP_GetFloat( line, pos2, error );
+	type = line.getInt( error );
+	width = line.getFloat( error );
+	height = line.getFloat( error );
+	geo = line.getInt( error );
+	light = line.getInt( error );
+	tex = line.getInt( error );
+	extraLight = line.getFloat( error );
 	float x, y, z;
-	x = JKP_GetFloat( line, pos2, error );
-	y = JKP_GetFloat( line, pos2, error );
-	z = JKP_GetFloat( line, pos2, error );
+	x = line.getFloat( error );
+	y = line.getFloat( error );
+	z = line.getFloat( error );
 	offset = M_Vector( x, y, z );
 }
 

@@ -43,11 +43,10 @@ void JK_Level_Load(const string& name)
 	string data;
 	char *dataPointer;
 	DWORD dummy;
-	int pos, pos2;
-	string line;
+    Jk::Parser::Line line;
 	string text;
 	string text2;
-	int error;
+	bool error;
 	int i, j;
 	string filename;
 	int index;
@@ -85,7 +84,6 @@ void JK_Level_Load(const string& name)
 	{
 		fullname = "jkl\\" + name;
         data = Jk::Gob::getFile(fullname);
-        size = data.size();
 	}
 	else
 	{
@@ -98,104 +96,89 @@ void JK_Level_Load(const string& name)
         delete[] dataPointer;
 	}
 	
-	pos = 0;
+    Jk::Parser parser(data);
 
 	// =====================================================================
 
-	JKP_FindString( data, pos, size, "SECTION: HEADER", error );
+	parser.findString( "SECTION: HEADER", error );
 	
-	
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	pos2 = 0;
-	JKP_MatchString( line, pos2, "World Gravity", error );
-	currentLevel.gravity = JKP_GetFloat( line, pos2, error );
-	
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	pos2 = 0;
-	JKP_MatchString( line, pos2, "Ceiling Sky Z", error );
-	currentLevel.ceilingSkyZ = JKP_GetFloat( line, pos2, error );
+	line = parser.getLine( error );
 
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	pos2 = 0;
-	JKP_MatchString( line, pos2, "Horizon Distance", error );
-	currentLevel.horizonDistance = JKP_GetFloat( line, pos2, error );
+    line = parser.getLine( error );
+	line.matchString( "World Gravity", error );
+	currentLevel.gravity = line.getFloat( error );
 	
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	pos2 = 0;
-	JKP_MatchString( line, pos2, "Horizon Pixels per Rev", error );
-	currentLevel.numPixelsPerRev = JKP_GetFloat( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "Ceiling Sky Z", error );
+	currentLevel.ceilingSkyZ = line.getFloat( error );
 
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	pos2 = 0;
-	JKP_MatchString( line, pos2, "Horizon Sky Offset", error );
-	currentLevel.horizonOffsetX = JKP_GetFloat( line, pos2, error );
-	currentLevel.horizonOffsetY = JKP_GetFloat( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "Horizon Distance", error );
+	currentLevel.horizonDistance = line.getFloat( error );
+	
+	line = parser.getLine( error );
+	line.matchString( "Horizon Pixels per Rev", error );
+	currentLevel.numPixelsPerRev = line.getFloat( error );
 
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	pos2 = 0;
-	JKP_MatchString( line, pos2, "LOD Distances", error );
-	currentLevel.LODDistances[0] = JKP_GetFloat( line, pos2, error );
-	currentLevel.LODDistances[1] = JKP_GetFloat( line, pos2, error );
-	currentLevel.LODDistances[2] = JKP_GetFloat( line, pos2, error );
-	currentLevel.LODDistances[3] = JKP_GetFloat( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "Horizon Sky Offset", error );
+	currentLevel.horizonOffsetX = line.getFloat( error );
+	currentLevel.horizonOffsetY = line.getFloat( error );
+
+	line = parser.getLine( error );
+	line = parser.getLine( error );
+
+	line = parser.getLine( error );
+	line.matchString( "LOD Distances", error );
+	currentLevel.LODDistances[0] = line.getFloat( error );
+	currentLevel.LODDistances[1] = line.getFloat( error );
+	currentLevel.LODDistances[2] = line.getFloat( error );
+	currentLevel.LODDistances[3] = line.getFloat( error );
 
 	// =====================================================================
 
-	JKP_FindString( data, pos, size, "SECTION: SOUNDS", error );
+	parser.findString( "SECTION: SOUNDS", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World sounds", error );
-	numEntries = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World sounds", error );
+	numEntries = line.getInt( error );
 
 	for( i = 0 ; i < numEntries ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_MatchString( line, pos2, "end", error );
-		if( error == 0 )
+		line.matchString( "end", error );
+		if( !error )
 		{
 			break;
 		}
 
-		error = 0;
-		
-		filename = JKP_GetString( line, pos2, error );
+		filename = line.getString( error );
 		currentLevel.sounds.push_back( new S_Sound( filename ), filename );
 	}
 
 	// =====================================================================
 
-	JKP_FindString( data, pos, size, "SECTION: MATERIALS", error );
+	parser.findString( "SECTION: MATERIALS", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World materials", error );
-	numEntries = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World materials", error );
+	numEntries = line.getInt( error );
 	textureNames.resize( numEntries );
 
 	for( i = 0 ; i < numEntries ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_MatchString( line, pos2, "end", error );
-		if( error == 0 )
+		line.matchString( "end", error );
+		if( !error )
 		{
 			break;
 		}
 
-		error = 0;
-		JKP_GetFloat( line, pos2, error );
+		line.getFloat( error );
 
-		filename = U_Lowercase( JKP_GetString( line, pos2, error ) );
+		filename = U_Lowercase( line.getString( error ) );
 		
 		currentLevel.textures.push_back( new R_Texture( filename ), filename );
 		textureNames[i] = filename;
@@ -203,110 +186,101 @@ void JK_Level_Load(const string& name)
 
 	// =====================================================================
 
-	JKP_FindString( data, pos, size, "SECTION: GEORESOURCE", error );
+	parser.findString( "SECTION: GEORESOURCE", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World Colormaps", error );
-	numEntries = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World Colormaps", error );
+	numEntries = line.getInt( error );
 //	currentLevel.colormaps.Allocate( numEntries );
 
 	for( i = 0 ; i < numEntries ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_GetFloat( line, pos2, error );
+		line.getFloat( error );
 
-		filename = JKP_GetString( line, pos2, error );
+		filename = line.getString( error );
 		currentLevel.colormaps.push_back( new JK_Colormap( filename ), filename );
 	}
 
 	// -------------------------------------------------------------------------
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World vertices", error );
-	numVertices = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World vertices", error );
+	numVertices = line.getInt( error );
 	vertices = new M_Vector[numVertices];
 
 	for( i = 0 ; i < numVertices ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_GetFloat( line, pos2, error );
+		line.getFloat( error );
 
-		vertices[i].x = JKP_GetFloat( line, pos2, error );
-		vertices[i].y = JKP_GetFloat( line, pos2, error );
-		vertices[i].z = JKP_GetFloat( line, pos2, error );
+		vertices[i].x = line.getFloat( error );
+		vertices[i].y = line.getFloat( error );
+		vertices[i].z = line.getFloat( error );
 	}
 
 	
 	// -------------------------------------------------------------------------
 	
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World texture vertices", error );
-	numTextureVertices = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World texture vertices", error );
+	numTextureVertices = line.getInt( error );
 	textureVertices = new R_TextureVertex[numTextureVertices];
 
 	for( i = 0 ; i < numTextureVertices ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_GetFloat( line, pos2, error );
+		line.getFloat( error );
 
-		textureVertices[i].u = JKP_GetFloat( line, pos2, error );
-		textureVertices[i].v = JKP_GetFloat( line, pos2, error );
+		textureVertices[i].u = line.getFloat( error );
+		textureVertices[i].v = line.getFloat( error );
 	}
 
 
 	// -------------------------------------------------------------------------
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World adjoins", error );
-	numAdjoins = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World adjoins", error );
+	numAdjoins = line.getInt( error );
 	adjoins = new Adjoin[numAdjoins];
 
 	for( i = 0 ; i < numAdjoins ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_GetInt( line, pos2, error );
+		line.getInt( error );
 
-		adjoins[i].flags = JKP_GetHex( line, pos2, error );
-		adjoins[i].mirror = JKP_GetInt( line, pos2, error );
+		adjoins[i].flags = line.getHex( error );
+		adjoins[i].mirror = line.getInt( error );
 	}
 
 
 	// -------------------------------------------------------------------------
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World surfaces", error );
-	currentLevel.numSurfaces = JKP_GetInt( line, pos2, error );
+	
+	line = parser.getLine( error );
+	line.matchString( "World surfaces", error );
+	currentLevel.numSurfaces = line.getInt( error );
 	currentLevel.surfaces = new W_Surface[currentLevel.numSurfaces];
 
 	for( i = 0 ; i < currentLevel.numSurfaces ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_GetFloat( line, pos2, error );
+		line.getFloat( error );
 
-		index = JKP_GetInt( line, pos2, error );
+		index = line.getInt( error );
 		currentLevel.surfaces[i].num = i;
-		currentLevel.surfaces[i].flags = JKP_GetHex( line, pos2, error );
-		currentLevel.surfaces[i].face = JKP_GetHex( line, pos2, error );
-		currentLevel.surfaces[i].geo = JKP_GetInt( line, pos2, error );
-		JKP_GetFloat( line, pos2, error );
-		JKP_GetFloat( line, pos2, error );
+		currentLevel.surfaces[i].flags = line.getHex( error );
+		currentLevel.surfaces[i].face = line.getHex( error );
+		currentLevel.surfaces[i].geo = line.getInt( error );
+		line.getFloat( error );
+		line.getFloat( error );
 
-		currentLevel.surfaces[i].adjnum = JKP_GetInt( line, pos2, error );
+		currentLevel.surfaces[i].adjnum = line.getInt( error );
 		if( currentLevel.surfaces[i].adjnum != -1 )
 		{
 			currentLevel.surfaces[i].adjoined = 1;
@@ -318,9 +292,9 @@ void JK_Level_Load(const string& name)
 			currentLevel.surfaces[i].adjoinFlags = 0;
 		}
 		
-		JKP_GetFloat( line, pos2, error );
+		line.getFloat( error );
 
-		numVerts = JKP_GetInt( line, pos2, error );
+		numVerts = line.getInt( error );
 		currentLevel.surfaces[i].polygon = W_Poly( numVerts, 4 );
 
 		if( index != -1 ) currentLevel.surfaces[i].polygon.SetTexture( currentLevel.textures[textureNames[index]] );
@@ -328,10 +302,10 @@ void JK_Level_Load(const string& name)
 
 		for( j = 0 ; j < numVerts ; j++ )
 		{
-			index = JKP_GetInt( line, pos2, error );
+			index = line.getInt( error );
 			currentLevel.surfaces[i].polygon[j].position = vertices[index];
 			
-			index = JKP_GetInt( line, pos2, error );
+			index = line.getInt( error );
 			if( currentLevel.surfaces[i].polygon.GetTexture() != NULL ) 
 			{
 				currentLevel.surfaces[i].polygon[j].texture = textureVertices[index];
@@ -340,7 +314,7 @@ void JK_Level_Load(const string& name)
 			}
 		}	
 
-		for( j = 0 ; j < numVerts ; j++ ) currentLevel.surfaces[i].polygon[j].intensity = JKP_GetFloat( line, pos2, error );
+		for( j = 0 ; j < numVerts ; j++ ) currentLevel.surfaces[i].polygon[j].intensity = line.getFloat( error );
 	}
 
 	// -------------------------------------------------------------------------
@@ -348,13 +322,12 @@ void JK_Level_Load(const string& name)
 
 	for( i = 0 ; i < currentLevel.numSurfaces ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 
-		JKP_GetFloat( line, pos2, error );
-		x = JKP_GetFloat( line, pos2, error );
-		y = JKP_GetFloat( line, pos2, error );
-		z = JKP_GetFloat( line, pos2, error );
+		line.getFloat( error );
+		x = line.getFloat( error );
+		y = line.getFloat( error );
+		z = line.getFloat( error );
 		
 		currentLevel.surfaces[i].polygon.SetPlane( M_Vector( x, y, z) );
 	}
@@ -362,12 +335,11 @@ void JK_Level_Load(const string& name)
 
 	// =====================================================================
 
-	JKP_FindString( data, pos, size, "Section: SECTORS", error );
+	parser.findString( "Section: SECTORS", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World sectors", error );
-	currentLevel.numSectors = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World sectors", error );
+	currentLevel.numSectors = line.getInt( error );
 	currentLevel.sectors = new W_Sector[currentLevel.numSectors];
 	
 	for( i = 0 ; i < currentLevel.numSectors ; i++ )
@@ -379,30 +351,30 @@ void JK_Level_Load(const string& name)
 
 		while(1)
 		{
-			line = JKP_GetNonEmptyLine( data, pos, size, error );
-			pos2 = 0;
-			text = JKP_GetString( line, pos2, error );
+			line = parser.getLine( error );
+
+			text = line.getString( error );
 			if( text == "EXTRA" )
 			{
-				JKP_GetString( line, pos2, error );
-				currentLevel.sectors[i].extraLight = JKP_GetFloat( line, pos2, error );
+				line.getString( error );
+				currentLevel.sectors[i].extraLight = line.getFloat( error );
 			}
 			if( text == "AMBIENT" ) 
 			{
-				JKP_GetString( line, pos2, error );
-				currentLevel.sectors[i].ambientLight = JKP_GetFloat( line, pos2, error );
+				line.getString( error );
+				currentLevel.sectors[i].ambientLight = line.getFloat( error );
 			}
 			
 			if( text == "COLORMAP" )
 			{
-				colormap = JKP_GetInt( line, pos2, error );
+				colormap = line.getInt( error );
 			}
 
 			if( text == "SOUND" )
 			{
-				text = JKP_GetString( line, pos2, error );
+				text = line.getString( error );
 				currentLevel.sectors[i].sound = currentLevel.sounds[text];
-				currentLevel.sectors[i].soundVolume = JKP_GetFloat( line, pos2, error );
+				currentLevel.sectors[i].soundVolume = line.getFloat( error );
 			}
 
 			if( text == "VERTICES" )
@@ -411,30 +383,27 @@ void JK_Level_Load(const string& name)
 			}
 			if( text == "TINT" )
 			{
-				currentLevel.sectors[i].tint.x = JKP_GetFloat( line, pos2, error );
-				currentLevel.sectors[i].tint.y = JKP_GetFloat( line, pos2, error );
-				currentLevel.sectors[i].tint.z = JKP_GetFloat( line, pos2, error );
+				currentLevel.sectors[i].tint.x = line.getFloat( error );
+				currentLevel.sectors[i].tint.y = line.getFloat( error );
+				currentLevel.sectors[i].tint.z = line.getFloat( error );
 			}
 		}
 
-		pos2 = 0;
-
-		JKP_MatchString( line, pos2, "VERTICES", error );
-		numVerts = JKP_GetInt( line, pos2, error );
+		line.matchString( "VERTICES", error );
+		numVerts = line.getInt( error );
 
 		for( j = 0 ; j < numVerts ; j++ )
 		{
-			line = JKP_GetNonEmptyLine( data, pos, size, error );
+			line = parser.getLine( error );
 		}
 
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 
-		JKP_MatchString( line, pos2, "SURFACES", error );
-		start = JKP_GetInt( line, pos2, error );
+		line.matchString( "SURFACES", error );
+		start = line.getInt( error );
 		currentLevel.sectors[i].drawing = 0;
 		currentLevel.sectors[i].num = i;
-		currentLevel.sectors[i].numSurfaces = JKP_GetInt( line, pos2, error );
+		currentLevel.sectors[i].numSurfaces = line.getInt( error );
 		currentLevel.sectors[i].surfaces = new W_Surface*[currentLevel.sectors[i].numSurfaces];
 
 		for( j = 0 ; j < currentLevel.sectors[i].numSurfaces ; j++ )
@@ -474,210 +443,194 @@ void JK_Level_Load(const string& name)
 
 	// =====================================================================
 
-	JKP_FindString( data, pos, size, "Section: MODELS", error );
+	parser.findString( "Section: MODELS", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World models", error );
-	numEntries = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World models", error );
+	numEntries = line.getInt( error );
 
 	for( i = 0 ; i < numEntries ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_MatchString( line, pos2, "end", error );
-		if( error == 0 )
+		line.matchString( "end", error );
+		if( !error )
 		{
 			break;
 		}
-		error = 0;
-		JKP_GetFloat( line, pos2, error );
 
-		filename = JKP_GetString( line, pos2, error );
+		line.getFloat( error );
+
+		filename = line.getString( error );
 		currentLevel.models.push_back( new R_Model( filename ), filename );
 	}
 
 	// =====================================================================
 
-	JKP_FindString( data, pos, size, "Section: SPRITES", error );
+	parser.findString( "Section: SPRITES", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World sprites", error );
-	numEntries = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World sprites", error );
+	numEntries = line.getInt( error );
 
 	for( i = 0 ; i < numEntries ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_MatchString( line, pos2, "end", error );
-		if( error==0 )
+		line.matchString( "end", error );
+		if( !error )
 		{
 			break;
 		}
-		error = 0;
-		JKP_GetInt( line, pos2, error );
 
-		filename = JKP_GetString( line, pos2, error );
+		line.getInt( error );
+
+		filename = line.getString( error );
 		currentLevel.sprites.push_back( new R_Sprite( filename ), filename );
 	}
 
 	// =====================================================================
 
-	JKP_FindString( data, pos, size, "Section: KEYFRAMES", error );
+	parser.findString( "Section: KEYFRAMES", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World keyframes", error );
-	numEntries = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World keyframes", error );
+	numEntries = line.getInt( error );
 
 	for( i = 0 ; i < numEntries ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_MatchString( line, pos2, "end", error );
-		if( error == 0 )
+		line.matchString( "end", error );
+		if( !error )
 		{
 			break;
 		}
-		error = 0;
-		JKP_GetFloat( line, pos2, error );
 
-		filename = JKP_GetString( line, pos2, error );
+		line.getFloat( error );
+
+		filename = line.getString( error );
         currentLevel.keyframes.push_back( new Jk::Key( filename ), filename );
 	}
 
 // =====================================================================
 
-	JKP_FindString( data, pos, size, "Section: ANIMCLASS", error );
+	parser.findString( "Section: ANIMCLASS", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World puppets", error );
-	numEntries = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World puppets", error );
+	numEntries = line.getInt( error );
 
 	for( i = 0 ; i < numEntries ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_MatchString( line, pos2, "end", error );
-		if( error==0 )
+		line.matchString( "end", error );
+		if( !error )
 		{
 			break;
 		}
-		error = 0;
-		JKP_GetInt( line, pos2, error );
 
-		filename = JKP_GetString( line, pos2, error );
+		line.getInt( error );
+
+		filename = line.getString( error );
         currentLevel.animClasses.push_back( new Jk::AnimClass( filename ), filename );
 	}
 
 // =====================================================================
 
-	JKP_FindString( data, pos, size, "Section: Soundclass", error );
+	parser.findString( "Section: Soundclass", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World soundclasses", error );
-	numEntries = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World soundclasses", error );
+	numEntries = line.getInt( error );
 
 	for( i = 0 ; i < numEntries ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_MatchString( line, pos2, "end", error );
-		if( error==0 )
+		line.matchString( "end", error );
+		if( !error )
 		{
 			break;
 		}
-		error = 0;
-		JKP_GetInt( line, pos2, error );
 
-		filename = JKP_GetString( line, pos2, error );
+		line.getInt( error );
+
+		filename = line.getString( error );
 		currentLevel.soundClasses.push_back( new S_SoundClass( filename ), filename );
 	}
 
 // =====================================================================
 
-	JKP_FindString( data, pos, size, "Section: cogscripts", error );
+	parser.findString( "Section: cogscripts", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World scripts", error );
-	numEntries = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World scripts", error );
+	numEntries = line.getInt( error );
 
 	for( i = 0 ; i < numEntries ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_MatchString( line, pos2, "end", error );
-		if( error == 0 )
+		line.matchString( "end", error );
+		if( !error )
 		{
 			break;
 		}
-		error = 0;
-		JKP_GetInt( line, pos2, error );
 
-		filename = JKP_GetString( line, pos2, error );
+		line.getInt( error );
+
+		filename = line.getString( error );
 		currentLevel.cogScripts.push_back( new C_Script( filename ), filename );
 	}
 
 	// =====================================================================
 
-	JKP_FindString( data, pos, size, "Section: cogs", error );
+	parser.findString( "Section: cogs", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World cogs", error );
-	numEntries = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World cogs", error );
+	numEntries = line.getInt( error );
 	
 	for( i = 0 ; i < numEntries ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_MatchString( line, pos2, "end", error );
-		if( error == 0 )
+		line.matchString( "end", error );
+		if( !error )
 		{
 			break;
 		}
-		error = 0;
-		JKP_GetInt( line, pos2, error );
 
-		filename = JKP_GetString( line, pos2, error );
+		line.getInt( error );
+
+		filename = line.getString( error );
 		currentLevel.cogs.push_back( new C_Script( *currentLevel.cogScripts[filename] ) );
 
-		currentLevel.cogs[i]->SaveArgumentString( line.substr( pos2 ) );
+		currentLevel.cogs[i]->SaveArgumentString( line.rest() );
 	}
 
 // =====================================================================
 
-	JKP_FindString( data, pos, size, "Section: TEMPLATES", error );
+	parser.findString( "Section: TEMPLATES", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World templates", error );
-	numEntries = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World templates", error );
+	numEntries = line.getInt( error );
 
 	for( i = 0 ; i < numEntries ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
-		text = JKP_GetString( line, pos2, error );
-		text2 = JKP_GetString( line, pos2, error );
+		line = parser.getLine( error );
+		text = line.getString( error );
+		text2 = line.getString( error );
 	
         if( text2 == "none" ) currentLevel.templates.push_back( new Jk::Template( text ), text );
         else				 currentLevel.templates.push_back( new Jk::Template( text, currentLevel.templates[text2] ), text );
 
 		while(1)
 		{
-			text = JKP_GetString( line, pos2, error );
+			text = line.getString( error );
 			if( error ) break;
 
 			currentLevel.templates[i]->AddParam( text );
@@ -687,39 +640,37 @@ void JK_Level_Load(const string& name)
 
 // =====================================================================
 
-	JKP_FindString( data, pos, size, "Section: Things", error );
+	parser.findString( "Section: Things", error );
 
-	pos2 = 0;
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	JKP_MatchString( line, pos2, "World things", error );
-	numEntries = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "World things", error );
+	numEntries = line.getInt( error );
 
 	for( i = 0 ; i < numEntries ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
+		line = parser.getLine( error );
 		
-		JKP_MatchString( line, pos2, "end", error );
-		if( error == 0 )
+		line.matchString( "end", error );
+		if( !error )
 		{
 			break;
 		}
-		error = 0;
-		JKP_GetFloat( line, pos2, error );
 
-		text = JKP_GetString( line, pos2, error );
+		line.getFloat( error );
 
-		text = JKP_GetString( line, pos2, error );
+		text = line.getString( error );
 
-		position.x = JKP_GetFloat( line, pos2, error );
-		position.y = JKP_GetFloat( line, pos2, error );
-		position.z = JKP_GetFloat( line, pos2, error );
+		text = line.getString( error );
 
-		rotation.x = JKP_GetFloat( line, pos2, error );
-		rotation.y = JKP_GetFloat( line, pos2, error );
-		rotation.z = JKP_GetFloat( line, pos2, error );
+		position.x = line.getFloat( error );
+		position.y = line.getFloat( error );
+		position.z = line.getFloat( error );
 
-		index = JKP_GetInt( line, pos2, error );
+		rotation.x = line.getFloat( error );
+		rotation.y = line.getFloat( error );
+		rotation.z = line.getFloat( error );
+
+		index = line.getInt( error );
 
 		thing = shared_ptr<W_Thing>( new W_Thing( currentLevel.templates[text], position, rotation, &currentLevel.sectors[index] ) );
 		thing->SetNum( currentLevel.things.size() );
@@ -736,8 +687,7 @@ void JK_Level_Load(const string& name)
 
 		while( 1 )
 		{ 
-			error = 0;
-			text = JKP_GetString( line, pos2, error );
+			text = line.getString( error );
 			if( error ) break;
 
 			currentLevel.things[i]->GetTemplate()->AddParam( text );

@@ -10,20 +10,17 @@ namespace Jk
     AnimClass::AnimClass(const std::string &filename)
     {
         string fullname;
-	    string line;
+        Jk::Parser::Line line;
 	    string data;
-	    int error;
-	    int pos, pos2;
+	    bool error;
 	    int i, j;
 	    float f1, f2, f3;
-        int size;
 
 	    fullname = "misc\\pup\\" + filename;
         data = Jk::Gob::getFile( fullname );
+        Jk::Parser parser(data);
 
-        pos = 0;
-
-        line = JKP_GetNonEmptyLine( data, pos, size, error );
+        line = parser.getLine( error );
 
         while(1)
         {
@@ -32,29 +29,28 @@ namespace Jk
 
             while(1)
             {
-                line = U_Lowercase( line );
+                line = Jk::Parser::Line(U_Lowercase( line.line() ) );
 
-                pos2 = 0;
-                JKP_MatchString( line, pos2, "mode=", error );
-                if( error == 0 )
+                line.matchString( "mode=", error );
+                if( !error )
                 {
-                    mode = JKP_GetInt( line, pos2, error );
+                    mode = line.getInt( error );
 
-                    JKP_MatchString( line, pos2, ", basedon=", error );
-                    if( error == 0 )
+                    line.matchString( ", basedon=", error );
+                    if( !error )
                     {
-                        basedon = JKP_GetInt( line, pos2, error );
+                        basedon = line.getInt( error );
                     }
 
-                    error = 0;
+                    error = false;
                     break;
                 }
 
-                line = JKP_GetNonEmptyLine( data, pos, size, error );
-                if( error == 1 ) break;
+                line = parser.getLine( error );
+                if( error ) break;
             }
 
-            if( error == 1 ) break;
+            if( error ) break;
 
             Mode newMode;
 
@@ -74,33 +70,31 @@ namespace Jk
 
             while(1)
             {
-                line = JKP_GetNonEmptyLine( data, pos, size, error );
-                if( error == 1) break;
+                line = parser.getLine( error );
+                if( error ) break;
 
-                line = U_Lowercase( line );
+                line = Jk::Parser::Line(U_Lowercase( line.line() ) );
 
-                pos2 = 0;
-                JKP_MatchString( line, pos2, "mode=", error );
-                if( error == 0 )
+                line.matchString( "mode=", error );
+                if( !error )
                 {
                     break;
                 }
 
-                JKP_MatchString( line, pos2, "joints", error );
-                if( error == 0 )
+                line.matchString( "joints", error );
+                if( !error )
                 {
                     break;
                 }
                 Submode newSubmode;
                 std::string submodeType;
 
-                pos2 = 0;
-                submodeType = JKP_GetString( line, pos2, error );
+                submodeType = line.getString( error );
 
-                newSubmode.key = JKP_GetString( line, pos2, error );
-                newSubmode.flags = JKP_GetHex( line, pos2, error );
-                newSubmode.priLow = JKP_GetInt( line, pos2, error );
-                newSubmode.priHigh = JKP_GetInt( line, pos2, error );
+                newSubmode.key = line.getString( error );
+                newSubmode.flags = line.getHex( error );
+                newSubmode.priLow = line.getInt( error );
+                newSubmode.priHigh = line.getInt( error );
 
                 newMode.submodes[submodeType] = newSubmode;
             }

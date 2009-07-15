@@ -23,10 +23,9 @@ struct TempHierarchyNode {
 R_Model::R_Model( const string& filename )
 {
 	string fullname;
-	string line;
+    Jk::Parser::Line line;
 	string data;
-	int error;
-	int pos, pos2;
+	bool error;
 	int g, m, f, i, j;
 	int v, t;
 	M_Vector *vertices;
@@ -44,147 +43,132 @@ R_Model::R_Model( const string& filename )
 	int numMaterials;
 	vector<string> textureNames;
 	int index;
-	int size;
 
 	name = filename;
 	
 	fullname = "3do\\" + name;
     data = Jk::Gob::getFile( fullname );
-    size = data.size();
+    Jk::Parser parser(data);
 
-	pos = 0;
-
-	JKP_FindString( data, pos, size, "SECTION: MODELRESOURCE", error );
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	pos2 = 0;
-	JKP_MatchString( line, pos2, "MATERIALS", error );
-	numMaterials = JKP_GetInt( line, pos2, error );
+	parser.findString( "SECTION: MODELRESOURCE", error );
+	line = parser.getLine( error );
+	line.matchString( "MATERIALS", error );
+	numMaterials = line.getInt( error );
 	textureNames.resize( numMaterials );
 	
 	for( i = 0 ; i < numMaterials ; i++ )
 	{
-		line = JKP_GetNonEmptyLine(data, pos, size, error);
-		pos2 = 0;
+		line = parser.getLine( error);
 
-		JKP_GetFloat( line, pos2, error );
+		line.getFloat( error );
 
-		matName = U_Lowercase( JKP_GetString( line, pos2, error ) );
+		matName = U_Lowercase( line.getString( error ) );
 		textureNames[i] = matName;
 	}
 
-	JKP_FindString( data, pos, size, "SECTION: GEOMETRYDEF", error );
+	parser.findString( "SECTION: GEOMETRYDEF", error );
+
+	line = parser.getLine( error );
+	line.matchString( "RADIUS", error );
+	radius = line.getFloat( error );
 	
+	line = parser.getLine( error );
+	line.matchString( "INSERT OFFSET", error );
+	insertOffset.x = line.getFloat( error );
+	insertOffset.y = line.getFloat( error );
+	insertOffset.z = line.getFloat( error );
 	
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	pos2 = 0;
-	JKP_MatchString( line, pos2, "RADIUS", error );
-	radius = JKP_GetFloat( line, pos2, error );
-	
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	pos2 = 0;
-	JKP_MatchString( line, pos2, "INSERT OFFSET", error );
-	insertOffset.x = JKP_GetFloat( line, pos2, error );
-	insertOffset.y = JKP_GetFloat( line, pos2, error );
-	insertOffset.z = JKP_GetFloat( line, pos2, error );
-	
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	pos2 = 0;
-	JKP_MatchString( line, pos2, "GEOSETS", error );
-	numGeoSets = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "GEOSETS", error );
+	numGeoSets = line.getInt( error );
 	geoSets = new R_GeoSet[numGeoSets];
 	
 	for( g = 0 ; g < numGeoSets ; g++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
+		line = parser.getLine( error );
 	
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
-		JKP_MatchString( line, pos2, "MESHES", error );
-		geoSets[g].numMeshes = JKP_GetInt( line, pos2, error );
+		line = parser.getLine( error );
+		line.matchString( "MESHES", error );
+		geoSets[g].numMeshes = line.getInt( error );
 		geoSets[g].meshes = new R_Mesh[geoSets[g].numMeshes];
 
 		for( m = 0 ; m < geoSets[g].numMeshes ; m++ )
 		{
-			JKP_GetNonEmptyLine( data, pos, size, error );
+			parser.getLine( error );
 			
-			line = JKP_GetNonEmptyLine( data, pos, size, error );
-			pos2 = 0;
-			JKP_MatchString( line, pos2, "NAME", error );
-			geoSets[g].meshes[m].name = U_Lowercase( JKP_GetString( line, pos2, error ) );
+			line = parser.getLine( error );
+			line.matchString( "NAME", error );
+			geoSets[g].meshes[m].name = U_Lowercase( line.getString( error ) );
 
-			JKP_GetNonEmptyLine( data, pos, size, error );
-			JKP_GetNonEmptyLine( data, pos, size, error );
-			JKP_GetNonEmptyLine( data, pos, size, error );
-			JKP_GetNonEmptyLine( data, pos, size, error );
+			parser.getLine( error );
+			parser.getLine( error );
+			parser.getLine( error );
+			parser.getLine( error );
 			
-			line = JKP_GetNonEmptyLine( data, pos, size, error );
-			pos2 = 0;
-			JKP_MatchString( line, pos2, "VERTICES", error );
-			numVertices = JKP_GetInt( line, pos2, error );
+			line = parser.getLine( error );
+			line.matchString( "VERTICES", error );
+			numVertices = line.getInt( error );
 			vertices = new M_Vector[numVertices];
 			normals = new M_Vector[numVertices];
 
 			for( i = 0 ; i < numVertices ; i++ )
 			{
-				line = JKP_GetNonEmptyLine( data, pos, size, error );
-				pos2 = 0;
-				JKP_GetFloat( line, pos2, error );
+				line = parser.getLine( error );
+				line.getFloat( error );
 
-				vertices[i].x = JKP_GetFloat( line, pos2, error );
-				vertices[i].y = JKP_GetFloat( line, pos2, error );
-				vertices[i].z = JKP_GetFloat( line, pos2, error );
+				vertices[i].x = line.getFloat( error );
+				vertices[i].y = line.getFloat( error );
+				vertices[i].z = line.getFloat( error );
 			}
 
-			line = JKP_GetNonEmptyLine( data, pos, size, error );
-			pos2 = 0;
-			JKP_MatchString( line, pos2, "TEXTURE VERTICES", error );
-			numTextureVertices = JKP_GetInt( line, pos2, error );
+			line = parser.getLine( error );
+			line.matchString( "TEXTURE VERTICES", error );
+			numTextureVertices = line.getInt( error );
 			textureVertices = new R_TextureVertex[numTextureVertices];
 
 			for( i = 0 ; i < numTextureVertices ; i++ )
 			{
-				line = JKP_GetNonEmptyLine( data, pos, size, error );
-				pos2 = 0;
-				JKP_GetFloat( line, pos2, error );
+				line = parser.getLine( error );
 
-				textureVertices[i].u = JKP_GetFloat( line, pos2, error );
-				textureVertices[i].v = JKP_GetFloat( line, pos2, error );
+				line.getFloat( error );
+
+				textureVertices[i].u = line.getFloat( error );
+				textureVertices[i].v = line.getFloat( error );
 			}
 
-			line = JKP_GetNonEmptyLine( data, pos, size, error );
+			line = parser.getLine( error );
 
 			for( i = 0 ; i < numVertices ; i++ )
 			{
-				line = JKP_GetNonEmptyLine( data, pos, size, error );
-				pos2 = 0;
-				JKP_GetFloat( line, pos2, error );
+				line = parser.getLine( error );
 
-				normals[i].x = JKP_GetFloat( line, pos2, error );
-				normals[i].y = JKP_GetFloat( line, pos2, error );
-				normals[i].z = JKP_GetFloat( line, pos2, error );
+				line.getFloat( error );
+
+				normals[i].x = line.getFloat( error );
+				normals[i].y = line.getFloat( error );
+				normals[i].z = line.getFloat( error );
 			}
 
-			line = JKP_GetNonEmptyLine( data, pos, size, error );
-			pos2 = 0;
-			JKP_MatchString( line, pos2, "FACES", error );
-			geoSets[g].meshes[m].numFaces = JKP_GetInt( line, pos2, error );
+			line = parser.getLine( error );
+            line.matchString( "FACES", error );
+			geoSets[g].meshes[m].numFaces = line.getInt( error );
 			geoSets[g].meshes[m].faces = new R_Face[geoSets[g].meshes[m].numFaces];
 
 			for( f = 0 ; f < geoSets[g].meshes[m].numFaces ; f++ )
 			{
-				line = JKP_GetNonEmptyLine( data, pos, size, error );
-				pos2 = 0;
-				JKP_GetFloat( line, pos2, error );
+				line = parser.getLine( error );
 
-				index = JKP_GetInt( line, pos2, error );
+                line.getFloat( error );
+
+				index = line.getInt( error );
 				
-				geoSets[g].meshes[m].faces[f].type = JKP_GetHex( line, pos2, error );
-				JKP_GetFloat( line, pos2, error );
-				JKP_GetFloat( line, pos2, error );
-				JKP_GetFloat( line, pos2, error );
-				JKP_GetFloat( line, pos2, error );
+				geoSets[g].meshes[m].faces[f].type = line.getHex( error );
+				line.getFloat( error );
+				line.getFloat( error );
+				line.getFloat( error );
+				line.getFloat( error );
 
-				numVertices = JKP_GetInt( line, pos2, error );
+				numVertices = line.getInt( error );
 				geoSets[g].meshes[m].faces[f].poly = W_Poly( numVertices );
 
 				if( index < 0 || index >= numMaterials )
@@ -205,8 +189,8 @@ R_Model::R_Model( const string& filename )
 				
 				for( i = 0 ; i < numVertices ; i++ )
 				{
-					v = JKP_GetInt( line, pos2, error );
-					t = JKP_GetInt( line, pos2, error );
+					v = line.getInt( error );
+					t = line.getInt( error );
 					geoSets[g].meshes[m].faces[f].poly[i].position = vertices[v];
 					geoSets[g].meshes[m].faces[f].poly[i].normal = normals[v];
 					geoSets[g].meshes[m].faces[f].poly[i].texture = textureVertices[t];
@@ -216,17 +200,17 @@ R_Model::R_Model( const string& filename )
 				}
 			}
 
-			line = JKP_GetNonEmptyLine( data, pos, size, error );
+			line = parser.getLine( error );
 
 			for( f = 0 ; f < geoSets[g].meshes[m].numFaces ; f++ )
 			{
-				line = JKP_GetNonEmptyLine( data, pos, size, error );
-				pos2 = 0;
-				JKP_GetFloat( line, pos2, error );
+				line = parser.getLine( error );
 
-				normal.x = JKP_GetFloat( line, pos2, error );
-				normal.y = JKP_GetFloat( line, pos2, error );
-				normal.z = JKP_GetFloat( line, pos2, error );
+                line.getFloat( error );
+
+				normal.x = line.getFloat( error );
+				normal.y = line.getFloat( error );
+				normal.z = line.getFloat( error );
 				geoSets[g].meshes[m].faces[f].poly.SetPlane( normal );
 			}
 
@@ -236,42 +220,41 @@ R_Model::R_Model( const string& filename )
 		}
 	}
 
-	JKP_FindString( data, pos, size, "SECTION: HIERARCHYDEF", error );
+	parser.findString( "SECTION: HIERARCHYDEF", error );
 	
-	line = JKP_GetNonEmptyLine( data, pos, size, error );
-	pos2 = 0;
-	JKP_MatchString( line, pos2, "HIERARCHY NODES", error );
-	numHierarchyNodes = JKP_GetInt( line, pos2, error );
+	line = parser.getLine( error );
+	line.matchString( "HIERARCHY NODES", error );
+	numHierarchyNodes = line.getInt( error );
 	nodes = new TempHierarchyNode[numHierarchyNodes];
 
 	for( i = 0 ; i < numHierarchyNodes ; i++ )
 	{
-		line = JKP_GetNonEmptyLine( data, pos, size, error );
-		pos2 = 0;
-		JKP_GetFloat( line, pos2, error );
+		line = parser.getLine( error );
 
-		JKP_GetHex( line, pos2, error );
-		JKP_GetHex( line, pos2, error );
+		line.getFloat( error );
 
-		nodes[i].mesh = JKP_GetInt( line, pos2, error );
-		nodes[i].parent = JKP_GetInt( line, pos2, error );
-		nodes[i].child = JKP_GetInt( line, pos2, error );
-		nodes[i].sibling = JKP_GetInt( line, pos2, error );
-		nodes[i].numChildren = JKP_GetInt( line, pos2, error );
+		line.getHex( error );
+		line.getHex( error );
 
-		nodes[i].node.position.x = JKP_GetFloat( line, pos2, error );
-		nodes[i].node.position.y = JKP_GetFloat( line, pos2, error );
-		nodes[i].node.position.z = JKP_GetFloat( line, pos2, error );
+		nodes[i].mesh = line.getInt( error );
+		nodes[i].parent = line.getInt( error );
+		nodes[i].child = line.getInt( error );
+		nodes[i].sibling = line.getInt( error );
+		nodes[i].numChildren = line.getInt( error );
 
-		nodes[i].node.rotation.x = JKP_GetFloat( line, pos2, error );
-		nodes[i].node.rotation.y = JKP_GetFloat( line, pos2, error );
-		nodes[i].node.rotation.z = JKP_GetFloat( line, pos2, error );
+		nodes[i].node.position.x = line.getFloat( error );
+		nodes[i].node.position.y = line.getFloat( error );
+		nodes[i].node.position.z = line.getFloat( error );
 
-		nodes[i].node.pivot.x = JKP_GetFloat( line, pos2, error );
-		nodes[i].node.pivot.y = JKP_GetFloat( line, pos2, error );
-		nodes[i].node.pivot.z = JKP_GetFloat( line, pos2, error );
+		nodes[i].node.rotation.x = line.getFloat( error );
+		nodes[i].node.rotation.y = line.getFloat( error );
+		nodes[i].node.rotation.z = line.getFloat( error );
+
+		nodes[i].node.pivot.x = line.getFloat( error );
+		nodes[i].node.pivot.y = line.getFloat( error );
+		nodes[i].node.pivot.z = line.getFloat( error );
 		
-		nodes[i].node.name = U_Lowercase( JKP_GetString( line, pos2, error ) );
+		nodes[i].node.name = U_Lowercase( line.getString( error ) );
 
 		nodes[i].node.mesh = nodes[i].mesh;
 		nodes[i].node.numChildren = nodes[i].numChildren;

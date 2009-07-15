@@ -10,124 +10,108 @@ namespace Jk
     Key::Key( const string& filename )
     {
 	    string fullname;
-	    string line;
+        Jk::Parser::Line line;
 	    string data;
-	    int error;
-	    int pos, pos2;
+	    bool error;
 	    int i, j;
 	    float f1, f2, f3;
-        int size;
 
 	    name = filename;
     	
 	    fullname = "3do\\key\\" + name;
         data = Jk::Gob::getFile( fullname );
-        size = data.size();
+        Jk::Parser parser(data);
 
-	    pos = 0;
+	    parser.findString( "SECTION: HEADER", error );
+	    line = parser.getLine( error );
 
-	    JKP_FindString( data, pos, size, "SECTION: HEADER", error );
-	    line = JKP_GetNonEmptyLine( data, pos, size, error );
-	    pos2 = 0;
-	    JKP_MatchString( line, pos2, "FLAGS", error );
-	    flags = JKP_GetInt( line, pos2, error );
+	    line.matchString( "FLAGS", error );
+	    flags = line.getInt( error );
 
-	    line = JKP_GetNonEmptyLine( data, pos, size, error );
-	    pos2 = 0;
-	    JKP_MatchString( line, pos2, "TYPE", error );
-	    type = JKP_GetHex( line, pos2, error );
+	    line = parser.getLine( error );
+	    line.matchString( "TYPE", error );
+	    type = line.getHex( error );
 
-	    line = JKP_GetNonEmptyLine( data, pos, size, error );
-	    pos2 = 0;
-	    JKP_MatchString( line, pos2, "FRAMES", error );
-	    numFrames = JKP_GetInt( line, pos2, error );
+	    line = parser.getLine( error );
+	    line.matchString( "FRAMES", error );
+	    numFrames = line.getInt( error );
 
-	    line = JKP_GetNonEmptyLine( data, pos, size, error );
-	    pos2 = 0;
-	    JKP_MatchString( line, pos2, "FPS", error );
-	    fps = JKP_GetInt( line, pos2, error );
+	    line = parser.getLine( error );
+	    line.matchString( "FPS", error );
+	    fps = line.getInt( error );
 
-	    line = JKP_GetNonEmptyLine( data, pos, size, error );
-	    pos2 = 0;
-	    JKP_MatchString( line, pos2, "JOINTS", error );
-	    joints = JKP_GetInt( line, pos2, error );
+	    line = parser.getLine( error );
+	    line.matchString( "JOINTS", error );
+	    joints = line.getInt( error );
 
 	    numMarkers = 0;
-	    line = JKP_GetNonEmptyLine( data, pos, size, error );
-	    pos2 = 0;
-	    JKP_MatchString( line, pos2, "SECTION: MARKERS", error );
+	    line = parser.getLine( error );
+	    line.matchString( "SECTION: MARKERS", error );
+
 	    if( !error )
 	    {
-		    error = 0;
-
-		    line = JKP_GetNonEmptyLine( data, pos, size, error );
-		    pos2 = 0;
-		    JKP_MatchString( line, pos2, "MARKERS", error );
-		    numMarkers = JKP_GetInt( line, pos2, error );
+		    line = parser.getLine( error );
+		    line.matchString( "MARKERS", error );
+		    numMarkers = line.getInt( error );
 
 		    markers = new Marker[numMarkers];
 		    for( i = 0 ; i < numMarkers ; i++ )
 		    {
-			    line = JKP_GetNonEmptyLine( data, pos, size, error );
-			    pos2 = 0;
+			    line = parser.getLine( error );
 
-			    markers[i].frame = JKP_GetFloat( line, pos2, error );
-			    markers[i].type = JKP_GetInt( line, pos2, error );
+			    markers[i].frame = line.getFloat( error );
+			    markers[i].type = line.getInt( error );
 		    }
 
-		    line = JKP_GetNonEmptyLine( data, pos, size, error );
+		    line = parser.getLine( error );
 	    }	
 
-	    JKP_MatchString( line, pos2, "SECTION: KEYFRAME NODES", error );
-	    line = JKP_GetNonEmptyLine( data, pos, size, error );
-	    pos2 = 0;
-	    JKP_MatchString( line, pos2, "NODES", error );
-	    numNodes = JKP_GetInt( line, pos2, error );
+	    line.matchString( "SECTION: KEYFRAME NODES", error );
+	    line = parser.getLine( error );
+	    line.matchString( "NODES", error );
+	    numNodes = line.getInt( error );
 
 	    nodes = new Node[numNodes];
 
 	    for( i = 0 ; i < numNodes ; i++ )
 	    {
-		    JKP_GetNonEmptyLine( data, pos, size, error );
-		    line = JKP_GetNonEmptyLine( data, pos, size, error );
-		    pos2 = 0;
-		    JKP_MatchString( line, pos2, "MESH NAME", error );
-		    nodes[i].name = U_Lowercase( JKP_GetString( line, pos2, error ) );
+		    parser.getLine( error );
+		    line = parser.getLine( error );
 
-		    line = JKP_GetNonEmptyLine( data, pos, size, error );
-		    pos2 = 0;
-		    JKP_MatchString( line, pos2, "ENTRIES", error );
-		    nodes[i].numEntries = JKP_GetInt( line, pos2, error );
+		    line.matchString( "MESH NAME", error );
+		    nodes[i].name = U_Lowercase( line.getString( error ) );
+
+		    line = parser.getLine( error );
+		    line.matchString( "ENTRIES", error );
+		    nodes[i].numEntries = line.getInt( error );
 
 		    nodes[i].entries = new Frame[nodes[i].numEntries];
 		    for( j = 0 ; j < nodes[i].numEntries ; j++ )
 		    {
-			    line = JKP_GetNonEmptyLine( data, pos, size, error );
-			    pos2 = 0;
+			    line = parser.getLine( error );
     		
-			    JKP_GetInt( line, pos2, error );
-			    nodes[i].entries[j].frame = JKP_GetInt( line, pos2, error );
-			    nodes[i].entries[j].flags = JKP_GetHex( line, pos2, error );
-			    f1 = JKP_GetFloat( line, pos2, error );
-			    f2 = JKP_GetFloat( line, pos2, error );
-			    f3 = JKP_GetFloat( line, pos2, error );
+			    line.getInt( error );
+			    nodes[i].entries[j].frame = line.getInt( error );
+			    nodes[i].entries[j].flags = line.getHex( error );
+			    f1 = line.getFloat( error );
+			    f2 = line.getFloat( error );
+			    f3 = line.getFloat( error );
 			    nodes[i].entries[j].position = M_Vector( f1, f2, f3 );
     			
-			    f1 = JKP_GetFloat( line, pos2, error );
-			    f2 = JKP_GetFloat( line, pos2, error );
-			    f3 = JKP_GetFloat( line, pos2, error );
+			    f1 = line.getFloat( error );
+			    f2 = line.getFloat( error );
+			    f3 = line.getFloat( error );
 			    nodes[i].entries[j].orientation = M_Vector( f1, f2, f3 );
 
-			    line = JKP_GetNonEmptyLine( data, pos, size, error );
-			    pos2 = 0;
-                f1 = JKP_GetFloat( line, pos2, error );
-			    f2 = JKP_GetFloat( line, pos2, error );
-			    f3 = JKP_GetFloat( line, pos2, error );
+			    line = parser.getLine( error );
+                f1 = line.getFloat( error );
+			    f2 = line.getFloat( error );
+			    f3 = line.getFloat( error );
 			    nodes[i].entries[j].deltaPosition = M_Vector( f1, f2, f3 );
     			
-			    f1 = JKP_GetFloat( line, pos2, error );
-			    f2 = JKP_GetFloat( line, pos2, error );
-			    f3 = JKP_GetFloat( line, pos2, error );
+			    f1 = line.getFloat( error );
+			    f2 = line.getFloat( error );
+			    f3 = line.getFloat( error );
 			    nodes[i].entries[j].deltaOrientation = M_Vector( f1, f2, f3 );
 		    }
 	    }
