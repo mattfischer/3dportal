@@ -92,7 +92,7 @@ void I_ProcessMouse(float time)
 
 	if(KEY_DOWN(VK_LBUTTON))
 	{
-		if(GetTickCount() > controlTimer + 500)
+ 		if(GetTickCount() > controlTimer + 500)
 		{
 			if(curWeapon != -1)
 				G_Items[curWeapon].cog->Message("fire", 0, 0, player->GetNum());

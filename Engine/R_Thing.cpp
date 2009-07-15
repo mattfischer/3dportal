@@ -96,9 +96,9 @@ void W_Thing::Draw( R_Frustum frustum, float light, M_Vector tint )
 
 	glPopMatrix();
 
+    glRotatef( compositeRotation.y, 0, 1, 0 );
 	glRotatef( compositeRotation.x, 1, 0, 0 );
-	glRotatef( compositeRotation.y, 0, 1, 0 );
-	glRotatef( compositeRotation.z, 0, 0, -1 );
+	glRotatef( compositeRotation.z, 0, 0, 1 );
 		
 	if( model )
 		model->Draw( distance2, light, tint, &keyInstance );

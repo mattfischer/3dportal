@@ -16,6 +16,8 @@
 
 #include "S_Manager.h"
 
+#include "U_Matrix.h"
+
 #include <math.h>
 #include <assert.h>
 
@@ -184,20 +186,11 @@ M_Vector W_Thing::GetRotation()
 void W_Thing::SetRotation(M_Vector r)
 {
 	M_Vector delta;
-	float xcos, xsin;
 	
 	delta=r-rotation;
-	xcos=cos(delta.y*3.14/180);
-	xsin=sin(delta.y*3.14/180);
-
-	M_Matrix m(xcos,-xsin,0,0,
-			  xsin,xcos,0,0,
-			  0,0,1,0,
-			  0,0,0,1
-			  );
-
-	rotation=r;
-	velocity=m*velocity;
+	
+    rotation = r;
+    velocity = U_Matrix::RotateZ(delta.y) * U_Matrix::RotateX(delta.x) * velocity;
 }
 
 W_Sector *W_Thing::GetSector()

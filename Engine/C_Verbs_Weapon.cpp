@@ -6,6 +6,7 @@
 #include "JK_Level.h"
 #include "S_Manager.h"
 #include <math.h>
+#include "U_Matrix.h"
 
 int curWeapon = -1;
 
@@ -53,25 +54,7 @@ C_Type_Thing FireProjectile( C_Type_Thing thing_num, C_Type_Template template_nu
 	if( thing )
 		rotation = thing->GetRotation();
 
-	xcos = cos( rotation.y * 3.14 / 180 );
-	xsin = sin( rotation.y * 3.14 / 180 );
-
-	M_Matrix m( xcos, -xsin, 0, 0,
-			    xsin,  xcos, 0, 0,
-			    0,     0,    1, 0,
-			    0,     0,    0, 1
-			  );
-
-	ycos = cos( rotation.x * 3.14 / 180 );
-	ysin = sin( rotation.x * 3.14 / 180 );
-
-	M_Matrix m2( 1, 0,    0,    0,
-			     0, ycos,-ysin, 0,
-			     0, ysin, ycos, 0,
-			     0, 0,    0,    1
-			);
-	fireOffset = m * m2 * offset;
-
+    fireOffset = U_Matrix::RotateZ(rotation.y) * U_Matrix::RotateX(rotation.x) * offset;
 	int thingNum = W_Thing::Create( currentLevel.templates[template_num], thing->GetPosition() + fireOffset, M_Vector(0, 0, 0), thing->GetSector());
 
 	currentLevel.things[thingNum]->SetRotation( thing->GetRotation() );
