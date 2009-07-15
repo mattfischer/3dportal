@@ -18,7 +18,6 @@ using std::map;
 
 class W_Sector;
 class W_Thing;
-class JK_Template;
 class R_Model;
 struct R_Texture;
 class C_Script;
@@ -26,46 +25,50 @@ class S_Sound;
 class S_SoundClass;
 class JK_Colormap;
 class W_Thing;
-class JK_Key;
-class JK_AnimClass;
 class R_Sprite;
 
 using boost::shared_ptr;
 
-struct JK_Level {
-	int playerNum;
+namespace Jk
+{
+    class AnimClass;
+    class Key;
+    class Template;
+    struct Level {
+	    int playerNum;
 
-	U_VectorMap<R_Texture*> textures;
-	U_VectorMap<JK_Colormap*> colormaps;
-	U_VectorMap<C_Script*> cogScripts;
-	U_VectorMap<S_Sound*> sounds;
-	U_VectorMap<S_SoundClass*> soundClasses;
-	U_VectorMap<R_Model*> models;
-	U_VectorMap<JK_Key*> keyframes;
-	U_VectorMap<JK_AnimClass*> animClasses;
-	U_VectorMap<R_Sprite*> sprites;
+	    U_VectorMap<R_Texture*> textures;
+	    U_VectorMap<JK_Colormap*> colormaps;
+	    U_VectorMap<C_Script*> cogScripts;
+	    U_VectorMap<S_Sound*> sounds;
+	    U_VectorMap<S_SoundClass*> soundClasses;
+	    U_VectorMap<R_Model*> models;
+        U_VectorMap<Jk::Key*> keyframes;
+        U_VectorMap<Jk::AnimClass*> animClasses;
+	    U_VectorMap<R_Sprite*> sprites;
 
-	std::vector<shared_ptr<W_Thing> > things;
-	std::vector<C_Script*> cogs;
-	U_VectorMap<JK_Template*> templates;
+	    std::vector<shared_ptr<W_Thing> > things;
+	    std::vector<C_Script*> cogs;
+        U_VectorMap<Jk::Template*> templates;
 
-	int numSurfaces;
-	W_Surface *surfaces;
+	    int numSurfaces;
+	    W_Surface *surfaces;
 
-	int numSectors;
-	W_Sector *sectors;
+	    int numSectors;
+	    W_Sector *sectors;
 
-	float gravity;
-	int numPixelsPerRev;
-	float horizonDistance;
-	float ceilingSkyZ;
-	float horizonOffsetX;
-	float horizonOffsetY;
-	
-	float LODDistances[4];
-};
+	    float gravity;
+	    int numPixelsPerRev;
+	    float horizonDistance;
+	    float ceilingSkyZ;
+	    float horizonOffsetX;
+	    float horizonOffsetY;
+    	
+	    float LODDistances[4];
+    };
+}
 
-extern JK_Level currentLevel;
+extern Jk::Level currentLevel;
 
 void JK_Level_Load( const string& name );
  

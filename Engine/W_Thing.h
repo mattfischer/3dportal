@@ -46,11 +46,11 @@ public:
 	enum Type { ACTOR, WEAPON, ITEM, EXPLOSION, COG, GHOST, CORPSE, PLAYER, PARTICLE};
 
 	// W_Thing.cpp
-	W_Thing( JK_Template *t, M_Vector p, M_Vector r, W_Sector *s );
+    W_Thing( Jk::Template *t, M_Vector p, M_Vector r, W_Sector *s );
 	W_Thing( W_Thing &c );
 
-	static int Create( JK_Template *t, M_Vector p, M_Vector r, W_Sector *s );
-	static int CreateFromThing( W_Thing *thing, JK_Template *newTemplate );
+    static int Create( Jk::Template *t, M_Vector p, M_Vector r, W_Sector *s );
+    static int CreateFromThing( W_Thing *thing, Jk::Template *newTemplate );
 
 	virtual ~W_Thing();
 	W_Thing &operator=( W_Thing &c );
@@ -73,8 +73,8 @@ public:
 	int GetThingFlags();
 	int GetPhysicsFlags();
 	int GetCollide();
-	JK_Template *GetTemplate();
-	void SetTemplate( JK_Template* t );
+    Jk::Template *GetTemplate();
+    void SetTemplate( Jk::Template* t );
 
 	R_Model *GetModel();
 	float GetMoveSize();
@@ -98,7 +98,7 @@ public:
 	void AddCogLink( C_Script *cogScript );
 	void SendCogMessages( const string& message, int source, bool synchronous = false );
 
-	void playKey( JK_Key *key, int flags );
+    void playKey( Jk::Key *key, int flags );
 
 	// P_Thing.cpp
 	static void UpdateThings( float time );
@@ -145,7 +145,7 @@ protected:
 
 	M_Vector nudge;
 	
-	JK_Template *thingTemplate;
+    Jk::Template *thingTemplate;
 	R_Model *model;
 	float maxVelocity;
 	float maxThrust;
@@ -199,11 +199,11 @@ protected:
 
 	Type type;
 
-	JK_Key_Instance keyInstance;
+    Jk::Key::Instance keyInstance;
 	
-	JK_AnimClass *animClass;
+    Jk::AnimClass *animClass;
 
-	JK_Template *explodeTemplate;
+    Jk::Template *explodeTemplate;
 
 	R_Sprite *sprite;
 	float spriteTime;

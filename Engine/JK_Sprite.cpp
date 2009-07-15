@@ -8,8 +8,7 @@ R_Sprite::R_Sprite( const string &filename )
 	string fullname;
 	string line;
 	string data;
-	char *dataPointer;
-	int size;
+    int size;
 	int error;
 	int pos, pos2;
 
@@ -17,9 +16,8 @@ R_Sprite::R_Sprite( const string &filename )
 	
 	fullname = "misc\\spr\\" + filename;
 
-	JK_GOB_GetFile( fullname, &dataPointer, &size );
-	data = dataPointer;
-	delete[] dataPointer;
+    data = Jk::Gob::getFile( fullname );
+    size = data.size();
 
 	pos = 0;
 

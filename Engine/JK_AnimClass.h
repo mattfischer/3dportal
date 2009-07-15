@@ -5,25 +5,28 @@
 #include <string>
 #include <vector>
 
-struct JK_AC_Submode
+namespace Jk
 {
-    std::string key;
-    int flags;
-    int priLow;
-    int priHigh;
-};
+    struct AnimClass
+    {
+        AnimClass(const std::string &filename);
 
-struct JK_AC_Mode
-{
-    int mode;
-    std::map<std::string, JK_AC_Submode> submodes;
-};
+        struct Submode
+        {
+            std::string key;
+            int flags;
+            int priLow;
+            int priHigh;
+        };
 
-struct JK_AnimClass
-{
-    JK_AnimClass(std::string filename);
+        struct Mode
+        {
+            int mode;
+            std::map<std::string, Submode> submodes;
+        };
 
-    std::vector<JK_AC_Mode> modes;
-};
+        std::vector<Mode> modes;
+    };
+}
 
 #endif

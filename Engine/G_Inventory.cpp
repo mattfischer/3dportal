@@ -9,18 +9,15 @@ G_Item G_Items[200];
 void G_SetupInventory()
 {
 	string data;
-	char *dataPointer;
 	string line;
 	string text;
-	int size;
 	int pos, pos2;
 	int id;
 	int error;
+    int size;
 
-
-	JK_GOB_GetFile( "misc\\items.dat", &dataPointer, &size );
-	data = dataPointer;
-	delete[] dataPointer;
+    data = Jk::Gob::getFile( "misc\\items.dat" );
+    size = data.size();
 
 	pos = 0;
 	while( 1 )

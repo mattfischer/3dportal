@@ -38,12 +38,12 @@ S_Sound::S_Sound( const string& filename )
 
 	fullname = "sound\\" + filename;
 	found = false;
-	if( JK_GOB_GetFile( fullname, &data, &size ) )
+    if( Jk::Gob::getFile( fullname, &data, &size ) )
 		found = true;
 	else
 	{
 		fullname = "voice\\" + filename;
-		if( JK_GOB_GetFile( fullname, &data, &size ) ) found = true;
+        if( Jk::Gob::getFile( fullname, &data, &size ) ) found = true;
 		else found = false;
 	}
 

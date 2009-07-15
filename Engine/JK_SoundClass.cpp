@@ -12,17 +12,15 @@ S_SoundClass::S_SoundClass( const string& filename )
 	string line;
 	string text;
 	string data;
-	char *dataPointer;
-	int size;
 	string fullname;
+    int size;
 
 	name = filename;
 	
 	fullname = "misc\\snd\\" + filename;
 
-	JK_GOB_GetFile( fullname, &dataPointer, &size );
-	data = dataPointer;
-	delete[] dataPointer;
+    data = Jk::Gob::getFile( fullname );
+    size = data.size();
 
 	pos = 0;
 	numEntries = 0;

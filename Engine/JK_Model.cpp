@@ -25,8 +25,6 @@ R_Model::R_Model( const string& filename )
 	string fullname;
 	string line;
 	string data;
-	char *dataPointer;
-	int size;
 	int error;
 	int pos, pos2;
 	int g, m, f, i, j;
@@ -46,13 +44,13 @@ R_Model::R_Model( const string& filename )
 	int numMaterials;
 	vector<string> textureNames;
 	int index;
-	
+	int size;
+
 	name = filename;
 	
 	fullname = "3do\\" + name;
-	JK_GOB_GetFile( fullname, &dataPointer, &size );
-	data = dataPointer;
-	delete[] dataPointer;
+    data = Jk::Gob::getFile( fullname );
+    size = data.size();
 
 	pos = 0;
 

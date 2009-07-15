@@ -52,12 +52,12 @@ R_Texture::R_Texture( const string& filename )
 
 	fullname = "mat\\" + filename;
 	
-	found = JK_GOB_GetFile( fullname, &fileData, &size );
+    found = Jk::Gob::getFile( fullname, &fileData, &size );
 	if( found == 0 )
 	{
 		fullname = "3do\\mat\\" + filename;
 	
-		found = JK_GOB_GetFile( fullname, &fileData, &size );
+        found = Jk::Gob::getFile( fullname, &fileData, &size );
 	}
 
 	cursor = 0;

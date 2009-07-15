@@ -91,8 +91,6 @@ C_Script::C_Script( const string& filename )
 	int i;
 	string fullname;
 	string data;
-	char *dataPointer;
-	int size;
 
 	C_ASTNode *root;
 
@@ -115,9 +113,7 @@ C_Script::C_Script( const string& filename )
 	if( safe )
 	{
 		fullname = "cog\\" + filename;
-		JK_GOB_GetFile( fullname, &dataPointer, &size);
-		data = dataPointer;
-		delete[] dataPointer;
+        data = Jk::Gob::getFile( fullname );
 		Hack( data );
 
 		C_Tokenizer t( data.c_str() );
@@ -375,7 +371,7 @@ void C_Script::SetupSymbolTable( C_ASTNode *symbolsNode )
                     int index = currentLevel.keyframes.index( filename );
                     if( index == -1 )
                     {
-                        currentLevel.keyframes.push_back( new JK_Key( filename ), filename );
+                        currentLevel.keyframes.push_back( new Jk::Key( filename ), filename );
                         index = currentLevel.keyframes.index( filename );
                     }
 				    *(int*)symbols[i].data = index;

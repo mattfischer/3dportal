@@ -122,7 +122,7 @@ void W_Thing::ProcessTemplate()
 		    std::string filename = animClass->modes[0].submodes["stand"].key;
 		    if(filename != "")
 		    {
-			keyInstance = JK_Key_Instance( currentLevel.keyframes[filename], 0, 0 );
+                keyInstance = Jk::Key::Instance( currentLevel.keyframes[filename], 0, 0 );
 		    }
 		}
 	}

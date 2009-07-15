@@ -21,9 +21,9 @@
 #include <math.h>
 #include <assert.h>
 
-W_Thing::W_Thing(JK_Template *t, M_Vector p, M_Vector r, W_Sector *s) 
+W_Thing::W_Thing(Jk::Template *t, M_Vector p, M_Vector r, W_Sector *s) 
 {
-	thingTemplate=new JK_Template(t->GetName(), t);
+    thingTemplate=new Jk::Template(t->GetName(), t);
 	position=p;
 	rotation=r;
 	sector=s;
@@ -58,7 +58,7 @@ W_Thing::W_Thing(JK_Template *t, M_Vector p, M_Vector r, W_Sector *s)
 
 W_Thing::W_Thing(W_Thing &c) 
 {
-	thingTemplate=new JK_Template(*c.thingTemplate);
+    thingTemplate=new Jk::Template(*c.thingTemplate);
 	position=c.position;
 	rotation=c.rotation;
 	sector=c.sector;
@@ -97,7 +97,7 @@ W_Thing::~W_Thing()
 {
 }
 
-int W_Thing::Create( JK_Template *t, M_Vector p, M_Vector r, W_Sector *s )
+int W_Thing::Create( Jk::Template *t, M_Vector p, M_Vector r, W_Sector *s )
 {
 	shared_ptr<W_Thing> newThing( new W_Thing( t, p, r, s ) );
 
@@ -133,7 +133,7 @@ int W_Thing::Create( JK_Template *t, M_Vector p, M_Vector r, W_Sector *s )
 	return i;
 }
 
-int W_Thing::CreateFromThing( W_Thing *thing, JK_Template *newTemplate )
+int W_Thing::CreateFromThing( W_Thing *thing, Jk::Template *newTemplate )
 {
 	shared_ptr<W_Thing> newThing( new W_Thing( *thing ) );
 	newThing->GetTemplate()->CopyParams( newTemplate );
@@ -210,12 +210,12 @@ M_Vector W_Thing::GetCompositeRotation()
 	return orient + rotation;
 }
 
-JK_Template *W_Thing::GetTemplate()
+Jk::Template *W_Thing::GetTemplate()
 {
 	return thingTemplate;
 }
 
-void W_Thing::SetTemplate(JK_Template *t)
+void W_Thing::SetTemplate(Jk::Template *t)
 {
 	thingTemplate=t;
 }
@@ -511,9 +511,7 @@ void W_Thing::Unlock()
 	LeaveCriticalSection(&critSec);
 }*/
 
-void W_Thing::playKey( JK_Key *key, int flags )
+void W_Thing::playKey( Jk::Key *key, int flags )
 {
-    keyInstance.key = key;
-    keyInstance.time = 0;
-    keyInstance.flags = flags;
+    keyInstance = Jk::Key::Instance(key, 0, flags);
 }

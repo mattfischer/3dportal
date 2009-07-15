@@ -56,7 +56,7 @@ void G_Initialize()
 { 
 	int i;
 	
-	JK_GOB_OpenFiles();
+    Jk::Gob::init();
 	
 	C_Script::Setup();
 	
@@ -78,7 +78,7 @@ void G_Initialize()
 		if(currentLevel.cogs[i])
 			currentLevel.cogs[i]->Message("startup", -1, 0, -1);
 
-	JK_GOB_CloseFiles();
+    Jk::Gob::close();
 }
 
 void G_GameLoop()

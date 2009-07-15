@@ -13,7 +13,7 @@
 extern shared_ptr<W_Thing> player;
 
 R_Model *povModel = NULL;
-JK_Key_Instance povKeyInstance;
+Jk::Key::Instance povKeyInstance;
 
 int ScreenX=1280;
 int ScreenY=800;

@@ -9,7 +9,7 @@ JK_Colormap::JK_Colormap( const string& filename )
 
 	fullname = "misc\\cmp\\" + filename;
 	
-	JK_GOB_GetFile( fullname, &data, &size );
+    Jk::Gob::getFile( fullname, &data, &size );
 
 	memcpy( &cmp, data, sizeof(JK_CMP) );
 

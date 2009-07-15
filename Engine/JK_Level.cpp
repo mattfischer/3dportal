@@ -32,11 +32,11 @@ struct Adjoin {
 
 extern shared_ptr<W_Thing> player;
 
-JK_Level currentLevel;
+Jk::Level currentLevel;
 
 char **textureFilenames;
 
-void JK_Level_Load( const string& name )
+void JK_Level_Load(const string& name)
 {
 	HANDLE levelFile;
 	int size;
@@ -80,11 +80,12 @@ void JK_Level_Load( const string& name )
 
 	bool foundWalkplayer = false;
 	
-	levelFile = CreateFile( name.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL );
+	levelFile = CreateFile(name.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
 	if( levelFile == INVALID_HANDLE_VALUE )
 	{
 		fullname = "jkl\\" + name;
-		found = JK_GOB_GetFile( fullname, &dataPointer, &size );
+        data = Jk::Gob::getFile(fullname);
+        size = data.size();
 	}
 	else
 	{
@@ -92,10 +93,11 @@ void JK_Level_Load( const string& name )
 		dataPointer = new char[size];
 		ReadFile( levelFile, dataPointer, size, &dummy, NULL );
 		CloseHandle( levelFile );
-	}
-	data = dataPointer;
-	delete[] dataPointer;
 
+        data = dataPointer;
+        delete[] dataPointer;
+	}
+	
 	pos = 0;
 
 	// =====================================================================
@@ -545,7 +547,7 @@ void JK_Level_Load( const string& name )
 		JKP_GetFloat( line, pos2, error );
 
 		filename = JKP_GetString( line, pos2, error );
-		currentLevel.keyframes.push_back( new JK_Key( filename ), filename );
+        currentLevel.keyframes.push_back( new Jk::Key( filename ), filename );
 	}
 
 // =====================================================================
@@ -571,7 +573,7 @@ void JK_Level_Load( const string& name )
 		JKP_GetInt( line, pos2, error );
 
 		filename = JKP_GetString( line, pos2, error );
-		currentLevel.animClasses.push_back( new JK_AnimClass( filename ), filename );
+        currentLevel.animClasses.push_back( new Jk::AnimClass( filename ), filename );
 	}
 
 // =====================================================================
@@ -670,8 +672,8 @@ void JK_Level_Load( const string& name )
 		text = JKP_GetString( line, pos2, error );
 		text2 = JKP_GetString( line, pos2, error );
 	
-		if( text2 == "none" ) currentLevel.templates.push_back( new JK_Template( text ), text );
-		else				 currentLevel.templates.push_back( new JK_Template( text, currentLevel.templates[text2] ), text );
+        if( text2 == "none" ) currentLevel.templates.push_back( new Jk::Template( text ), text );
+        else				 currentLevel.templates.push_back( new Jk::Template( text, currentLevel.templates[text2] ), text );
 
 		while(1)
 		{

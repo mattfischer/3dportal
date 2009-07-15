@@ -6,61 +6,64 @@
 
 using std::string;
 
-struct JK_K_Frame
+namespace Jk
 {
-	int frame;
-	int flags;
+    class Key
+    {
+    public:
+        struct Instance
+        {
+            Key *key;
+            float time;
+            int flags;
 
-	M_Vector position;
-	M_Vector orientation;
-    M_Vector deltaPosition;
-    M_Vector deltaOrientation;
-};
+            Instance() : key(NULL), time(0), flags(0) {}
+            Instance(Key *_key, float _time, int _flags) : key(_key), time(_time), flags(_flags) {}
+        };
 
-struct JK_K_Node
-{
-	string name;
-	int numEntries;
-	JK_K_Frame *entries;
-};
+	    Key( const string& filename );
 
-struct JK_K_Marker
-{
-	float frame;
-	int type;
-};
+	    void interpolateFrame( const string& node, float time, int flags, M_Vector& position, M_Vector& orientation );
 
-class JK_Key
-{
-public:
-	JK_Key( const string& filename );
+    protected:
+	    string name;
 
-	void interpolateFrame( const string& node, float time, int flags, M_Vector& position, M_Vector& orientation );
+	    int flags;
+	    int type;
+	    int numFrames;
+	    int fps;
+	    int joints;
 
-protected:
-	string name;
+        struct Marker
+        {
+	        float frame;
+	        int type;
+        };
 
-	int flags;
-	int type;
-	int numFrames;
-	int fps;
-	int joints;
+   	    int numMarkers;
+	    Marker *markers;
 
-	int numMarkers;
-	JK_K_Marker *markers;
+        struct Frame
+        {
+	        int frame;
+	        int flags;
 
-	int numNodes;
-	JK_K_Node *nodes;
-};
+	        M_Vector position;
+	        M_Vector orientation;
+            M_Vector deltaPosition;
+            M_Vector deltaOrientation;
+        };
 
-struct JK_Key_Instance
-{
-    JK_Key *key;
-    float time;
-    int flags;
+        struct Node
+        {
+	        string name;
+	        int numEntries;
+	        Frame *entries;
+        };
 
-    JK_Key_Instance() : key(NULL), time(0), flags(0) {}
-    JK_Key_Instance(JK_Key *_key, float _time, int _flags) : key(_key), time(_time), flags(_flags) {}
-};
+	    int numNodes;
+	    Node *nodes;
+    };
+}
 
 #endif

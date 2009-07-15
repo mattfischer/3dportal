@@ -23,7 +23,7 @@ M_Vector R_Model::GetInsertOffset()
 	return insertOffset;
 }
 
-void R_Model::Draw(float distance2, float light, M_Vector tint, JK_Key_Instance *keyInstance )
+void R_Model::Draw(float distance2, float light, M_Vector tint, Jk::Key::Instance *keyInstance )
 {
 	int LOD;
 	int i;
@@ -48,7 +48,7 @@ void R_Model::Draw(float distance2, float light, M_Vector tint, JK_Key_Instance 
 	DrawNode( rootNode, LOD, light, tint, keyInstance );
 }
 
-void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, JK_Key_Instance *keyInstance )
+void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, Jk::Key::Instance *keyInstance )
 {
 	int i;
 	R_Mesh *mesh;
