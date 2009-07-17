@@ -26,7 +26,7 @@ struct R_Node;
 struct R_Frustum;
 class W_Surface;
 struct S_SoundClass;
-class S_Sound;
+class S_SoundInstance;
 class C_Script;
 
 struct W_Frame {
@@ -100,6 +100,9 @@ public:
 
     int GetNum();
 
+    void addSoundInstance( S_SoundInstance *instance );
+    void removeSoundInstance( S_SoundInstance *instance );
+
 	// P_Thing.cpp
 	static void UpdateThings( float time );
 
@@ -126,9 +129,6 @@ public:
 	void ThingCollisions( W_Thing* thing );
 	bool ThingFloorCollisions( W_Thing* thing );
 	void ThingSurfaceCollisions( W_Thing* thing );
-
-    void addSound( S_Sound *sound );
-    void removeSound( S_Sound *sound );
 
 	// JK_Thing.cpp
 	void ProcessTemplate();
@@ -196,7 +196,7 @@ protected:
 	vector<W_Frame> frames;
 	vector<C_Script*> cogLinks;
 
-	S_Sound *moveSound;
+	S_SoundInstance *moveSound;
 	LONG walkTimer;
 	int walkSide;
 
@@ -213,7 +213,7 @@ protected:
 
 	LONG killTime;
 
-    std::vector<S_Sound*> sounds;
+    std::vector<S_SoundInstance*> soundInstances;
 
     int num;
 

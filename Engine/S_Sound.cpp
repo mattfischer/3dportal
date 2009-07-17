@@ -3,20 +3,6 @@
 #include "JK_GOB.h"
 #include <windows.h>
 
-S_Sound::S_Sound(S_Sound &s)
-{
-	if(s.status==S_EMPTY)
-	{
-		status=S_EMPTY;
-		return;
-	}
-
-	lpDS->DuplicateSoundBuffer(s.lpDSB, &lpDSB);
-	
-	status=S_READY;
-	pan=0;
-}
-
 S_Sound::~S_Sound()
 {
 	lpDSB->Release();
@@ -48,7 +34,6 @@ S_Sound::S_Sound( const string& filename )
 
 	if( !found )
 	{
-		status = S_EMPTY;
 		return;
 	}
 
@@ -73,11 +58,33 @@ S_Sound::S_Sound( const string& filename )
 	lpDSB->Lock( 0, 0, &lock1, &lockLen1, &lock2, &lockLen2, DSBLOCK_ENTIREBUFFER );
 	memcpy( lock1, cursor, numBytes );
 	lpDSB->Unlock( lock1, lockLen1, lock2, lockLen2 );
+}
+
+LPDIRECTSOUNDBUFFER S_Sound::buffer()
+{
+    return lpDSB;
+}
+
+S_SoundInstance::S_SoundInstance(S_Sound *s)
+{
+    snd = s;
+
+    lpDS->DuplicateSoundBuffer(s->buffer(), &lpDSB);
 
 	status = S_READY;
 }
 
-void S_Sound::Play(bool l)
+S_SoundInstance::~S_SoundInstance()
+{
+	lpDSB->Release();
+}
+
+S_Sound *S_SoundInstance::sound()
+{
+    return snd;
+}
+
+void S_SoundInstance::Play(bool l)
 {
 	if(status==S_READY)
 	{
@@ -86,33 +93,28 @@ void S_Sound::Play(bool l)
 	}
 }
 
-void S_Sound::Stop()
+void S_SoundInstance::Stop()
 {
 	if(status==S_PLAYING) status=S_PENDING_STOP;
 	else if(status==S_PENDING_START) status=S_STOPPED;
 }
 
-void S_Sound::SetVolume(float v)
+void S_SoundInstance::SetVolume(float v)
 {
 	volume=v;
 }
 
-void S_Sound::SetPan(float p)
+void S_SoundInstance::SetPan(float p)
 {
 	pan=p;
 }
-/*
-char *S_Sound::GetName()
-{
-	return name;
-}*/
 
-S_PlayState S_Sound::GetStatus()
+S_PlayState S_SoundInstance::GetStatus()
 {
 	return status;
 }
 
-void S_Sound::Update()
+void S_SoundInstance::Update()
 {
 	DWORD bufferStatus;
 
@@ -134,13 +136,3 @@ void S_Sound::Update()
 	lpDSB->GetStatus(&bufferStatus);
 	if(!(bufferStatus&DSBSTATUS_PLAYING)) status=S_STOPPED;
 }
-/*
-int S_Sound::GetNum()
-{
-	return num;
-}
-
-void S_Sound::SetNum(int n)
-{
-	num=n;
-}*/

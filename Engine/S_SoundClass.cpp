@@ -7,11 +7,11 @@
 #include "S_Sound.h"
 #include "S_Manager.h"
 
-S_Sound *S_SoundClass::Play( const string& sound, int thing_num )
+S_SoundInstance *S_SoundClass::Play( const string& sound, int thing_num )
 {
 	int i;
 	shared_ptr<W_Thing> thing;
-	S_Sound *returnVal;
+	S_SoundInstance *returnVal;
 
 	thing = currentLevel.things[thing_num];
 	if( thing )

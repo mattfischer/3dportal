@@ -4,6 +4,7 @@
 #include <string>
 
 class S_Sound;
+class S_SoundInstance;
 class W_Thing;
 
 using std::string;
@@ -23,7 +24,7 @@ struct S_SoundClass
 public:
 	S_SoundClass( const string& filename );
 
-	S_Sound *Play( const string& sound, int thing );
+	S_SoundInstance *Play( const string& sound, int thing );
 
 protected:
 	int numEntries;

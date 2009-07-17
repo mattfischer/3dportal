@@ -390,9 +390,9 @@ bool W_Thing::WasAttached()
 
 void W_Thing::Destroy()
 {
-    for(int i=0; i<sounds.size(); i++) 
+    for(int i=0; i<soundInstances.size(); i++) 
     {
-        sounds[i]->Stop();
+        soundInstances[i]->Stop();
     }
 	sector->RemoveThing( this );
 	currentLevel.things[num] = shared_ptr<W_Thing> ();
@@ -525,18 +525,18 @@ void W_Thing::playKey( Jk::Key *key, int flags )
     keyInstance = Jk::Key::Instance(key, 0, flags);
 }
 
-void W_Thing::addSound( S_Sound *sound )
+void W_Thing::addSoundInstance( S_SoundInstance *instance )
 {
-    sounds.push_back( sound );
+    soundInstances.push_back( instance );
 }
 
-void W_Thing::removeSound( S_Sound *sound )
+void W_Thing::removeSoundInstance( S_SoundInstance *instance )
 {
-    for(int i=0; i<sounds.size(); i++) 
+    for(int i=0; i<soundInstances.size(); i++) 
     {
-        if(sounds[i] == sound)
+        if(soundInstances[i] == instance)
         {
-            sounds.erase(sounds.begin() + i);
+            soundInstances.erase(soundInstances.begin() + i);
             break;
         }
     }
