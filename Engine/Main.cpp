@@ -111,7 +111,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,LPSTR Cmdline,int nShow)
 	ScreenY=rect.bottom-rect.top;*/
 
 	if(!R_OpenGL_Initialize(hWnd)) return 0;
-	S_Initialize(hWnd);
+    Sound::Initialize(hWnd);
 	G_Initialize();
 
 	ShowCursor(FALSE);

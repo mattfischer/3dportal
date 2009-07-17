@@ -363,7 +363,7 @@ void C_Script::SetupSymbolTable( C_ASTNode *symbolsNode )
 
 			case C_TYPE_KEYFRAME: 
                 {
-                    string filename = U_Lowercase( (char*)node->children[0]->lexData );
+                    string filename = Util::Lowercase( (char*)node->children[0]->lexData );
                     int index = currentLevel.keyframes.index( filename );
                     if( index == -1 )
                     {
@@ -376,7 +376,7 @@ void C_Script::SetupSymbolTable( C_ASTNode *symbolsNode )
 
 			case C_TYPE_MODEL: 
                 {
-                    string filename = U_Lowercase( (char*)node->children[0]->lexData );
+                    string filename = Util::Lowercase( (char*)node->children[0]->lexData );
                     int index = currentLevel.models.index( filename );
                     if( index == -1 )
                     {
@@ -389,11 +389,11 @@ void C_Script::SetupSymbolTable( C_ASTNode *symbolsNode )
 
 			case C_TYPE_SOUND: 
                 {
-                    string filename = U_Lowercase( (char*)node->children[0]->lexData );
+                    string filename = Util::Lowercase( (char*)node->children[0]->lexData );
                     int index = currentLevel.sounds.index( filename );
                     if( index == -1 )
                     {
-                        currentLevel.sounds.push_back( new S_Sound( filename ), filename );
+                        currentLevel.sounds.push_back( new Sound::Buffer( filename ), filename );
                         index = currentLevel.sounds.index( filename );
                     }
 				    *(int*)symbols[i].data = index;

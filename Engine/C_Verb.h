@@ -25,7 +25,7 @@ C_Type_Void SectorAdjoins( C_Type_Sector sector_num, C_Type_Int status );
 C_Type_Void SetSectorLight( C_Type_Sector sector_num, C_Type_Flex light, C_Type_Flex delay );
 C_Type_Void SectorLight( C_Type_Sector sector_num, C_Type_Flex light, C_Type_Flex delay );
 
-/* -------- C_Verbs_Sound.cpp -------- */
+/* -------- C_VerbSound::Buffer.cpp -------- */
 C_Type_Int PlaySoundLocal( C_Type_Sound sound_num, C_Type_Flex volume, C_Type_Flex pan, C_Type_Int flags );
 C_Type_Int PlaySoundPos( C_Type_Sound sound_num, C_Type_Vector position, C_Type_Flex volume, C_Type_Flex minDistance, C_Type_Flex maxDistance, C_Type_Int flags );
 C_Type_Int PlaySoundThing( C_Type_Sound sound_num, C_Type_Thing thing_num, C_Type_Flex volume, C_Type_Flex minDistance, C_Type_Flex maxDistance, C_Type_Int flags ); 

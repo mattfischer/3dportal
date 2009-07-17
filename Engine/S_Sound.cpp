@@ -3,136 +3,141 @@
 #include "JK_GOB.h"
 #include <windows.h>
 
-S_Sound::~S_Sound()
+namespace Sound
 {
-	lpDSB->Release();
-}
+    extern LPDIRECTSOUND lpDS;
 
-S_Sound::S_Sound( const string& filename )
-{
-	WAVEFORMATEX wfx;
-	DSBUFFERDESC desc;
-	DWORD numBytes;
-	LPVOID lock1, lock2;
-	DWORD lockLen1, lockLen2;
-	char *cursor;
-	char *data;
-	int size;
-	string fullname;
-	bool found;
+    Buffer::~Buffer()
+    {
+	    lpDSB->Release();
+    }
 
-	fullname = "sound\\" + filename;
-	found = false;
-    if( Jk::Gob::getFile( fullname, &data, &size ) )
-		found = true;
-	else
-	{
-		fullname = "voice\\" + filename;
-        if( Jk::Gob::getFile( fullname, &data, &size ) ) found = true;
-		else found = false;
-	}
+    Buffer::Buffer( const string& filename )
+    {
+	    WAVEFORMATEX wfx;
+	    DSBUFFERDESC desc;
+	    DWORD numBytes;
+	    LPVOID lock1, lock2;
+	    DWORD lockLen1, lockLen2;
+	    char *cursor;
+	    char *data;
+	    int size;
+	    string fullname;
+	    bool found;
 
-	if( !found )
-	{
-		return;
-	}
+	    fullname = "sound\\" + filename;
+	    found = false;
+        if( Jk::Gob::getFile( fullname, &data, &size ) )
+		    found = true;
+	    else
+	    {
+		    fullname = "voice\\" + filename;
+            if( Jk::Gob::getFile( fullname, &data, &size ) ) found = true;
+		    else found = false;
+	    }
 
-	cursor = data+20;
-	memcpy( &wfx, cursor, sizeof( WAVEFORMATEX ) - 2 );
-	wfx.cbSize = sizeof( WAVEFORMATEX );
-	cursor += sizeof( WAVEFORMATEX ) - 2;
+	    if( !found )
+	    {
+		    return;
+	    }
 
-	cursor += 4;
-	desc.dwSize = sizeof( DSBUFFERDESC );
-	numBytes = *( DWORD* )( cursor );
-	desc.dwBufferBytes = numBytes;
-	desc.lpwfxFormat = &wfx;
-	desc.dwFlags = DSBCAPS_CTRLPAN | DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLFREQUENCY | DSBCAPS_GLOBALFOCUS; 
-	desc.dwReserved = 0;
-	desc.guid3DAlgorithm = DS3DALG_DEFAULT;
+	    cursor = data+20;
+	    memcpy( &wfx, cursor, sizeof( WAVEFORMATEX ) - 2 );
+	    wfx.cbSize = sizeof( WAVEFORMATEX );
+	    cursor += sizeof( WAVEFORMATEX ) - 2;
 
-	cursor += 4;
+	    cursor += 4;
+	    desc.dwSize = sizeof( DSBUFFERDESC );
+	    numBytes = *( DWORD* )( cursor );
+	    desc.dwBufferBytes = numBytes;
+	    desc.lpwfxFormat = &wfx;
+	    desc.dwFlags = DSBCAPS_CTRLPAN | DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLFREQUENCY | DSBCAPS_GLOBALFOCUS; 
+	    desc.dwReserved = 0;
+	    desc.guid3DAlgorithm = DS3DALG_DEFAULT;
 
-	lpDS->CreateSoundBuffer( &desc, &lpDSB, NULL );
-	
-	lpDSB->Lock( 0, 0, &lock1, &lockLen1, &lock2, &lockLen2, DSBLOCK_ENTIREBUFFER );
-	memcpy( lock1, cursor, numBytes );
-	lpDSB->Unlock( lock1, lockLen1, lock2, lockLen2 );
-}
+	    cursor += 4;
 
-LPDIRECTSOUNDBUFFER S_Sound::buffer()
-{
-    return lpDSB;
-}
+	    lpDS->CreateSoundBuffer( &desc, &lpDSB, NULL );
+    	
+	    lpDSB->Lock( 0, 0, &lock1, &lockLen1, &lock2, &lockLen2, DSBLOCK_ENTIREBUFFER );
+	    memcpy( lock1, cursor, numBytes );
+	    lpDSB->Unlock( lock1, lockLen1, lock2, lockLen2 );
+    }
 
-S_SoundInstance::S_SoundInstance(S_Sound *s)
-{
-    snd = s;
+    void Buffer::duplicateBuffer(LPDIRECTSOUNDBUFFER *buffer)
+    {
+        lpDS->DuplicateSoundBuffer(lpDSB, buffer);
+    }
 
-    lpDS->DuplicateSoundBuffer(s->buffer(), &lpDSB);
+    Track::Track(Buffer *b)
+    {
+        buf = b;
 
-	status = S_READY;
-}
+        b->duplicateBuffer(&lpDSB);
 
-S_SoundInstance::~S_SoundInstance()
-{
-	lpDSB->Release();
-}
+	    status = STATE_READY;
+    }
 
-S_Sound *S_SoundInstance::sound()
-{
-    return snd;
-}
+    Track::~Track()
+    {
+	    lpDSB->Release();
+    }
 
-void S_SoundInstance::Play(bool l)
-{
-	if(status==S_READY)
-	{
-		loop=l;
-		status=S_PENDING_START;
-	}
-}
+    Buffer *Track::buffer()
+    {
+        return buf;
+    }
 
-void S_SoundInstance::Stop()
-{
-	if(status==S_PLAYING) status=S_PENDING_STOP;
-	else if(status==S_PENDING_START) status=S_STOPPED;
-}
+    void Track::Play(bool l)
+    {
+	    if(status==STATE_READY)
+	    {
+		    loop=l;
+		    status=STATE_PENDING_START;
+	    }
+    }
 
-void S_SoundInstance::SetVolume(float v)
-{
-	volume=v;
-}
+    void Track::Stop()
+    {
+	    if(status==STATE_PLAYING) status=STATE_PENDING_STOP;
+	    else if(status==STATE_PENDING_START) status=STATE_STOPPED;
+    }
 
-void S_SoundInstance::SetPan(float p)
-{
-	pan=p;
-}
+    void Track::SetVolume(float v)
+    {
+	    volume=v;
+    }
 
-S_PlayState S_SoundInstance::GetStatus()
-{
-	return status;
-}
+    void Track::SetPan(float p)
+    {
+	    pan=p;
+    }
 
-void S_SoundInstance::Update()
-{
-	DWORD bufferStatus;
+    Track::PlayState Track::GetStatus()
+    {
+	    return status;
+    }
 
-	lpDSB->SetVolume(-4000*(1-volume));
-	lpDSB->SetPan(10000*pan);
+    void Track::Update()
+    {
+	    DWORD bufferStatus;
 
-	switch(status)
-	{
-	case S_PENDING_START:
-		lpDSB->Play(0,0, loop?DSBPLAY_LOOPING:0);
-		status=S_PLAYING;
-		break;
-	case S_PENDING_STOP:
-		lpDSB->Stop();
-		status=S_STOPPED;
-		break;
-	}
+	    lpDSB->SetVolume(-4000*(1-volume));
+	    lpDSB->SetPan(10000*pan);
 
-	lpDSB->GetStatus(&bufferStatus);
-	if(!(bufferStatus&DSBSTATUS_PLAYING)) status=S_STOPPED;
+	    switch(status)
+	    {
+	    case STATE_PENDING_START:
+		    lpDSB->Play(0,0, loop?DSBPLAY_LOOPING:0);
+		    status=STATE_PLAYING;
+		    break;
+	    case STATE_PENDING_STOP:
+		    lpDSB->Stop();
+		    status=STATE_STOPPED;
+		    break;
+	    }
+
+	    lpDSB->GetStatus(&bufferStatus);
+	    if(!(bufferStatus&DSBSTATUS_PLAYING)) status=STATE_STOPPED;
+    }
 }

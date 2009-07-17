@@ -79,7 +79,7 @@ namespace Jk
 		    line = parser.getLine( error );
 
 		    line.matchString( "MESH NAME", error );
-		    nodes[i].name = U_Lowercase( line.getString( error ) );
+		    nodes[i].name = Util::Lowercase( line.getString( error ) );
 
 		    line = parser.getLine( error );
 		    line.matchString( "ENTRIES", error );

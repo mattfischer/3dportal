@@ -96,7 +96,12 @@ C_Type_Float GetHealth( C_Type_Thing thing_num )
 
 C_Type_Void DestroyThing( C_Type_Thing thing_num )
 {
-	currentLevel.things[thing_num] = shared_ptr<W_Thing>();
+    boost::shared_ptr<W_Thing> thing = currentLevel.things[thing_num];
+
+    if(thing) 
+    {
+        thing->Destroy();
+    }
 }
 
 C_Type_Thing CreateThing( C_Type_Thing template_num, C_Type_Thing position_num )

@@ -14,200 +14,198 @@
 
 #include <vector>
 
-enum S_PlayType { S_LOCAL, S_THING, S_POS };
+#include <boost/weak_ptr.hpp>
 
-struct S_PlayItem
-{
-	S_PlayType type;
-	S_SoundInstance *instance;
-	float volume;
-	float minDist;
-	float maxDist;
-
-	float localPan;
-
-    boost::shared_ptr<W_Thing> thing;
-
-	M_Vector position;
-
-	S_PlayItem *next;
-};
-
-LPDIRECTSOUND lpDS;
-std::vector<S_PlayItem*> items;
-S_SoundInstance *sectorSound;
-CRITICAL_SECTION critSec;
 extern shared_ptr<W_Thing> player;
 
-void S_Initialize( HWND hWnd )
+namespace Sound
 {
-	DirectSoundCreate( NULL, &lpDS, NULL );
-	lpDS->SetCooperativeLevel( hWnd, DSSCL_PRIORITY );
+    enum PlayType { PLAY_LOCAL, PLAY_THING, PLAY_POS };
 
-	InitializeCriticalSection( &critSec );
-}
+    struct PlayItem
+    {
+	    PlayType type;
+	    Sound::Track *track;
+	    float volume;
+	    float minDist;
+	    float maxDist;
+
+	    float localPan;
+
+        boost::weak_ptr<W_Thing> thing;
+
+	    M_Vector position;
+
+	    PlayItem *next;
+    };
+
+    LPDIRECTSOUND lpDS;
+    std::vector<PlayItem*> items;
+    Sound::Track *sectorTrack;
+    CRITICAL_SECTION critSec;
+
+    void Initialize( HWND hWnd )
+    {
+	    DirectSoundCreate( NULL, &lpDS, NULL );
+	    lpDS->SetCooperativeLevel( hWnd, DSSCL_PRIORITY );
+
+	    InitializeCriticalSection( &critSec );
+    }
 
 
-void S_Update()
-{
-	M_Vector distance, direction;
-	float volume;
-	float magnitude;
-	M_Vector position;
-	shared_ptr<W_Thing> thing;
-	unsigned int i;
+    void Update()
+    {
+	    M_Vector distance, direction;
+	    float volume;
+	    float magnitude;
+	    M_Vector position;
+	    shared_ptr<W_Thing> thing;
+	    unsigned int i;
 
-	EnterCriticalSection( &critSec );
-	player->GetSector()->PlaySectorSound();
+	    EnterCriticalSection( &critSec );
+	    player->GetSector()->PlaySectorSound();
 
-	for( i = 0 ; i < items.size() ; i++ )
-	{
-		switch( items[i]->type )
-		{
-		case S_THING:
-		case S_POS:
-			distance = items[i]->position - player->GetPosition();
-			magnitude = distance.Magnitude();
-			if( magnitude < items[i]->minDist ) volume = 1;
-			else if( magnitude > items[i]->maxDist ) volume = 0;
-			else volume = ( ( items[i]->maxDist - magnitude ) / ( items[i]->maxDist - items[i]->minDist ) );
+	    for( i = 0 ; i < items.size() ; i++ )
+	    {
+		    switch( items[i]->type )
+		    {
+		    case PLAY_THING:
+		    case PLAY_POS:
+			    distance = items[i]->position - player->GetPosition();
+			    magnitude = distance.Magnitude();
+			    if( magnitude < items[i]->minDist ) volume = 1;
+			    else if( magnitude > items[i]->maxDist ) volume = 0;
+			    else volume = ( ( items[i]->maxDist - magnitude ) / ( items[i]->maxDist - items[i]->minDist ) );
 
-			items[i]->instance->SetVolume( volume * items[i]->volume);
+			    items[i]->track->SetVolume( volume * items[i]->volume);
 
-			direction = M_Vector( cos( player->GetCompositeRotation().y * 3.14 / 180 ) , sin( player->GetCompositeRotation().y * 3.14 / 180 ), 0 );
-			distance.Normalize();
-			items[i]->instance->SetPan( distance * direction * .8 * ( 1 - volume ) );
-			
-			if( items[i]->type == S_THING )
-			{
-				thing = items[i]->thing;
-				if( thing )
-				{
-					items[i]->position = thing->GetPosition();
-				}
-			}
-			break;
-		}
+			    direction = M_Vector( cos( player->GetCompositeRotation().y * 3.14 / 180 ) , sin( player->GetCompositeRotation().y * 3.14 / 180 ), 0 );
+			    distance.Normalize();
+			    items[i]->track->SetPan( distance * direction * .8 * ( 1 - volume ) );
+    			
+			    if( items[i]->type == PLAY_THING )
+			    {
+				    thing = items[i]->thing.lock();
+				    if( thing )
+				    {
+					    items[i]->position = thing->GetPosition();
+				    }
+			    }
+			    break;
+		    }
 
-		items[i]->instance->Update();	
+		    items[i]->track->Update();	
 
-		if( items[i]->instance->GetStatus() == S_STOPPED )
-		{
-            boost::shared_ptr<W_Thing> thing = items[i]->thing;
-            if( thing )
-            {
-                thing->removeSoundInstance( items[i]->instance );
-                items[i]->thing = boost::shared_ptr<W_Thing> ();
-            }
-			delete items[i]->instance;
-			items.erase( items.begin() + i );
-			i--;
-		}
-	}
-	LeaveCriticalSection( &critSec );
-}
+            if( items[i]->track->GetStatus() == Sound::Track::STATE_STOPPED )
+		    {
+			    delete items[i]->track;
+			    items.erase( items.begin() + i );
+			    i--;
+		    }
+	    }
+	    LeaveCriticalSection( &critSec );
+    }
 
-void S_PlayLocal( S_Sound *sound, float volume, float pan )
-{
-	S_PlayItem *newItem;
-	bool done;
+    void PlayLocal( Sound::Buffer *buffer, float volume, float pan )
+    {
+	    PlayItem *newItem;
+	    bool done;
 
-	EnterCriticalSection( &critSec );
+	    EnterCriticalSection( &critSec );
 
-	newItem = new S_PlayItem;
-	newItem->type = S_LOCAL;
-	newItem->instance = new S_SoundInstance( sound );
-	newItem->volume = volume;
-	newItem->localPan = pan;
+	    newItem = new PlayItem;
+	    newItem->type = PLAY_LOCAL;
+	    newItem->track = new Sound::Track( buffer );
+	    newItem->volume = volume;
+	    newItem->localPan = pan;
 
-	newItem->instance->SetVolume( volume );
-	newItem->instance->SetPan( pan );
-	newItem->instance->Play( false );
-	
-	items.push_back( newItem );
-	
-	LeaveCriticalSection( &critSec );
-}
+	    newItem->track->SetVolume( volume );
+	    newItem->track->SetPan( pan );
+	    newItem->track->Play( false );
+    	
+	    items.push_back( newItem );
+    	
+	    LeaveCriticalSection( &critSec );
+    }
 
-S_SoundInstance *S_PlayThing( S_Sound *sound, shared_ptr<W_Thing> thing, bool loop, float volume, float minDist, float maxDist )
-{
-	S_PlayItem *newItem;
-	bool done;
+    Sound::Track *PlayThing( Sound::Buffer *buffer, shared_ptr<W_Thing> thing, bool loop, float volume, float minDist, float maxDist )
+    {
+	    PlayItem *newItem;
+	    bool done;
 
-	if( thing == NULL ) return NULL;
-	if( sound == NULL ) return NULL;
+	    if( thing == NULL ) return NULL;
+	    if( buffer == NULL ) return NULL;
 
-	if( minDist < 0 ) minDist = .5;
-	if( maxDist < 0 ) maxDist = 2.5;
-	
-	newItem = new S_PlayItem;
-	newItem->type = S_THING;
-	newItem->instance = new S_SoundInstance( sound );
-	newItem->thing = thing;
-	newItem->position = thing->GetPosition();
-	newItem->volume = volume;
-	newItem->minDist = minDist;
-	newItem->maxDist = maxDist;
-	newItem->instance->Play( loop );
-	
-    thing->addSoundInstance( newItem->instance );
+	    if( minDist < 0 ) minDist = .5;
+	    if( maxDist < 0 ) maxDist = 2.5;
+    	
+	    newItem = new PlayItem;
+	    newItem->type = PLAY_THING;
+	    newItem->track = new Sound::Track( buffer );
+	    newItem->thing = thing;
+	    newItem->position = thing->GetPosition();
+	    newItem->volume = volume;
+	    newItem->minDist = minDist;
+	    newItem->maxDist = maxDist;
+	    newItem->track->Play( loop );
+    	
+	    EnterCriticalSection( &critSec );
 
-	EnterCriticalSection( &critSec );
+	    items.push_back( newItem );
 
-	items.push_back( newItem );
+	    LeaveCriticalSection( &critSec );
 
-	LeaveCriticalSection( &critSec );
+	    return newItem->track;
+    }
 
-	return newItem->instance;
-}
+    void PlayPos( Sound::Buffer *buffer, M_Vector position, float volume, float minDist, float maxDist )
+    {
+	    PlayItem *newItem;
+	    bool done;
 
-void S_PlayPos( S_Sound *sound, M_Vector position, float volume, float minDist, float maxDist )
-{
-	S_PlayItem *newItem;
-	bool done;
+	    if( minDist < 0 ) minDist = .5;
+	    if( maxDist < 0 ) maxDist = 2.5;
 
-	if( minDist < 0 ) minDist = .5;
-	if( maxDist < 0 ) maxDist = 2.5;
+	    newItem = new PlayItem;
+	    newItem->type = PLAY_POS;
+	    newItem->minDist = minDist;
+	    newItem->maxDist = maxDist;
+	    newItem->track = new Sound::Track( buffer );
+	    newItem->position = position;
+	    newItem->volume = volume;
+	    newItem->track->Play( false );
+    	
+	    EnterCriticalSection( &critSec );
 
-	newItem = new S_PlayItem;
-	newItem->type = S_POS;
-	newItem->minDist = minDist;
-	newItem->maxDist = maxDist;
-	newItem->instance = new S_SoundInstance( sound );
-	newItem->position = position;
-	newItem->volume = volume;
-	newItem->instance->Play( false );
-	
-	EnterCriticalSection( &critSec );
+	    items.push_back( newItem );
 
-	items.push_back( newItem );
+	    LeaveCriticalSection( &critSec );
+    }
 
-	LeaveCriticalSection( &critSec );
-}
-
-void S_PlaySector( S_Sound *sound, float volume )
-{
-	if( sectorSound->sound() != sound )
-	{
-		if( sectorSound != NULL )
-		{
-			sectorSound->Stop();
-			sectorSound->Update();
-			delete sectorSound;
-			sectorSound = NULL;
-		}
-				
-		if( sound != NULL )
-		{
-			sectorSound = new S_SoundInstance( sound );
-			sectorSound->SetVolume( volume );
-			sectorSound->Play( true );
-			sectorSound->Update();
-		}
-	}
-	else if( sectorSound != NULL )
-	{
-		sectorSound->SetVolume( volume );
-		sectorSound->Update();
-	}
+    void PlaySector( Sound::Buffer *buffer, float volume )
+    {
+	    if( sectorTrack == NULL || sectorTrack->buffer() != buffer )
+	    {
+		    if( sectorTrack != NULL )
+		    {
+			    sectorTrack->Stop();
+			    sectorTrack->Update();
+			    delete sectorTrack;
+			    sectorTrack = NULL;
+		    }
+    				
+		    if( buffer != NULL )
+		    {
+			    sectorTrack = new Sound::Track( buffer );
+			    sectorTrack->SetVolume( volume );
+			    sectorTrack->Play( true );
+			    sectorTrack->Update();
+		    }
+	    }
+	    else if( sectorTrack != NULL )
+	    {
+		    sectorTrack->SetVolume( volume );
+		    sectorTrack->Update();
+	    }
+    }
 }

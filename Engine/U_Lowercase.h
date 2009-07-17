@@ -4,6 +4,9 @@
 #include <string>
 using std::string;
 
-string U_Lowercase( string input );
+namespace Util
+{
+    string Lowercase( string input );
+}
 
 #endif

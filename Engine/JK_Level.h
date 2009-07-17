@@ -20,8 +20,11 @@ class W_Thing;
 class R_Model;
 struct R_Texture;
 class C_Script;
-class S_Sound;
-class S_SoundClass;
+namespace Sound
+{
+    class Buffer;
+    class Class;
+}
 class JK_Colormap;
 class W_Thing;
 class R_Sprite;
@@ -39,8 +42,8 @@ namespace Jk
         Util::VectorMap<R_Texture*> textures;
 	    Util::VectorMap<JK_Colormap*> colormaps;
 	    Util::VectorMap<C_Script*> cogScripts;
-	    Util::VectorMap<S_Sound*> sounds;
-	    Util::VectorMap<S_SoundClass*> soundClasses;
+	    Util::VectorMap<Sound::Buffer*> sounds;
+	    Util::VectorMap<Sound::Class*> soundClasses;
 	    Util::VectorMap<R_Model*> models;
         Util::VectorMap<Jk::Key*> keyframes;
         Util::VectorMap<Jk::AnimClass*> animClasses;

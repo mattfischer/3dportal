@@ -77,5 +77,5 @@ void W_Sector::SetLight(float l)
 
 void W_Sector::PlaySectorSound()
 {
-	S_PlaySector(sound, soundVolume);
+    Sound::PlaySector(sound, soundVolume);
 }

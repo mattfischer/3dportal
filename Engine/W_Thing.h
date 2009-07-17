@@ -25,8 +25,11 @@ class R_Model;
 struct R_Node;
 struct R_Frustum;
 class W_Surface;
-struct S_SoundClass;
-class S_SoundInstance;
+namespace Sound
+{
+    class Class;
+    class Track;
+}
 class C_Script;
 
 struct W_Frame {
@@ -100,8 +103,8 @@ public:
 
     int GetNum();
 
-    void addSoundInstance( S_SoundInstance *instance );
-    void removeSoundInstance( S_SoundInstance *instance );
+    void addSound( Sound::Track *track );
+    void removeSound( Sound::Track *track );
 
 	// P_Thing.cpp
 	static void UpdateThings( float time );
@@ -169,7 +172,7 @@ protected:
 	int collide;
 	float jumpVelocity;
 
-	S_SoundClass *soundClass;
+	Sound::Class *soundClass;
 	M_Vector orient;
 
 	M_Vector insertOffset;
@@ -196,7 +199,7 @@ protected:
 	vector<W_Frame> frames;
 	vector<C_Script*> cogLinks;
 
-	S_SoundInstance *moveSound;
+	Sound::Track *moveSound;
 	LONG walkTimer;
 	int walkSide;
 
@@ -213,9 +216,10 @@ protected:
 
 	LONG killTime;
 
-    std::vector<S_SoundInstance*> soundInstances;
+    std::vector<Sound::Track*> sounds;
 
     int num;
+    bool pendingDestroy;
 
 	// P_Thing.cpp
 	void UpdatePath(float time);
@@ -225,6 +229,7 @@ protected:
 	// W_Thing.cpp
 	void DoFoley();
 	int GetSurfaceType();
+    void RealDestroy();
 };
 
 #endif

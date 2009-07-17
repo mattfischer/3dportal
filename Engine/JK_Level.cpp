@@ -152,7 +152,7 @@ void JK_Level_Load(const string& name)
 		}
 
 		filename = line.getString( error );
-		currentLevel.sounds.push_back( new S_Sound( filename ), filename );
+		currentLevel.sounds.push_back( new Sound::Buffer( filename ), filename );
 	}
 
 	// =====================================================================
@@ -176,7 +176,7 @@ void JK_Level_Load(const string& name)
 
 		line.getFloat( error );
 
-		filename = U_Lowercase( line.getString( error ) );
+		filename = Util::Lowercase( line.getString( error ) );
 		
 		currentLevel.textures.push_back( new R_Texture( filename ), filename );
 		textureNames[i] = filename;
@@ -556,7 +556,7 @@ void JK_Level_Load(const string& name)
 		line.getInt( error );
 
 		filename = line.getString( error );
-		currentLevel.soundClasses.push_back( new S_SoundClass( filename ), filename );
+		currentLevel.soundClasses.push_back( new Sound::Class( filename ), filename );
 	}
 
 // =====================================================================

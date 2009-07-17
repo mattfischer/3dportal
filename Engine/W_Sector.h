@@ -17,7 +17,10 @@ class W_Surface;
 struct R_Frustum;
 class M_Vector;
 class C_Script;
-class S_Sound;
+namespace Sound
+{
+    class Buffer;
+}
 
 class W_Sector {
 	
@@ -67,7 +70,7 @@ protected:
 	vector<W_Thing*> things;
 	vector<C_Script*> cogLinks;
 
-	S_Sound *sound;
+	Sound::Buffer *sound;
 	float soundVolume;
 
 	bool renderAdjoins;

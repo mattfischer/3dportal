@@ -54,6 +54,8 @@ W_Thing::W_Thing(Jk::Template *t, M_Vector p, M_Vector r, W_Sector *s)
 	spriteTime = 0;
 
 	killTime = -1;
+
+    pendingDestroy = false;
 }
 
 W_Thing::W_Thing(W_Thing &c) 
@@ -195,7 +197,7 @@ void W_Thing::SetRotation(M_Vector r)
 	delta=r-rotation;
 	
     rotation = r;
-    velocity = U_Matrix::RotateZ(delta.y) * U_Matrix::RotateX(delta.x) * velocity;
+    velocity = Util::Matrix::RotateZ(delta.y) * Util::Matrix::RotateX(delta.x) * velocity;
 }
 
 W_Sector *W_Thing::GetSector()
@@ -390,11 +392,13 @@ bool W_Thing::WasAttached()
 
 void W_Thing::Destroy()
 {
-    for(int i=0; i<soundInstances.size(); i++) 
-    {
-        soundInstances[i]->Stop();
-    }
-	sector->RemoveThing( this );
+    pendingDestroy = true;
+}
+
+void W_Thing::RealDestroy()
+{
+    sector->RemoveThing( this );
+    sector = NULL;
 	currentLevel.things[num] = shared_ptr<W_Thing> ();
 }
 
@@ -509,35 +513,8 @@ int W_Thing::GetSurfaceType()
 	return surfaceType;
 }
 
-/*
-void W_Thing::Lock()
-{
-	EnterCriticalSection(&critSec);
-}
-
-void W_Thing::Unlock()
-{
-	LeaveCriticalSection(&critSec);
-}*/
-
 void W_Thing::playKey( Jk::Key *key, int flags )
 {
     keyInstance = Jk::Key::Instance(key, 0, flags);
 }
 
-void W_Thing::addSoundInstance( S_SoundInstance *instance )
-{
-    soundInstances.push_back( instance );
-}
-
-void W_Thing::removeSoundInstance( S_SoundInstance *instance )
-{
-    for(int i=0; i<soundInstances.size(); i++) 
-    {
-        if(soundInstances[i] == instance)
-        {
-            soundInstances.erase(soundInstances.begin() + i);
-            break;
-        }
-    }
-}

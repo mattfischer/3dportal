@@ -60,7 +60,7 @@ R_Model::R_Model( const string& filename )
 
 		line.getFloat( error );
 
-		matName = U_Lowercase( line.getString( error ) );
+        matName = Util::Lowercase( line.getString( error ) );
 		textureNames[i] = matName;
 	}
 
@@ -96,7 +96,7 @@ R_Model::R_Model( const string& filename )
 			
 			line = parser.getLine( error );
 			line.matchString( "NAME", error );
-			geoSets[g].meshes[m].name = U_Lowercase( line.getString( error ) );
+			geoSets[g].meshes[m].name = Util::Lowercase( line.getString( error ) );
 
 			parser.getLine( error );
 			parser.getLine( error );
@@ -252,7 +252,7 @@ R_Model::R_Model( const string& filename )
 		nodes[i].node.pivot.y = line.getFloat( error );
 		nodes[i].node.pivot.z = line.getFloat( error );
 		
-		nodes[i].node.name = U_Lowercase( line.getString( error ) );
+		nodes[i].node.name = Util::Lowercase( line.getString( error ) );
 
 		nodes[i].node.mesh = nodes[i].mesh;
 		nodes[i].node.numChildren = nodes[i].numChildren;

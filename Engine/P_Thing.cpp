@@ -434,9 +434,9 @@ void W_Thing::UpdateForces( float time )
 		nudge = M_Vector( 0, 0, 0 );
 	}
 
-	sector->SurfaceCollisions( this, NULL );
-	sector->ThingSurfaceCollisions( this, NULL );
-	sector->UpdateThingSector( this, oldPosition );
+    sector->SurfaceCollisions( this, NULL );
+    sector->ThingSurfaceCollisions( this, NULL );
+    sector->UpdateThingSector( this, oldPosition );
 
 	if( attachFlags & (JK_ATTACH_WORLD_SURFACE | JK_ATTACH_THING_FACE ) )
 	{
@@ -451,7 +451,7 @@ void W_Thing::UpdateForces( float time )
 		acceleration -= velocity * airDrag;
 	}
 
-	sector->ThingCollisions( this, NULL);
+    sector->ThingCollisions( this, NULL);
 }
 
 void W_Thing::UpdateFinalize(float time)
@@ -493,7 +493,8 @@ void W_Thing::UpdateFinalize(float time)
 
 	position=position+velocity*time;
 	
-	sector->UpdateThingSector( this, oldPosition);
+    sector->UpdateThingSector( this, oldPosition);
+
 	acceleration=M_Vector(0,0,0);
 	thrusting=false;
 
@@ -521,6 +522,11 @@ void W_Thing::UpdateFinalize(float time)
 	{
 		Destroy();
 	}
+
+    if( pendingDestroy )
+    {
+        RealDestroy();
+    }
 }
 
 void W_Thing::ArrestMotion(M_Vector normal)

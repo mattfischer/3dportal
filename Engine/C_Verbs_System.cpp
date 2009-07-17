@@ -38,8 +38,7 @@ C_Type_Void TakeItem( C_Type_Thing thing_num, C_Type_Thing player_num )
 	if( thing )
 	{
 		thing->SendCogMessages( "taken", player_num, true );
-
-		currentLevel.things[thing_num] = shared_ptr<W_Thing>();
+		thing->Destroy();
 	}
 }
 

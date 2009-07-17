@@ -29,7 +29,7 @@ namespace Jk
 
             while(1)
             {
-                line = Jk::Parser::Line(U_Lowercase( line.line() ) );
+                line = Jk::Parser::Line(Util::Lowercase( line.line() ) );
 
                 line.matchString( "mode=", error );
                 if( !error )
@@ -73,7 +73,7 @@ namespace Jk
                 line = parser.getLine( error );
                 if( error ) break;
 
-                line = Jk::Parser::Line(U_Lowercase( line.line() ) );
+                line = Jk::Parser::Line(Util::Lowercase( line.line() ) );
 
                 line.matchString( "mode=", error );
                 if( !error )

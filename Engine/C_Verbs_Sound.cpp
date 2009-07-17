@@ -9,7 +9,7 @@ using boost::shared_ptr;
 
 C_Type_Int PlaySoundLocal( C_Type_Sound sound_num, C_Type_Flex volume, C_Type_Flex pan, C_Type_Int flags) // ****
 {
-	S_PlayLocal( currentLevel.sounds[sound_num], volume, pan );
+    Sound::PlayLocal( currentLevel.sounds[sound_num], volume, pan );
 	return 0;
 }
 		
@@ -18,7 +18,7 @@ C_Type_Int PlaySoundPos( C_Type_Sound sound_num, C_Type_Vector position, C_Type_
 	if( minDistance != -1 ) minDistance /= 10;
 	if( maxDistance != -1 ) maxDistance /= 10;
 
-	S_PlayPos( currentLevel.sounds[sound_num], position, volume, minDistance, maxDistance );
+    Sound::PlayPos( currentLevel.sounds[sound_num], position, volume, minDistance, maxDistance );
 	return 0;
 }
 
@@ -32,7 +32,7 @@ C_Type_Int PlaySoundThing( C_Type_Sound sound_num, C_Type_Thing thing_num, C_Typ
 	thing = currentLevel.things[thing_num];
 	if( thing && sound_num != -1 )
 	{
-		S_PlayThing( currentLevel.sounds[sound_num], thing, false, volume, minDistance, maxDistance );
+        Sound::PlayThing( currentLevel.sounds[sound_num], thing, false, volume, minDistance, maxDistance );
 	}
 	return 0;
 }

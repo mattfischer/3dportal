@@ -3,32 +3,37 @@
 
 #include <string>
 
-class S_Sound;
-class S_SoundInstance;
 class W_Thing;
 
 using std::string;
 
-struct S_ClassEntry
+namespace Sound
 {
-	string name;
-	S_Sound *sound;
-	int flags;
-	float minDist;
-	float maxDist;
-	float volume;
-};
+    class Buffer;
+    class Track;
 
-struct S_SoundClass
-{
-public:
-	S_SoundClass( const string& filename );
+    struct Class
+    {
+    public:
+	    Class( const string& filename );
 
-	S_SoundInstance *Play( const string& sound, int thing );
+	    Sound::Track *Play( const string& sound, int thing );
 
-protected:
-	int numEntries;
-	S_ClassEntry *entries;
-};
+    protected:
+	    int numEntries;
+
+        struct Entry
+        {
+	        string name;
+	        Sound::Buffer *sound;
+	        int flags;
+	        float minDist;
+	        float maxDist;
+	        float volume;
+        };
+
+	    Entry *entries;
+    };
+}
 
 #endif

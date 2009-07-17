@@ -101,7 +101,7 @@ void G_GameLoop()
 
 	I_Process(average);
 	W_Thing::UpdateThings(average);
-	S_Update();
+    Sound::Update();
 	R_Frame_Render(average);
 	
 	frames++;

@@ -54,12 +54,12 @@ C_Type_Thing FireProjectile( C_Type_Thing thing_num, C_Type_Template template_nu
 	if( thing )
 		rotation = thing->GetRotation();
 
-    fireOffset = U_Matrix::RotateZ(rotation.y) * U_Matrix::RotateX(rotation.x) * offset;
+    fireOffset = Util::Matrix::RotateZ(rotation.y) * Util::Matrix::RotateX(rotation.x) * offset;
 	int thingNum = W_Thing::Create( currentLevel.templates[template_num], thing->GetPosition() + fireOffset, M_Vector(0, 0, 0), thing->GetSector());
 
 	currentLevel.things[thingNum]->SetRotation( thing->GetRotation() );
 	if( sound_num != -1 )
-		S_PlayLocal( currentLevel.sounds[sound_num], 1.0, 0 );
+        Sound::PlayLocal( currentLevel.sounds[sound_num], 1.0, 0 );
 
 	return thingNum;
 }

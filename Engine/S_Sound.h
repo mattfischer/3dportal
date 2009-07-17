@@ -5,46 +5,55 @@
 
 #include <dsound.h>
 
-extern LPDIRECTSOUND lpDS;
-
 using std::string;
 
-enum S_PlayState { S_EMPTY, S_READY, S_PENDING_START, S_PLAYING, S_PENDING_STOP, S_STOPPED };
-
-class S_Sound
+namespace Sound
 {
-public:
-	S_Sound( const string& filename );
-	~S_Sound();
+    class Buffer
+    {
+    public:
+	    Buffer( const string& filename );
+	    ~Buffer();
 
-    LPDIRECTSOUNDBUFFER buffer();
+        void duplicateBuffer(LPDIRECTSOUNDBUFFER *buffer);
 
-protected:
-	LPDIRECTSOUNDBUFFER lpDSB;
-};
+    protected:
+	    LPDIRECTSOUNDBUFFER lpDSB;
+    };
 
-class S_SoundInstance
-{
-public:
-    S_SoundInstance( S_Sound *s );
-    ~S_SoundInstance();
+    class Track
+    {
+    public:
+        Track( Buffer *s );
+        ~Track();
 
-    S_Sound *sound();
+        Buffer *buffer();
 
-    void Play( bool loop );
-	void Stop();
-	void SetVolume( float v );
-	void SetPan( float p );
-	void Update();
-	S_PlayState GetStatus();
+        void Play( bool loop );
+	    void Stop();
+	    void SetVolume( float v );
+	    void SetPan( float p );
+	    void Update();
 
-protected:
-    S_Sound *snd;
-    LPDIRECTSOUNDBUFFER lpDSB;
-    float volume;
-	float pan;
-	bool loop;
-	S_PlayState status;
-};
+        enum PlayState 
+        { 
+            STATE_EMPTY, 
+            STATE_READY, 
+            STATE_PENDING_START, 
+            STATE_PLAYING, 
+            STATE_PENDING_STOP, 
+            STATE_STOPPED 
+        };
+	    PlayState GetStatus();
+
+    protected:
+        Buffer *buf;
+        LPDIRECTSOUNDBUFFER lpDSB;
+        float volume;
+	    float pan;
+	    bool loop;
+	    PlayState status;
+    };
+}
 
 #endif
