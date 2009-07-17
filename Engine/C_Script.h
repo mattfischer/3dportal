@@ -4,13 +4,13 @@
 #include "C_AST.h"
 #include "C_Stack.h"
 
-#include "U_Collection.h"
-
 #include <windows.h>
 
 #include <vector>
+#include <string>
 
 using std::vector;
+using std::string;
 
 //#define SAFECOGSINTERNAL
 
@@ -52,7 +52,7 @@ struct C_StartInfo
 	bool touched;
 };
 
-class C_Script : public U_NameableItem
+class C_Script
 {
 public:
 	C_Script( const string& filename );

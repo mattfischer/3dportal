@@ -1,15 +1,17 @@
 #ifndef S_SOUND_H
 #define S_SOUND_H
 
-#include <dsound.h>
+#include <string>
 
-#include "U_Collection.h"
+#include <dsound.h>
 
 extern LPDIRECTSOUND lpDS;
 
+using std::string;
+
 enum S_PlayState { S_EMPTY, S_READY, S_PENDING_START, S_PLAYING, S_PENDING_STOP, S_STOPPED };
 
-class S_Sound : public U_NameableItem, public U_NumerableItem
+class S_Sound
 {
 public:
 	S_Sound( const string& filename );

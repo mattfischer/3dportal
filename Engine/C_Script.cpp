@@ -94,9 +94,6 @@ C_Script::C_Script( const string& filename )
 
 	C_ASTNode *root;
 
-	name = filename;
-
-	
 	safe = false;
 
 	doingTouched = false;
@@ -186,7 +183,6 @@ C_Script::C_Script( C_Script &c )
 
 	messages = c.messages;
 	code = c.code;
-	name = c.name;
 	safe = c.safe;
 	doingTouched = false;
 }
@@ -532,8 +528,3 @@ M_Vector C_Script::ParseVector( const string& s )
 	}
 	return M_Vector( pieces[0], pieces[1], pieces[2] );
 }
-/*
-void C_Script::SetNum(int n)
-{
-
-}*/

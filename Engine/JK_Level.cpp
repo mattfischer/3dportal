@@ -21,8 +21,6 @@
 
 #include "U_Lowercase.h"
 
-template class U_Collection<C_Script>;
-
 struct Adjoin {
 	int mirror;
 	int flags;
@@ -673,7 +671,7 @@ void JK_Level_Load(const string& name)
 		index = line.getInt( error );
 
 		thing = shared_ptr<W_Thing>( new W_Thing( currentLevel.templates[text], position, rotation, &currentLevel.sectors[index] ) );
-		thing->SetNum( currentLevel.things.size() );
+		thing->num = currentLevel.things.size();
 		currentLevel.things.push_back( thing );
 		
 		if( text == "walkplayer" && !foundWalkplayer )

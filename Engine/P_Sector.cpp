@@ -122,13 +122,13 @@ void W_Sector::ThingCollisions( W_Thing* collide_thing, W_Surface *ignore )
 	bool garbage;
 	if( recurseGuard ) return;
 	recurseGuard = true;
-	shared_ptr<W_Thing> thing;
+	W_Thing *thing;
 
 	EnterCriticalSection( &critSec );
 	for( i = 0 ; i < things.size() ; i++ )
 	{
-		thing = currentLevel.things[things[i]];
-		if( thing && thing.get() != collide_thing )
+		thing = things[i];
+		if( thing != collide_thing )
 		{
 			distance = collide_thing->GetPosition() - thing->GetPosition();
 			collideDistance = collide_thing->GetSize() + thing->GetSize();
@@ -159,7 +159,7 @@ bool W_Sector::ThingFloorCollisions( W_Thing* collide_thing, W_Surface *ignore )
 	M_Vector floorPoint;
 	float newD, planeD;
 	bool standPastSurface;
-	shared_ptr<W_Thing> thing;
+	W_Thing *thing;
 
 	if( recurseGuard ) return false;
 	recurseGuard = true;
@@ -170,8 +170,8 @@ bool W_Sector::ThingFloorCollisions( W_Thing* collide_thing, W_Surface *ignore )
 		
 	for( i = 0 ; i < things.size() ; i++ )
 	{
-		thing = currentLevel.things[things[i]];
-		if( thing && thing.get() != collide_thing )
+		thing = things[i];
+		if( thing != collide_thing )
 		{
 			distance = floorPoint - thing->GetPosition();
 			collideDistance = thing->GetMoveSize();
@@ -216,7 +216,7 @@ void W_Sector::ThingSurfaceCollisions( W_Thing* collide_thing, W_Surface *ignore
 	float newD, planeD;
 	bool standPastSurface;
 	bool garbage;
-	shared_ptr<W_Thing> thing;
+	W_Thing *thing;
 
 	if( recurseGuard ) return;
 	recurseGuard = true;
@@ -225,8 +225,8 @@ void W_Sector::ThingSurfaceCollisions( W_Thing* collide_thing, W_Surface *ignore
 	
 	for( i = 0 ; i < things.size() ; i++ )
 	{
-		thing = currentLevel.things[things[i]];
-		if( thing && thing.get() != collide_thing )
+		thing = things[i];
+		if( thing != collide_thing )
 		{
 			distance = collide_thing->GetPosition() - thing->GetPosition();
 			collideDistance = collide_thing->GetMoveSize() + thing->GetMoveSize();
@@ -259,14 +259,14 @@ bool W_Sector::PerformActivate( M_Vector position, M_Vector point, W_Surface *ig
 	W_Poly poly;
 	M_Vector distance;
 	float modelSize;
-	shared_ptr<W_Thing> thing;
+	W_Thing *thing;
 
 	EnterCriticalSection( &critSec );
 
 	for( i = 0 ; i < things.size() ; i++) 
 	{
-		thing = currentLevel.things[things[i]];
-		if( thing && thing->GetModel() != NULL )
+		thing = things[i];
+		if( thing->GetModel() != NULL )
 		{
 			distance = position - thing->GetPosition();
 			modelSize = thing->GetModel()->GetRadius();

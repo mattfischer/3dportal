@@ -44,9 +44,7 @@ R_Model::R_Model( const string& filename )
 	vector<string> textureNames;
 	int index;
 
-	name = filename;
-	
-	fullname = "3do\\" + name;
+	fullname = "3do\\" + filename;
     data = Jk::Gob::getFile( fullname );
     Jk::Parser parser(data);
 

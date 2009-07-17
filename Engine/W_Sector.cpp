@@ -27,7 +27,7 @@ W_Surface *W_Sector::operator[](int n)
 void W_Sector::AddThing(W_Thing* thing )
 {
 	EnterCriticalSection( &critSec );
-	things.push_back( thing->GetNum() );
+	things.push_back( thing );
 	LeaveCriticalSection( &critSec );
 }
 
@@ -37,7 +37,7 @@ void W_Sector::RemoveThing( W_Thing* thing )
 	EnterCriticalSection( &critSec );
 	for( i = 0 ; i < things.size() ; i++ )
 	{
-		if( things[i] == thing->GetNum() )
+		if( things[i] == thing )
 		{
 			things.erase( things.begin() + i );
 		}

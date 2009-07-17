@@ -1,6 +1,5 @@
 #include "R_Texture.h"
 
-#include "U_Collection.h"
 #include "JK_Colormap.h"
 
 #include "JK_GOB.h"
@@ -9,7 +8,7 @@
 #include <gl/gl.h>
 #include <gl/glu.h>
 
-void R_Texture::Register(U_VectorMap<JK_Colormap*> &colormaps)
+void R_Texture::Register(Util::VectorMap<JK_Colormap*> &colormaps)
 {
 	int i, j, x;
 	int cel;

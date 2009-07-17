@@ -35,6 +35,6 @@ void C_Script::ExecuteVerbCall( C_ASTNode *node, C_Context &c, bool expression )
 		}
 	}
 
-	wsprintf( buffer, "%s: Call to undefined verb %s", name.c_str(), node->lexData );
+	wsprintf( buffer, "Call to undefined verb %s", node->lexData );
 	CON_Out( buffer );
 }

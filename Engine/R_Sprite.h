@@ -1,12 +1,10 @@
 #ifndef R_SPRITE_H
 #define R_SPRITE_H
 
-#include "U_Collection.h"
-
 #include "R_Texture.h"
 #include "M_Vector.h"
 
-class R_Sprite : public U_NameableItem
+class R_Sprite
 {
 public:
 	// JK_Sprite.cpp

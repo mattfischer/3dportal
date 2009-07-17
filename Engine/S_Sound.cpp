@@ -13,7 +13,6 @@ S_Sound::S_Sound(S_Sound &s)
 
 	lpDS->DuplicateSoundBuffer(s.lpDSB, &lpDSB);
 	
-	num=s.num;
 	status=S_READY;
 	pan=0;
 }
@@ -49,13 +48,9 @@ S_Sound::S_Sound( const string& filename )
 
 	if( !found )
 	{
-		name = "";
 		status = S_EMPTY;
-		num = -1;
 		return;
 	}
-
-	name = filename;
 
 	cursor = data+20;
 	memcpy( &wfx, cursor, sizeof( WAVEFORMATEX ) - 2 );

@@ -26,7 +26,7 @@ struct S_PlayItem
 
 	float localPan;
 
-	int thing;
+    boost::shared_ptr<W_Thing> thing;
 
 	M_Vector position;
 
@@ -80,7 +80,7 @@ void S_Update()
 			
 			if( items[i]->type == S_THING )
 			{
-				thing = currentLevel.things[items[i]->thing];
+				thing = items[i]->thing;
 				if( thing )
 				{
 					items[i]->position = thing->GetPosition();
@@ -93,6 +93,12 @@ void S_Update()
 
 		if( items[i]->sound->GetStatus() == S_STOPPED )
 		{
+            boost::shared_ptr<W_Thing> thing = items[i]->thing;
+            if( thing )
+            {
+                thing->removeSound( items[i]->sound );
+                items[i]->thing = boost::shared_ptr<W_Thing> ();
+            }
 			delete items[i]->sound;
 			items.erase( items.begin() + i );
 			i--;
@@ -137,13 +143,15 @@ S_Sound *S_PlayThing( S_Sound *sound, shared_ptr<W_Thing> thing, bool loop, floa
 	newItem = new S_PlayItem;
 	newItem->type = S_THING;
 	newItem->sound = new S_Sound( *sound );
-	newItem->thing = thing->GetNum();
+	newItem->thing = thing;
 	newItem->position = thing->GetPosition();
 	newItem->volume = volume;
 	newItem->minDist = minDist;
 	newItem->maxDist = maxDist;
 	newItem->sound->Play( loop );
 	
+    thing->addSound( newItem->sound );
+
 	EnterCriticalSection( &critSec );
 
 	items.push_back( newItem );
@@ -179,7 +187,9 @@ void S_PlayPos( S_Sound *sound, M_Vector position, float volume, float minDist, 
 
 void S_PlaySector( S_Sound *sound, float volume )
 {
-	if( sectorSound==NULL || sound==NULL || sectorSound->GetNum()!=sound->GetNum() )
+    return;
+
+	if( sectorSound != sound )
 	{
 		if( sectorSound != NULL )
 		{

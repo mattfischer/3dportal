@@ -13,7 +13,7 @@
 #include "C_Script.h"
 
 #include "S_SoundClass.h"
-
+#include "S_Sound.h"
 #include "S_Manager.h"
 
 #include "U_Matrix.h"
@@ -121,7 +121,7 @@ int W_Thing::Create( Jk::Template *t, M_Vector p, M_Vector r, W_Sector *s )
 		currentLevel.things[i] = newThing;
 	}
 
-	newThing->SetNum( i );
+	newThing->num = i;
 
 	newThing->GetSector()->AddThing( newThing.get() );
 
@@ -157,7 +157,7 @@ int W_Thing::CreateFromThing( W_Thing *thing, Jk::Template *newTemplate )
 		currentLevel.things[i] = newThing;
 	}
 
-	newThing->SetNum( i );
+	newThing->num = i;
 	newThing->GetSector()->AddThing(newThing.get());
 
 	if( newThing->soundClass )
@@ -166,6 +166,11 @@ int W_Thing::CreateFromThing( W_Thing *thing, Jk::Template *newTemplate )
 	}
 
 	return i;
+}
+
+int W_Thing::GetNum()
+{
+    return num;
 }
 
 M_Vector W_Thing::GetPosition()
@@ -385,6 +390,10 @@ bool W_Thing::WasAttached()
 
 void W_Thing::Destroy()
 {
+    for(int i=0; i<sounds.size(); i++) 
+    {
+        sounds[i]->Stop();
+    }
 	sector->RemoveThing( this );
 	currentLevel.things[num] = shared_ptr<W_Thing> ();
 }
@@ -514,4 +523,21 @@ void W_Thing::Unlock()
 void W_Thing::playKey( Jk::Key *key, int flags )
 {
     keyInstance = Jk::Key::Instance(key, 0, flags);
+}
+
+void W_Thing::addSound( S_Sound *sound )
+{
+    sounds.push_back( sound );
+}
+
+void W_Thing::removeSound( S_Sound *sound )
+{
+    for(int i=0; i<sounds.size(); i++) 
+    {
+        if(sounds[i] == sound)
+        {
+            sounds.erase(sounds.begin() + i);
+            break;
+        }
+    }
 }

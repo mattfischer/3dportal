@@ -1,20 +1,21 @@
 #ifndef R_TEXTURE_H
 #define R_TEXTURE_H
 
+#include <string>
 #include <windows.h>
 
-#include "U_Collection.h"
 #include "U_VectorMap.h"
 
-template<class T> class U_Collection;
 class JK_Colormap;
+
+using std::string;
 
 class R_Texture
 {
 public:
 	R_Texture( const string& filename );
 
-	void Register( U_VectorMap<JK_Colormap*> &colormaps );
+    void Register( Util::VectorMap<JK_Colormap*> &colormaps );
 	void Select( int colormap, int cel );
 
 	int SizeX();

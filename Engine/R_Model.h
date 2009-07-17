@@ -9,8 +9,6 @@
 
 #include "JK_Key.h"
 
-#include "U_Collection.h"
-
 #include <string>
 
 struct R_Texture;
@@ -44,7 +42,7 @@ struct R_Node {
 	string name;
 };
 
-class R_Model : public U_NameableItem
+class R_Model 
 {
 public:
 	// JK_Model.cpp

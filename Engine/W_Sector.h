@@ -64,7 +64,7 @@ protected:
 	
 	int numSurfaces;
 	W_Surface **surfaces;
-	vector<int> things;
+	vector<W_Thing*> things;
 	vector<C_Script*> cogLinks;
 
 	S_Sound *sound;

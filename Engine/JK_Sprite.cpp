@@ -10,8 +10,6 @@ R_Sprite::R_Sprite( const string &filename )
 	string data;
 	bool error;
 
-	name = filename;
-	
 	fullname = "misc\\spr\\" + filename;
 
     data = Jk::Gob::getFile( fullname );

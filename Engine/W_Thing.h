@@ -12,8 +12,6 @@
 #include "JK_Key.h"
 #include "JK_AnimClass.h"
 
-#include "U_Collection.h"
-
 #include <vector>
 #include <string>
 #include <boost/shared_ptr.hpp>
@@ -37,7 +35,7 @@ struct W_Frame {
 };
 
 
-class W_Thing : public U_RefCountedItem, public U_NumerableItem
+class W_Thing
 {
 	enum MoveType {MOVE_NONE, MOVE_PATH, MOVE_PHYSICS};
 	
@@ -100,6 +98,8 @@ public:
 
     void playKey( Jk::Key *key, int flags );
 
+    int GetNum();
+
 	// P_Thing.cpp
 	static void UpdateThings( float time );
 
@@ -126,6 +126,9 @@ public:
 	void ThingCollisions( W_Thing* thing );
 	bool ThingFloorCollisions( W_Thing* thing );
 	void ThingSurfaceCollisions( W_Thing* thing );
+
+    void addSound( S_Sound *sound );
+    void removeSound( S_Sound *sound );
 
 	// JK_Thing.cpp
 	void ProcessTemplate();
@@ -209,6 +212,10 @@ protected:
 	float spriteTime;
 
 	LONG killTime;
+
+    std::vector<S_Sound*> sounds;
+
+    int num;
 
 	// P_Thing.cpp
 	void UpdatePath(float time);

@@ -30,18 +30,10 @@ namespace Jk
     {
     }
 
-    /*
-    void Template::SetName(char *string)
-    {
-	    name=new char[strlen(string)+1];
-	    strcpy(name, string);
-    }
-
-    char *Template::GetName()
+    const string &Template::GetName()
     {
 	    return name;
     }
-    */
 
     void Template::CopyParams(Template *source)
     {

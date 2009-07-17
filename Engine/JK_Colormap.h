@@ -3,7 +3,9 @@
 
 #include <windows.h>
 
-#include "U_Collection.h"
+#include <string>
+
+using std::string;
 
 struct JK_C_RGBTriple {
 	char r;
@@ -19,7 +21,7 @@ struct JK_CMP {
 	JK_C_RGBTriple palette[256];
 };
 
-struct JK_Colormap : public U_NameableItem
+struct JK_Colormap 
 {
 public:
 	JK_Colormap( const string& filename );

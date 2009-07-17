@@ -3,8 +3,6 @@
 
 #include "Global.h"
 
-#include "U_Collection.h"
-
 #include <string>
 #include <vector>
 
@@ -16,7 +14,7 @@ using std::vector;
 
 namespace Jk
 {
-    class Template : public U_NameableItem
+    class Template
     {
 	    struct TemplateParam {
 		    string name;
@@ -28,6 +26,8 @@ namespace Jk
 	    Template( Template &c );
 
 	    ~Template();
+
+        const string &GetName();
 
 	    void CopyParams( Template *source );
 	    void AddParam( const string& s );
@@ -44,6 +44,8 @@ namespace Jk
 
 	    W_Frame ParseFrame( const string& data );
 	    vector<TemplateParam> params;
+
+        string name;
     };
 }
 #endif

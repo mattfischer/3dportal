@@ -541,10 +541,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\U_Collection.h"
-				>
-			</File>
-			<File
 				RelativePath=".\U_Lowercase.h"
 				>
 			</File>

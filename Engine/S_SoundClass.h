@@ -1,10 +1,12 @@
 #ifndef S_CLASS_H
 #define S_CLASS_H
 
+#include <string>
+
 class S_Sound;
 class W_Thing;
 
-#include "U_Collection.h"
+using std::string;
 
 struct S_ClassEntry
 {
@@ -16,7 +18,7 @@ struct S_ClassEntry
 	float volume;
 };
 
-struct S_SoundClass : public U_NameableItem
+struct S_SoundClass
 {
 public:
 	S_SoundClass( const string& filename );

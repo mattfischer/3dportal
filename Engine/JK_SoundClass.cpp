@@ -13,8 +13,6 @@ S_SoundClass::S_SoundClass( const string& filename )
 	string data;
 	string fullname;
 
-	name = filename;
-	
 	fullname = "misc\\snd\\" + filename;
 
     data = Jk::Gob::getFile( fullname );
