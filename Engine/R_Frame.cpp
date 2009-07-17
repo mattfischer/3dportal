@@ -13,7 +13,7 @@
 extern shared_ptr<W_Thing> player;
 
 R_Model *povModel = NULL;
-Jk::Key::Instance povKeyInstance;
+Jk::Key::Track povKeyTrack;
 
 int ScreenX=1280;
 int ScreenY=800;
@@ -148,12 +148,12 @@ void R_Frame_Render(float time)
 		glLoadIdentity();
 		glTranslatef( 0, -.04, -.02 );
 		
-        if( povKeyInstance.key )
+        if( povKeyTrack.key )
         {
-            povKeyInstance.time += time;
+            povKeyTrack.time += time;
         }
 
-		povModel->Draw( 0, 1, M_Vector( 0, 0, 0 ), &povKeyInstance );
+		povModel->Draw( 0, 1, M_Vector( 0, 0, 0 ), &povKeyTrack );
 	}
 
 	SwapBuffers(hDC);

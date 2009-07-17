@@ -23,7 +23,7 @@ M_Vector R_Model::GetInsertOffset()
 	return insertOffset;
 }
 
-void R_Model::Draw(float distance2, float light, M_Vector tint, Jk::Key::Instance *keyInstance )
+void R_Model::Draw(float distance2, float light, M_Vector tint, Jk::Key::Track *keyTrack )
 {
 	int LOD;
 	int i;
@@ -45,19 +45,19 @@ void R_Model::Draw(float distance2, float light, M_Vector tint, Jk::Key::Instanc
 		}
 	}
 
-	DrawNode( rootNode, LOD, light, tint, keyInstance );
+	DrawNode( rootNode, LOD, light, tint, keyTrack );
 }
 
-void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, Jk::Key::Instance *keyInstance )
+void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, Jk::Key::Track *keyTrack )
 {
 	int i;
 	R_Mesh *mesh;
 	M_Vector position;
 	M_Vector rotation;
 
-	if( keyInstance && keyInstance->key )
+	if( keyTrack && keyTrack->key )
 	{
-		keyInstance->key->interpolateFrame( node->name, keyInstance->time, keyInstance->flags, position, rotation );
+		keyTrack->key->interpolateFrame( node->name, keyTrack->time, keyTrack->flags, position, rotation );
 	}
     else
     {
@@ -84,7 +84,7 @@ void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, Jk::Key:
 	
 
 	for( i = 0 ; i < node->numChildren ; i++ )
-		DrawNode( &node->children[i], g, light, tint, keyInstance );
+		DrawNode( &node->children[i], g, light, tint, keyTrack );
 
     glRotatef( -( rotation.z ), 0, 0, -1 );
     glRotatef( -( rotation.x ), 1, 0, 0 );

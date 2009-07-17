@@ -508,9 +508,9 @@ void W_Thing::UpdateFinalize(float time)
 	}
 	DoFoley();
 
-	if( keyInstance.key )
+	if( keyTrack.key )
 	{
-		keyInstance.time += time;
+		keyTrack.time += time;
 	}
 
     if( sprite )

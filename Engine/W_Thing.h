@@ -205,7 +205,7 @@ protected:
 
 	Type type;
 
-    Jk::Key::Instance keyInstance;
+    Jk::Key::Track keyTrack;
 	
     Jk::AnimClass *animClass;
 

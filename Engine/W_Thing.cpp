@@ -87,7 +87,7 @@ W_Thing::W_Thing(W_Thing &c)
 	walkTimer=GetTickCount();
 	walkSide=0;
 
-	keyInstance = c.keyInstance;
+	keyTrack = c.keyTrack;
 
 	sprite = c.sprite;
 	spriteTime = c.spriteTime;
@@ -515,6 +515,6 @@ int W_Thing::GetSurfaceType()
 
 void W_Thing::playKey( Jk::Key *key, int flags )
 {
-    keyInstance = Jk::Key::Instance(key, 0, flags);
+    keyTrack = Jk::Key::Track(key, 0, flags);
 }
 

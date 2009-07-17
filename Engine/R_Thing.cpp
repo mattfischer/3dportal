@@ -101,7 +101,7 @@ void W_Thing::Draw( R_Frustum frustum, float light, M_Vector tint )
 	glRotatef( compositeRotation.z, 0, 0, 1 );
 		
 	if( model )
-		model->Draw( distance2, light, tint, &keyInstance );
+		model->Draw( distance2, light, tint, &keyTrack );
 
 	glPopMatrix();
 	

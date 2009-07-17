@@ -11,14 +11,14 @@ namespace Jk
     class Key
     {
     public:
-        struct Instance
+        struct Track
         {
             Key *key;
             float time;
             int flags;
 
-            Instance() : key(NULL), time(0), flags(0) {}
-            Instance(Key *_key, float _time, int _flags) : key(_key), time(_time), flags(_flags) {}
+            Track() : key(NULL), time(0), flags(0) {}
+            Track(Key *_key, float _time, int _flags) : key(_key), time(_time), flags(_flags) {}
         };
 
 	    Key( const string& filename );
