@@ -77,8 +77,6 @@ protected:
 
 	bool drawing;
 	bool recurseGuard;
-
-	CRITICAL_SECTION critSec;
 };
 
 #endif

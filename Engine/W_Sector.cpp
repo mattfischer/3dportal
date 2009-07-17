@@ -10,8 +10,6 @@ W_Sector::W_Sector()
 {
 	recurseGuard=false;
 	renderAdjoins=true;
-
-	InitializeCriticalSection(&critSec);
 }
 
 int W_Sector::NumSurfaces()
@@ -26,15 +24,12 @@ W_Surface *W_Sector::operator[](int n)
 
 void W_Sector::AddThing(W_Thing* thing )
 {
-	EnterCriticalSection( &critSec );
 	things.push_back( thing );
-	LeaveCriticalSection( &critSec );
 }
 
 void W_Sector::RemoveThing( W_Thing* thing )
 {
 	int i;
-	EnterCriticalSection( &critSec );
 	for( i = 0 ; i < things.size() ; i++ )
 	{
 		if( things[i] == thing )
@@ -42,7 +37,6 @@ void W_Sector::RemoveThing( W_Thing* thing )
 			things.erase( things.begin() + i );
 		}
 	}
-	LeaveCriticalSection( &critSec );
 }
 
 void W_Sector::AddCogLink(C_Script *cogScript)

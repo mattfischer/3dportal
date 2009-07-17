@@ -124,7 +124,6 @@ void W_Sector::ThingCollisions( W_Thing* collide_thing, W_Surface *ignore )
 	recurseGuard = true;
 	W_Thing *thing;
 
-	EnterCriticalSection( &critSec );
 	for( i = 0 ; i < things.size() ; i++ )
 	{
 		thing = things[i];
@@ -136,8 +135,7 @@ void W_Sector::ThingCollisions( W_Thing* collide_thing, W_Surface *ignore )
 				thing->ThingCollisions( collide_thing );
 		}
 	}
-	LeaveCriticalSection( &critSec );
-
+	
 	for( i = 0 ; i < numSurfaces ; i++ )
 	{
 		if( surfaces[i] == ignore ) continue;
@@ -164,8 +162,6 @@ bool W_Sector::ThingFloorCollisions( W_Thing* collide_thing, W_Surface *ignore )
 	if( recurseGuard ) return false;
 	recurseGuard = true;
 
-	EnterCriticalSection( &critSec );
-	
 	floorPoint = collide_thing->GetPosition() - collide_thing->GetStandVector();
 		
 	for( i = 0 ; i < things.size() ; i++ )
@@ -183,7 +179,6 @@ bool W_Sector::ThingFloorCollisions( W_Thing* collide_thing, W_Surface *ignore )
 					}
 		}
 	}
-	LeaveCriticalSection( &critSec );
 
 	for( i = 0 ; i < numSurfaces ; i++ )
 	{
@@ -221,8 +216,6 @@ void W_Sector::ThingSurfaceCollisions( W_Thing* collide_thing, W_Surface *ignore
 	if( recurseGuard ) return;
 	recurseGuard = true;
 
-	EnterCriticalSection( &critSec );
-	
 	for( i = 0 ; i < things.size() ; i++ )
 	{
 		thing = things[i];
@@ -234,8 +227,6 @@ void W_Sector::ThingSurfaceCollisions( W_Thing* collide_thing, W_Surface *ignore
 				thing->ThingSurfaceCollisions( collide_thing );
 		}
 	}
-
-	LeaveCriticalSection( &critSec );
 
 	for( i = 0 ; i < numSurfaces ; i++ )
 	{
@@ -261,8 +252,6 @@ bool W_Sector::PerformActivate( M_Vector position, M_Vector point, W_Surface *ig
 	float modelSize;
 	W_Thing *thing;
 
-	EnterCriticalSection( &critSec );
-
 	for( i = 0 ; i < things.size() ; i++) 
 	{
 		thing = things[i];
@@ -275,7 +264,6 @@ bool W_Sector::PerformActivate( M_Vector position, M_Vector point, W_Surface *ig
 				if( thing->PerformActivate( position, point ) ) return true;
 		}
 	}
-	LeaveCriticalSection( &critSec );
 
 	for( i = 0 ; i < numSurfaces ; i++ )
 	{

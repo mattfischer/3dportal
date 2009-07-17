@@ -65,12 +65,10 @@ void W_Sector::Draw( R_Frustum frustum, W_Surface *ignore )
 	{
 		if( things.size() > 0 )
 		{
-			EnterCriticalSection( &critSec );
 			for( i = 0 ; i < things.size() ; i++ )
 			{
                 things[i]->Draw( frustum, extraLight + ambientLight, tint );
 			}
-			LeaveCriticalSection( &critSec );
 		}
 	}
 }
