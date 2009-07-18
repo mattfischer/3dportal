@@ -61,7 +61,7 @@ void I_EnableInput(bool enable)
 	else
 	{
 		ShowCursor(false);
-		SetCursorPos(ScreenX/2, ScreenY/2);
+		SetCursorPos(Render::ScreenX/2, Render::ScreenY/2);
 	}
 }
 
@@ -135,7 +135,7 @@ void I_ProcessMouse(float time)
 	if(rotation.y<0) rotation.y+=360;
 
 	player->SetRotation(rotation);
-	SetCursorPos(ScreenX/2, ScreenY/2);
+	SetCursorPos(Render::ScreenX/2, Render::ScreenY/2);
 }
 
 void I_ProcessKeyboard( float time )

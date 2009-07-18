@@ -26,8 +26,8 @@ void W_Poly::Clip(Math::Plane &c)
 	Math::Vector p, n;
 	Math::Vector v1t, v2t, vt;
 
-	R_Vertex v1,v2;
-	static R_Vertex *newVertices=NULL;
+	Render::Vertex v1,v2;
+	static Render::Vertex *newVertices=NULL;
 	static int numNewVerts=0;
 	
 	p=c.point;
@@ -38,13 +38,13 @@ void W_Poly::Clip(Math::Plane &c)
 
 	if(newVertices==NULL)
 	{
-		newVertices=new R_Vertex[numVerts+1];
+		newVertices=new Render::Vertex[numVerts+1];
 		numNewVerts=numVerts+1;
 	}
 	else if(numNewVerts<numVerts+1)
 	{
 		delete[] newVertices;
-		newVertices=new R_Vertex[numVerts+1];
+		newVertices=new Render::Vertex[numVerts+1];
 		numNewVerts=numVerts+1;
 	}
 
@@ -90,7 +90,7 @@ void W_Poly::Clip(Math::Plane &c)
 	{
 		delete[] vertices;
 		allocatedVerts*=2;
-		vertices=new R_Vertex[allocatedVerts];
+		vertices=new Render::Vertex[allocatedVerts];
 	}
 	numVerts=v;
 	v=0;
@@ -99,13 +99,13 @@ void W_Poly::Clip(Math::Plane &c)
 	numVerts=v;
 }
 
-void W_Poly::Clip(R_Frustum frustum)
+void W_Poly::Clip(Render::Frustum frustum)
 {
 	Math::Vector v0, v1, v2;
 	Math::Plane p0, p1, p2, p3, p4, p5, p6, p7;
 	int i;
 
-	v0=worldviewInverseMatrix*Math::Vector(0,0,0);
+	v0=Render::worldviewInverseMatrix*Math::Vector(0,0,0);
 /*
 	for(i=0;i<frustum.numPlanes;i++)
 	{
@@ -120,7 +120,7 @@ void W_Poly::Clip(R_Frustum frustum)
 	p0.point=v0;
 	p0.normal=v1%v2;
 	p0.normal.Normalize();
-	p0.normal=rotationInverseMatrix*p0.normal;
+	p0.normal=Render::rotationInverseMatrix*p0.normal;
 	
 	v1=Math::Vector(frustum.x0, frustum.y1, -1);
 	v2=Math::Vector(frustum.x1, frustum.y1, -1);
@@ -128,7 +128,7 @@ void W_Poly::Clip(R_Frustum frustum)
 	p1.point=v0;
 	p1.normal=v1%v2;
 	p1.normal.Normalize();
-	p1.normal=rotationInverseMatrix*p1.normal;
+	p1.normal=Render::rotationInverseMatrix*p1.normal;
 	
 	v1=Math::Vector(frustum.x1, frustum.y1, -1);
 	v2=Math::Vector(frustum.x1, frustum.y0, -1);
@@ -136,7 +136,7 @@ void W_Poly::Clip(R_Frustum frustum)
 	p2.point=v0;
 	p2.normal=v1%v2;
 	p2.normal.Normalize();
-	p2.normal=rotationInverseMatrix*p2.normal;
+	p2.normal=Render::rotationInverseMatrix*p2.normal;
 	
 	v1=Math::Vector(frustum.x1, frustum.y0, -1);
 	v2=Math::Vector(frustum.x0, frustum.y0, -1);
@@ -144,7 +144,7 @@ void W_Poly::Clip(R_Frustum frustum)
 	p3.point=v0;
 	p3.normal=v1%v2;
 	p3.normal.Normalize();
-	p3.normal=rotationInverseMatrix*p3.normal;
+	p3.normal=Render::rotationInverseMatrix*p3.normal;
 	
 	Clip(p0);
 	Clip(p1);
@@ -160,7 +160,7 @@ void W_Poly::Clip(R_Frustum frustum)
 		p4.point=v0;
 		p4.normal=v1%v2;
 		p4.normal.Normalize();
-		p4.normal=rotationInverseMatrix*p4.normal;
+		p4.normal=Render::rotationInverseMatrix*p4.normal;
 
 		Clip(p4);
 	}
@@ -173,7 +173,7 @@ void W_Poly::Clip(R_Frustum frustum)
 		p5.point=v0;
 		p5.normal=v1%v2;
 		p5.normal.Normalize();
-		p5.normal=rotationInverseMatrix*p5.normal;
+		p5.normal=Render::rotationInverseMatrix*p5.normal;
 
 		Clip(p5);
 	}
@@ -186,7 +186,7 @@ void W_Poly::Clip(R_Frustum frustum)
 		p6.point=v0;
 		p6.normal=v1%v2;
 		p6.normal.Normalize();
-		p6.normal=rotationInverseMatrix*p6.normal;
+		p6.normal=Render::rotationInverseMatrix*p6.normal;
 
 		Clip(p6);
 	}
@@ -199,19 +199,19 @@ void W_Poly::Clip(R_Frustum frustum)
 		p7.point=v0;
 		p7.normal=v1%v2;
 		p7.normal.Normalize();
-		p7.normal=rotationInverseMatrix*p7.normal;
+		p7.normal=Render::rotationInverseMatrix*p7.normal;
 
 		Clip(p7);
 	}
 }
 
-R_Frustum W_Poly::CreateFrustum()
+Render::Frustum W_Poly::CreateFrustum()
 {
 	W_Poly newPoly(*this);
-	R_Frustum frustum;
+	Render::Frustum frustum;
 	int i;
 	
-	newPoly.Transform(totalTransformationMatrix);
+	newPoly.Transform(Render::totalTransformationMatrix);
 	
 	frustum.x0=frustum.x1=newPoly[0].position.x;
 	frustum.y0=frustum.y1=newPoly[0].position.y;

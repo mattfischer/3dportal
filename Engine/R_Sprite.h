@@ -4,27 +4,29 @@
 #include "R_Texture.h"
 #include "M_Vector.h"
 
-class R_Sprite
+namespace Render
 {
-public:
-	// JK_Sprite.cpp
-	R_Sprite( const string& filename );
+    class Sprite
+    {
+    public:
+	    // JK_Sprite.cpp
+	    Sprite( const string& filename );
 
-	int NumFrames();
+	    int NumFrames();
 
-	// R_Sprite.cpp
-	void Draw( int frame );
+	    // R_Sprite.cpp
+	    void Draw( int frame );
 
-protected:
-	R_Texture *texture;
-	int type;
-	float width;
-	float height;
-	int geo;
-	int light;
-	int tex;
-	float extraLight;
-    Math::Vector offset;
-};
-
+    protected:
+	    Texture *texture;
+	    int type;
+	    float width;
+	    float height;
+	    int geo;
+	    int light;
+	    int tex;
+	    float extraLight;
+        Math::Vector offset;
+    };
+}
 #endif

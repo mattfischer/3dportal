@@ -54,7 +54,7 @@ void W_Thing::Nudge(Math::Vector n)
 
 bool W_Thing::ThingFloorCollisions( W_Thing* thing)
 {
-	R_Mesh *mesh;
+    Render::Model::Mesh *mesh;
 	W_Poly poly;
 	int i;
 	Math::Vector normal;
@@ -116,7 +116,7 @@ bool W_Thing::ThingFloorCollisions( W_Thing* thing)
 
 void W_Thing::ThingSurfaceCollisions( W_Thing* thing)
 {
-	R_Mesh *mesh;
+    Render::Model::Mesh *mesh;
 	W_Poly poly;
 	int i;
 	Math::Vector normal;
@@ -302,7 +302,7 @@ void W_Thing::Activate()
 
 bool W_Thing::PerformActivate(Math::Vector position, Math::Vector point)
 {
-	R_Mesh *mesh;
+    Render::Model::Mesh *mesh;
 	W_Poly poly;
 	int i;
 	Math::Vector normal;

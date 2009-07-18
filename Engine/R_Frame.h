@@ -6,37 +6,39 @@
 
 #define FOV 71
 
-struct R_Frustum {
-	double x0, x1;
-	double y0, y1;
+namespace Render
+{
+    struct Frustum {
+	    double x0, x1;
+	    double y0, y1;
 
-	double x00d, x10d;
-	double x01d, x11d;
+	    double x00d, x10d;
+	    double x01d, x11d;
 
-    Math::Vector *planeNormals;
-	int numPlanes;
-};
+        Math::Vector *planeNormals;
+	    int numPlanes;
+    };
 
-extern int ScreenX, ScreenY;
+    extern int ScreenX, ScreenY;
 
-extern float SX, SY;
+    extern float SX, SY;
 
-extern Math::Matrix perspectiveMatrix;
-extern Math::Matrix rotationMatrix;
-extern Math::Matrix rotationInverseMatrix;
+    extern Math::Matrix perspectiveMatrix;
+    extern Math::Matrix rotationMatrix;
+    extern Math::Matrix rotationInverseMatrix;
 
-extern Math::Matrix worldviewMatrix;
-extern Math::Matrix worldviewInverseMatrix;
+    extern Math::Matrix worldviewMatrix;
+    extern Math::Matrix worldviewInverseMatrix;
 
-extern Math::Matrix coordConversionMatrix;
-extern Math::Matrix coordConversionInverseMatrix;
+    extern Math::Matrix coordConversionMatrix;
+    extern Math::Matrix coordConversionInverseMatrix;
 
-extern Math::Matrix totalTransformationMatrix;
+    extern Math::Matrix totalTransformationMatrix;
+
+    extern Frustum WindowFrustum;
+
+    void Frame_Render(float time);
+}
 
 extern int globalFlag;
-
-extern R_Frustum R_WindowFrustum;
-
-void R_Frame_Render(float time);
-
 #endif

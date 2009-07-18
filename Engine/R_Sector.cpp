@@ -16,12 +16,12 @@ extern shared_ptr<W_Thing> player;
 extern bool updateThings;
 extern bool drawThings;
 
-bool SphereInFrustum( Math::Vector position, float radius, R_Frustum frustum );
+bool SphereInFrustum( Math::Vector position, float radius, Render::Frustum frustum );
 
-void W_Sector::Draw( R_Frustum frustum, W_Surface *ignore )
+void W_Sector::Draw( Render::Frustum frustum, W_Surface *ignore )
 {
 	int i;
-	R_Frustum newFrustum;
+	Render::Frustum newFrustum;
 	W_Poly clipped;
 	Math::Plane plane;
 	shared_ptr<W_Thing> thing;

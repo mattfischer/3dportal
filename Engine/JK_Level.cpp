@@ -63,7 +63,7 @@ void JK_Level_Load(const string& name)
 	int numVertices;
 	Math::Vector *vertices;
 	int numTextureVertices;
-	R_TextureVertex *textureVertices;
+    Render::TextureVertex *textureVertices;
 	int numAdjoins;
 	Adjoin *adjoins;
 	
@@ -178,7 +178,7 @@ void JK_Level_Load(const string& name)
 
 		filename = Util::Lowercase( line.getString( error ) );
 		
-		currentLevel.textures.push_back( new R_Texture( filename ), filename );
+        currentLevel.textures.push_back( new Render::Texture( filename ), filename );
 		textureNames[i] = filename;
 	}
 
@@ -225,7 +225,7 @@ void JK_Level_Load(const string& name)
 	line = parser.getLine( error );
 	line.matchString( "World texture vertices", error );
 	numTextureVertices = line.getInt( error );
-	textureVertices = new R_TextureVertex[numTextureVertices];
+	textureVertices = new Render::TextureVertex[numTextureVertices];
 
 	for( i = 0 ; i < numTextureVertices ; i++ )
 	{
@@ -460,7 +460,7 @@ void JK_Level_Load(const string& name)
 		line.getFloat( error );
 
 		filename = line.getString( error );
-		currentLevel.models.push_back( new R_Model( filename ), filename );
+		currentLevel.models.push_back( new Render::Model( filename ), filename );
 	}
 
 	// =====================================================================
@@ -484,7 +484,7 @@ void JK_Level_Load(const string& name)
 		line.getInt( error );
 
 		filename = line.getString( error );
-		currentLevel.sprites.push_back( new R_Sprite( filename ), filename );
+		currentLevel.sprites.push_back( new Render::Sprite( filename ), filename );
 	}
 
 	// =====================================================================

@@ -16,7 +16,7 @@ W_Poly::W_Poly(int n, int a)
 {
 	numVerts=n;
 	allocatedVerts=n+a;
-	vertices=new R_Vertex[allocatedVerts];
+	vertices=new Render::Vertex[allocatedVerts];
 }
 
 W_Poly::~W_Poly() 
@@ -32,7 +32,7 @@ W_Poly::W_Poly(W_Poly &p)
 	plane=p.plane;
 	numVerts=p.numVerts;
 	allocatedVerts=p.allocatedVerts;
-	vertices=new R_Vertex[allocatedVerts];
+	vertices=new Render::Vertex[allocatedVerts];
 	for(i=0;i<numVerts;i++) vertices[i]=p.vertices[i];
 }
 
@@ -46,13 +46,13 @@ W_Poly &W_Poly::operator=(W_Poly &p)
 	plane=p.plane;
 	numVerts=p.numVerts;
 	allocatedVerts=p.allocatedVerts;
-	vertices=new R_Vertex[allocatedVerts];
+	vertices=new Render::Vertex[allocatedVerts];
 	for(i=0;i<numVerts;i++) vertices[i]=p.vertices[i];
 
 	return *this;
 }
 
-R_Vertex& W_Poly::operator[](int n) 
+Render::Vertex& W_Poly::operator[](int n) 
 { 
 	return vertices[(n+numVerts)%numVerts]; 
 }
@@ -82,12 +82,12 @@ void W_Poly::SetPlane(Math::Vector normal)
 	plane.normal=normal;
 }
 
-R_Texture *W_Poly::GetTexture()
+Render::Texture *W_Poly::GetTexture()
 {
 	return texture;
 }
 
-void W_Poly::SetTexture(R_Texture *t)
+void W_Poly::SetTexture(Render::Texture *t)
 {
 	texture=t;
 }

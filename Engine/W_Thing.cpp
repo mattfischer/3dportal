@@ -267,7 +267,7 @@ bool W_Thing::IsAttached()
 	return attachFlags&JK_ATTACH_WORLD_SURFACE;
 }
 
-R_Model *W_Thing::GetModel()
+Render::Model *W_Thing::GetModel()
 {
 	return model;
 }

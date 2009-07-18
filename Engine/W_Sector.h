@@ -14,7 +14,10 @@ using std::vector;
 
 class W_Thing;
 class W_Surface;
-struct R_Frustum;
+namespace Render
+{
+    struct Frustum;
+}
 namespace Cog
 {
     class Script;
@@ -47,7 +50,7 @@ public:
 	void PlaySectorSound();
 
 	// R_Sector.cpp
-	void Draw( R_Frustum frustum, W_Surface *ignore );
+	void Draw( Render::Frustum frustum, W_Surface *ignore );
 
 	// P_Sector.cpp
 	bool UpdateThingSector( W_Thing* thing, Math::Vector oldPosition );

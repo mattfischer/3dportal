@@ -5,22 +5,25 @@
 
 #include "M_Vector.h"
 
-struct R_TextureVertex {
-	float u;
-	float v;
-};
+namespace Render
+{
+    struct TextureVertex {
+	    float u;
+	    float v;
+    };
 
-struct R_Vertex {
-	Math::Vector position;
-	R_TextureVertex texture;
-	float intensity;
-	Math::Vector normal;
-};
+    struct Vertex {
+	    Math::Vector position;
+	    TextureVertex texture;
+	    float intensity;
+	    Math::Vector normal;
+    };
 
-struct R_ModelVertex {
-	Math::Vector position;
-	R_TextureVertex texture;
-	Math::Vector normal;
-};
+    struct ModelVertex {
+	    Math::Vector position;
+	    TextureVertex texture;
+	    Math::Vector normal;
+    };
+}
 
 #endif

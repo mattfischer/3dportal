@@ -15,11 +15,11 @@ extern shared_ptr<W_Thing> player;
 
 extern bool drawThings;
 
-bool SphereInFrustum(Math::Vector position, float radius, R_Frustum frustum)
+bool SphereInFrustum(Math::Vector position, float radius, Render::Frustum frustum)
 {
 	Math::Vector normal;
 	
-	position=worldviewMatrix*position;
+	position=Render::worldviewMatrix*position;
 
 	normal=Math::Vector(1, 0, frustum.x0);
 	normal.Normalize();
@@ -68,7 +68,7 @@ bool SphereInFrustum(Math::Vector position, float radius, R_Frustum frustum)
 	return true;
 }
 	
-void W_Thing::Draw( R_Frustum frustum, float light, Math::Vector tint )
+void W_Thing::Draw( Render::Frustum frustum, float light, Math::Vector tint )
 {
 	float distance2;
 	Math::Vector compositeRotation;

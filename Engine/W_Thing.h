@@ -21,9 +21,12 @@ using std::vector;
 using boost::shared_ptr;
 
 class W_Sector;
-class R_Model;
-struct R_Node;
-struct R_Frustum;
+namespace Render
+{
+    class Model;
+    struct Node;
+    struct Frustum;
+}
 class W_Surface;
 namespace Sound
 {
@@ -80,7 +83,7 @@ public:
     Jk::Template *GetTemplate();
     void SetTemplate( Jk::Template* t );
 
-	R_Model *GetModel();
+	Render::Model *GetModel();
 	float GetMoveSize();
 	float GetSize();
 	float GetMass();
@@ -141,7 +144,7 @@ public:
 	void Explode();
 
 	// R_Thing.cpp
-	void Draw( R_Frustum frustum, float light, Math::Vector tint );
+	void Draw( Render::Frustum frustum, float light, Math::Vector tint );
 
 protected:
 
@@ -155,7 +158,7 @@ protected:
 	Math::Vector nudge;
 	
     Jk::Template *thingTemplate;
-	R_Model *model;
+	Render::Model *model;
 	float maxVelocity;
 	float maxThrust;
 	float maxRotVelocity;
@@ -214,7 +217,7 @@ protected:
 
     Jk::Template *explodeTemplate;
 
-	R_Sprite *sprite;
+	Render::Sprite *sprite;
 	float spriteTime;
 
 	LONG killTime;

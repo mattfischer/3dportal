@@ -25,7 +25,7 @@
 #include "S_Manager.h"
 
 shared_ptr<W_Thing> player;
-extern R_Model *povModel;
+extern Render::Model *povModel;
 
 #define NUMAVERAGEFRAMES 1
 float lastFrameTimes[NUMAVERAGEFRAMES];
@@ -90,7 +90,7 @@ void G_GameLoop()
 	LARGE_INTEGER frameBegin;
 	LARGE_INTEGER frameEnd;
 	LARGE_INTEGER timeElapsed;
-	if(!OpenGLStarted) return;
+	if(!Render::OpenGLStarted) return;
 	
 	QueryPerformanceCounter(&frameBegin);
 	
@@ -102,7 +102,7 @@ void G_GameLoop()
 	I_Process(average);
 	W_Thing::UpdateThings(average);
     Sound::Update();
-	R_Frame_Render(average);
+	Render::Frame_Render(average);
 	
 	frames++;
 	if(GetTickCount()>fpsTimer+1000)

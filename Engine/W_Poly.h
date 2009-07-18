@@ -8,7 +8,10 @@
 #include "R_Frame.h"
 #include "M_Plane.h"
 
-struct R_Texture;
+namespace Render
+{
+    struct Texture;
+}
 
 class W_Poly {
 public:
@@ -18,7 +21,7 @@ public:
 	W_Poly( int n, int a = 0 );	
 	~W_Poly();
 	W_Poly( W_Poly &p );
-	R_Vertex &operator[]( int n );
+    Render::Vertex &operator[]( int n );
 	W_Poly &operator=( W_Poly &p );
 
 	int NumVertices() { return numVerts; }
@@ -27,8 +30,8 @@ public:
 	Math::Plane GetPlane();
 	void SetPlane( Math::Vector normal );
 
-	R_Texture *GetTexture();
-	void SetTexture( R_Texture *t );
+	Render::Texture *GetTexture();
+	void SetTexture( Render::Texture *t );
 	
 	void Transform( Math::Matrix &m );
 
@@ -36,10 +39,10 @@ public:
 
 	// R_Poly.cpp
 	void Clip( Math::Plane &p );
-	void Clip( R_Frustum frustum );
+	void Clip( Render::Frustum frustum );
 	
 	void Draw( Math::Vector tint, float light, bool translucent, bool cullReverse, int cel, float offsetU, float offsetV );
-	R_Frustum CreateFrustum();
+	Render::Frustum CreateFrustum();
 
 	// P_Poly.cpp
 	int InFrontOfPlane( Math::Plane &c );
@@ -48,10 +51,10 @@ public:
 	Math::Vector SpherePlaneOffset( Math::Vector position, float radius, bool &direct );
 	
 protected:
-	R_Texture *texture;
+	Render::Texture *texture;
 	int numVerts;
 	int allocatedVerts;
-	R_Vertex *vertices;
+	Render::Vertex *vertices;
 	Math::Plane plane;
 };
 

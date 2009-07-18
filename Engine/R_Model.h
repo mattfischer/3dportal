@@ -11,59 +11,61 @@
 
 #include <string>
 
-struct R_Texture;
-
 using std::string;
 
-struct R_Face {
-	int type;
-	W_Poly poly;
-};
-
-struct R_Mesh {
-	int numFaces;
-	int list;
-	string name;
-	R_Face *faces;
-};
-
-struct R_GeoSet {
-	int numMeshes;
-	R_Mesh *meshes;
-};
-
-struct R_Node {
-	int mesh;
-	int numChildren;
-	R_Node *children;
-	Math::Vector position;
-	Math::Vector pivot;
-	Math::Vector rotation;
-	string name;
-};
-
-class R_Model 
+namespace Render
 {
-public:
-	// JK_Model.cpp
-	R_Model( const string& filename );
+    struct Texture;
+   
 
-	// R_Model.cpp
-    void Draw( float distance2, float light, Math::Vector tint, Jk::Key::Track *keyTrack );
-	float GetRadius();
-	Math::Vector GetInsertOffset();
-	R_Mesh *GetMesh( int g, int m );
+    class Model 
+    {
+    public:
+        struct Face {
+	        int type;
+	        W_Poly poly;
+        };
 
-protected:
-	int numGeoSets;
-	R_GeoSet *geoSets;
-	R_Node *rootNode;
-	Math::Vector insertOffset;
-	float radius;
+        struct Mesh {
+	        int numFaces;
+	        int list;
+	        string name;
+	        Face *faces;
+        };
 
-    void DrawNode( R_Node *node, int g, float light, Math::Vector tint, Jk::Key::Track *keyTrack );
-};
+        struct Node {
+	        int mesh;
+	        int numChildren;
+	        Node *children;
+	        Math::Vector position;
+	        Math::Vector pivot;
+	        Math::Vector rotation;
+	        string name;
+        };
 
-void JK_Level_Load3DO( const string& name, R_Model *newModel );
+        // JK_Model.cpp
+	    Model( const string& filename );
+
+	    // R_Model.cpp
+        void Draw( float distance2, float light, Math::Vector tint, Jk::Key::Track *keyTrack );
+	    float GetRadius();
+	    Math::Vector GetInsertOffset();
+	    Mesh *GetMesh( int g, int m );
+
+    protected:
+        struct GeoSet {
+	        int numMeshes;
+	        Mesh *meshes;
+        };
+
+	    int numGeoSets;
+	    GeoSet *geoSets;
+	    Node *rootNode;
+	    Math::Vector insertOffset;
+	    float radius;
+
+        void DrawNode( Node *node, int g, float light, Math::Vector tint, Jk::Key::Track *keyTrack );
+    };
+}
 
 #endif

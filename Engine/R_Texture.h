@@ -10,28 +10,31 @@ class JK_Colormap;
 
 using std::string;
 
-class R_Texture
+namespace Render
 {
-public:
-	R_Texture( const string& filename );
+    class Texture
+    {
+    public:
+	    Texture( const string& filename );
 
-    void Register( Util::VectorMap<JK_Colormap*> &colormaps );
-	void Select( int colormap, int cel );
+        void Register( Util::VectorMap<JK_Colormap*> &colormaps );
+	    void Select( int colormap, int cel );
 
-	int SizeX();
-	int SizeY();
-	bool NeedsBlending();
-	int NumCels();
+	    int SizeX();
+	    int SizeY();
+	    bool NeedsBlending();
+	    int NumCels();
 
-protected:
-	int sizeX;
-	int sizeY;
-	unsigned int **names;
-	int numCels;
-	bool transparent;
-	UCHAR **data;
-};
+    protected:
+	    int sizeX;
+	    int sizeY;
+	    unsigned int **names;
+	    int numCels;
+	    bool transparent;
+	    UCHAR **data;
+    };
 
-void R_Texture_Register( R_Texture *textures, int numTextures );
+    void Texture_Register( Texture *textures, int numTextures );
+}
 
 #endif

@@ -53,21 +53,21 @@ void W_Surface::Draw(Math::Vector tint, float light)
 	else if(flags&JK_SURFACE_HORIZON_SKY)
 	{
 		W_Poly poly2(polygon);
-		poly2.Clip(R_WindowFrustum);
-		poly2.Transform(totalTransformationMatrix);
+        poly2.Clip(Render::WindowFrustum);
+		poly2.Transform(Render::totalTransformationMatrix);
 
 		glPushMatrix();
 		glLoadIdentity();
 			
 		skySizeX=2*currentLevel.horizonDistance*cos(FOV*3.14/360);
-		skySizeY=skySizeX*SY/SX;
+		skySizeY=skySizeX*Render::SY/Render::SX;
 		startXOffset=-(rotation.y*currentLevel.numPixelsPerRev)/360-currentLevel.horizonOffsetX;
 		startYOffset=polygon.GetTexture()->SizeY()-skySizeY-(rotation.x*currentLevel.numPixelsPerRev)/360-currentLevel.horizonOffsetY;
 		
 		for(k=0;k<poly2.NumVertices();k++)
 		{
-			x=(poly2[k].position.x+SX)/(2*SX);
-			y=(-poly2[k].position.y+SY)/(2*SY);
+			x=(poly2[k].position.x+Render::SX)/(2*Render::SX);
+			y=(-poly2[k].position.y+Render::SY)/(2*Render::SY);
 						
 			poly2[k].texture.u=startXOffset+x*skySizeX;
 			poly2[k].texture.v=startYOffset+y*skySizeY;

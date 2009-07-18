@@ -383,7 +383,7 @@ namespace Cog
                         int index = currentLevel.models.index( filename );
                         if( index == -1 )
                         {
-                            currentLevel.models.push_back( new R_Model( filename ), filename );
+                            currentLevel.models.push_back( new Render::Model( filename ), filename );
                             index = currentLevel.models.index( filename );
                         }
 				        *(int*)symbols[i].data = index;

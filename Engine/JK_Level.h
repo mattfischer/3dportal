@@ -17,8 +17,12 @@ using std::map;
 
 class W_Sector;
 class W_Thing;
-class R_Model;
-struct R_Texture;
+namespace Render
+{
+    class Model;
+    struct Texture;
+    class Sprite;
+}
 namespace Cog
 {
     class Script;
@@ -30,7 +34,6 @@ namespace Sound
 }
 class JK_Colormap;
 class W_Thing;
-class R_Sprite;
 
 using boost::shared_ptr;
 
@@ -42,15 +45,15 @@ namespace Jk
     struct Level {
 	    int playerNum;
 
-        Util::VectorMap<R_Texture*> textures;
+        Util::VectorMap<Render::Texture*> textures;
 	    Util::VectorMap<JK_Colormap*> colormaps;
         Util::VectorMap<Cog::Script*> cogScripts;
 	    Util::VectorMap<Sound::Buffer*> sounds;
 	    Util::VectorMap<Sound::Class*> soundClasses;
-	    Util::VectorMap<R_Model*> models;
+	    Util::VectorMap<Render::Model*> models;
         Util::VectorMap<Jk::Key*> keyframes;
         Util::VectorMap<Jk::AnimClass*> animClasses;
-	    Util::VectorMap<R_Sprite*> sprites;
+	    Util::VectorMap<Render::Sprite*> sprites;
 
 	    std::vector<shared_ptr<W_Thing> > things;
         std::vector<Cog::Script*> cogs;

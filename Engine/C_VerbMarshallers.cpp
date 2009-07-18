@@ -5,7 +5,7 @@
 #include "W_Thing.h"
 #include "G_Console.h"
 
-extern R_Model* povModel;
+extern Render::Model* povModel;
 
 namespace Cog
 {

@@ -3,11 +3,14 @@
 
 #include <windows.h>
 
-int R_OpenGL_Initialize( HWND hWnd );
-void R_OpenGL_Shutdown( HWND hWnd );
-void R_OpenGL_ViewportSize( int x, int y );
+namespace Render
+{
+    int OpenGL_Initialize( HWND hWnd );
+    void OpenGL_Shutdown( HWND hWnd );
+    void OpenGL_ViewportSize( int x, int y );
 
-extern int OpenGLStarted;
-extern HDC hDC;
+    extern int OpenGLStarted;
+    extern HDC hDC;
+}
 
 #endif
