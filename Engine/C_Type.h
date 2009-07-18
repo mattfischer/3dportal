@@ -22,7 +22,7 @@ typedef int C_Type_Message;
 typedef int C_Type_Model;
 typedef int C_Type_Sound;
 typedef int C_Type_Template;
-typedef M_Vector C_Type_Vector;
+typedef Math::Vector C_Type_Vector;
 typedef void C_Type_Void;
 
 struct C_Type_Variant
@@ -30,7 +30,7 @@ struct C_Type_Variant
 	C_SymbolType type;
 	int v_int;
 	float v_float;
-	M_Vector v_vector;
+    Math::Vector v_vector;
 };
 
 #endif

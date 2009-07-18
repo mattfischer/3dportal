@@ -96,28 +96,28 @@ namespace Jk
 			    f1 = line.getFloat( error );
 			    f2 = line.getFloat( error );
 			    f3 = line.getFloat( error );
-			    nodes[i].entries[j].position = M_Vector( f1, f2, f3 );
+			    nodes[i].entries[j].position = Math::Vector( f1, f2, f3 );
     			
 			    f1 = line.getFloat( error );
 			    f2 = line.getFloat( error );
 			    f3 = line.getFloat( error );
-			    nodes[i].entries[j].orientation = M_Vector( f1, f2, f3 );
+			    nodes[i].entries[j].orientation = Math::Vector( f1, f2, f3 );
 
 			    line = parser.getLine( error );
                 f1 = line.getFloat( error );
 			    f2 = line.getFloat( error );
 			    f3 = line.getFloat( error );
-			    nodes[i].entries[j].deltaPosition = M_Vector( f1, f2, f3 );
+			    nodes[i].entries[j].deltaPosition = Math::Vector( f1, f2, f3 );
     			
 			    f1 = line.getFloat( error );
 			    f2 = line.getFloat( error );
 			    f3 = line.getFloat( error );
-			    nodes[i].entries[j].deltaOrientation = M_Vector( f1, f2, f3 );
+			    nodes[i].entries[j].deltaOrientation = Math::Vector( f1, f2, f3 );
 		    }
 	    }
     }
 
-    void Key::interpolateFrame( const string &node, float time, int flags, M_Vector &position, M_Vector &orientation )
+    void Key::interpolateFrame( const string &node, float time, int flags, Math::Vector &position, Math::Vector &orientation )
     {
 	    int i;
 	    float frame;

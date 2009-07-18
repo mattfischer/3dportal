@@ -3,8 +3,6 @@
 
 #include "Global.h"
 
-#include "M_Vector.h"
-
 #include <string>
 
 using std::string;

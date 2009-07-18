@@ -57,7 +57,7 @@ R_Vertex& W_Poly::operator[](int n)
 	return vertices[(n+numVerts)%numVerts]; 
 }
 
-void W_Poly::Transform(M_Matrix &m)
+void W_Poly::Transform(Math::Matrix &m)
 {
 	int i;
 
@@ -71,12 +71,12 @@ void W_Poly::BuildPlane()
 	plane.normal.Normalize();
 }
 
-M_Plane W_Poly::GetPlane()
+Math::Plane W_Poly::GetPlane()
 {
 	return plane;
 }
 
-void W_Poly::SetPlane(M_Vector normal)
+void W_Poly::SetPlane(Math::Vector normal)
 {
 	plane.point=vertices[0].position;
 	plane.normal=normal;

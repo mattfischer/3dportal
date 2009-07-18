@@ -247,7 +247,7 @@ void C_Script::ParseArgumentString()
 			break;
 
 		case C_TYPE_VECTOR: 
-			*(M_Vector*)symbols[symbol].data = ParseVector( s.substr( i, j - i ) );
+			*(Math::Vector*)symbols[symbol].data = ParseVector( s.substr( i, j - i ) );
 			break;
 		}
 		i = j+1;
@@ -310,8 +310,8 @@ void C_Script::SetupSymbolTable( C_ASTNode *symbolsNode )
 			break;
 
 		case C_TYPE_VECTOR: 
-			symbols[i].data = new M_Vector; 
-			*(M_Vector*)symbols[i].data = M_Vector( 0, 0, 0 );
+			symbols[i].data = new Math::Vector; 
+			*(Math::Vector*)symbols[i].data = Math::Vector( 0, 0, 0 );
 			break;
 		}
 		
@@ -508,7 +508,7 @@ void C_Script::TimerKickstart(void *object)
 	((C_Script*)object)->Timer(((C_Script*)object)->startInfo.time);
 }
 	
-M_Vector C_Script::ParseVector( const string& s )
+Math::Vector C_Script::ParseVector( const string& s )
 {
 	float pieces[3];
 	string newString;
@@ -526,5 +526,5 @@ M_Vector C_Script::ParseVector( const string& s )
 		i = j + 1;
 		if( s[j] == ')' ) break;
 	}
-	return M_Vector( pieces[0], pieces[1], pieces[2] );
+	return Math::Vector( pieces[0], pieces[1], pieces[2] );
 }

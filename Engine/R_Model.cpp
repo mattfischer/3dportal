@@ -18,12 +18,12 @@ float R_Model::GetRadius()
 	return radius;
 }
 
-M_Vector R_Model::GetInsertOffset()
+Math::Vector R_Model::GetInsertOffset()
 {
 	return insertOffset;
 }
 
-void R_Model::Draw(float distance2, float light, M_Vector tint, Jk::Key::Track *keyTrack )
+void R_Model::Draw(float distance2, float light, Math::Vector tint, Jk::Key::Track *keyTrack )
 {
 	int LOD;
 	int i;
@@ -48,12 +48,12 @@ void R_Model::Draw(float distance2, float light, M_Vector tint, Jk::Key::Track *
 	DrawNode( rootNode, LOD, light, tint, keyTrack );
 }
 
-void R_Model::DrawNode(R_Node *node, int g, float light, M_Vector tint, Jk::Key::Track *keyTrack )
+void R_Model::DrawNode(R_Node *node, int g, float light, Math::Vector tint, Jk::Key::Track *keyTrack )
 {
 	int i;
 	R_Mesh *mesh;
-	M_Vector position;
-	M_Vector rotation;
+	Math::Vector position;
+	Math::Vector rotation;
 
 	if( keyTrack && keyTrack->key )
 	{

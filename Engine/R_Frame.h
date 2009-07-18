@@ -13,7 +13,7 @@ struct R_Frustum {
 	double x00d, x10d;
 	double x01d, x11d;
 
-	M_Vector *planeNormals;
+    Math::Vector *planeNormals;
 	int numPlanes;
 };
 
@@ -21,17 +21,17 @@ extern int ScreenX, ScreenY;
 
 extern float SX, SY;
 
-extern M_Matrix perspectiveMatrix;
-extern M_Matrix rotationMatrix;
-extern M_Matrix rotationInverseMatrix;
+extern Math::Matrix perspectiveMatrix;
+extern Math::Matrix rotationMatrix;
+extern Math::Matrix rotationInverseMatrix;
 
-extern M_Matrix worldviewMatrix;
-extern M_Matrix worldviewInverseMatrix;
+extern Math::Matrix worldviewMatrix;
+extern Math::Matrix worldviewInverseMatrix;
 
-extern M_Matrix coordConversionMatrix;
-extern M_Matrix coordConversionInverseMatrix;
+extern Math::Matrix coordConversionMatrix;
+extern Math::Matrix coordConversionInverseMatrix;
 
-extern M_Matrix totalTransformationMatrix;
+extern Math::Matrix totalTransformationMatrix;
 
 extern int globalFlag;
 

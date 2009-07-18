@@ -10,12 +10,12 @@
 extern bool doThingCollisions;
 extern shared_ptr<W_Thing> player;
 
-bool W_Surface::PerformActivate( M_Vector position, M_Vector point )
+bool W_Surface::PerformActivate( Math::Vector position, Math::Vector point )
 {
-	M_Plane plane;
+	Math::Plane plane;
 	float planeD, newD;
 	float t;
-	M_Vector newPos;
+	Math::Vector newPos;
 
 	plane = polygon.GetPlane();
 	
@@ -43,9 +43,9 @@ bool W_Surface::PerformActivate( M_Vector position, M_Vector point )
 
 void W_Surface::SurfaceCollisions( W_Thing* thing )
 {
-	M_Vector offset;
-	M_Vector normalVel;
-	M_Plane plane;
+	Math::Vector offset;
+	Math::Vector normalVel;
+	Math::Plane plane;
 	bool direct;
 
 	offset = polygon.SpherePlaneOffset( thing->GetPosition(), thing->GetMoveSize(), direct );
@@ -73,10 +73,10 @@ bool W_Surface::FloorCollisions( W_Thing* thing )
 {
 	float newD, planeD, centerD;
 	float t;
-	M_Vector newPos;
+	Math::Vector newPos;
 	float offset;
-	M_Vector floorPos;
-	M_Plane plane;
+	Math::Vector floorPos;
+	Math::Plane plane;
 
 	floorPos = thing->GetPosition() - thing->GetStandVector();
 	plane = polygon.GetPlane();
@@ -87,8 +87,8 @@ bool W_Surface::FloorCollisions( W_Thing* thing )
 	planeD = plane.normal.ScalarProjection( plane.point );
 	centerD = plane.normal.ScalarProjection( thing->GetPosition() );
 
-	t = ( planeD - newD ) / ( M_Vector( 0, 0, 1 ) * plane.normal );
-	newPos = floorPos + M_Vector( 0, 0, t );
+	t = ( planeD - newD ) / ( Math::Vector( 0, 0, 1 ) * plane.normal );
+	newPos = floorPos + Math::Vector( 0, 0, t );
 
 	if( thing->WasAttached() ) offset = thing->GetStandVector().z;
 	else offset = 0.01;
@@ -103,11 +103,11 @@ bool W_Surface::FloorCollisions( W_Thing* thing )
 				{
 					if( centerD < planeD )
 					{
-						thing->SetPosition( thing->GetPosition() + M_Vector( 0, 0, ( planeD - centerD ) / plane.normal.z ) );
-						thing->Nudge( M_Vector( 0, 0, ( centerD - newD ) / plane.normal.z ) );
+						thing->SetPosition( thing->GetPosition() + Math::Vector( 0, 0, ( planeD - centerD ) / plane.normal.z ) );
+						thing->Nudge( Math::Vector( 0, 0, ( centerD - newD ) / plane.normal.z ) );
 					}
 					else
-						thing->Nudge( M_Vector( 0, 0, ( planeD - newD ) / plane.normal.z ) );
+						thing->Nudge( Math::Vector( 0, 0, ( planeD - newD ) / plane.normal.z ) );
 				thing->SetAttached( this );
 				thing->ArrestMotion( plane.normal );
 				return true;

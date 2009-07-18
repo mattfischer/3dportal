@@ -40,7 +40,7 @@ C_Token C_Tokenizer::NextToken(bool stringHack, bool stringHack2)
 	bool repeat;
 	bool notNumber;
 	char buffer[100];
-	M_Vector newVector;
+	Math::Vector newVector;
 
 	if(lineNum==490)
 		repeat=true;
@@ -153,7 +153,7 @@ C_Token C_Tokenizer::NextToken(bool stringHack, bool stringHack2)
 			strcpy(buffer, data.substr(p+1, i-p-2).c_str());
 			newVector.z=atof(buffer);
 
-			newToken.lexData=new M_Vector(newVector);
+			newToken.lexData=new Math::Vector(newVector);
 			
 			found=true;
 			p=i+1;

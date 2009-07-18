@@ -31,7 +31,7 @@ R_Sprite::R_Sprite( const string &filename )
 	x = line.getFloat( error );
 	y = line.getFloat( error );
 	z = line.getFloat( error );
-	offset = M_Vector( x, y, z );
+	offset = Math::Vector( x, y, z );
 }
 
 int R_Sprite::NumFrames()

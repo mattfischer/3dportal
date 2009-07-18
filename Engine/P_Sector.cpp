@@ -13,15 +13,15 @@
 
 extern shared_ptr<W_Thing> player;
 
-bool W_Sector::UpdateThingSector( W_Thing* thing, M_Vector oldPosition )
+bool W_Sector::UpdateThingSector( W_Thing* thing, Math::Vector oldPosition )
 {
 	float newD, planeD, oldD;
-	M_Vector planePoint;
+	Math::Vector planePoint;
 	int i;
-	M_Plane plane;
+	Math::Plane plane;
 	W_Sector *oldSector;
-	M_Vector delta;
-	M_Vector intersection;
+	Math::Vector delta;
+	Math::Vector intersection;
 
 	delta = thing->GetEyePosition() - oldPosition;
 	delta.Normalize();
@@ -63,10 +63,10 @@ bool W_Sector::UpdateThingSector( W_Thing* thing, M_Vector oldPosition )
 
 void W_Sector::SurfaceCollisions( W_Thing* thing, W_Surface *ignore )
 {
-	M_Vector planePoint;
+	Math::Vector planePoint;
 	int i;
-	M_Plane plane;
-	M_Vector offset;
+	Math::Plane plane;
+	Math::Vector offset;
 
 	if( recurseGuard ) return;
 	recurseGuard = true;
@@ -85,11 +85,11 @@ void W_Sector::SurfaceCollisions( W_Thing* thing, W_Surface *ignore )
 bool W_Sector::FloorCollisions( W_Thing* thing, W_Surface *ignore )
 {
 	float newD, planeD, centerD;
-	M_Vector planePoint;
+	Math::Vector planePoint;
 	int i;
-	M_Plane plane;
-	M_Vector floorPos;
-	M_Vector newPos;
+	Math::Plane plane;
+	Math::Vector floorPos;
+	Math::Vector newPos;
 	float t;
 	float offset;
 
@@ -112,11 +112,11 @@ bool W_Sector::FloorCollisions( W_Thing* thing, W_Surface *ignore )
 
 void W_Sector::ThingCollisions( W_Thing* collide_thing, W_Surface *ignore )
 {
-	M_Vector distance;
-	M_Vector offset;
+	Math::Vector distance;
+	Math::Vector offset;
 	float collideDistance;
 	int i;
-	M_Vector floorPoint;
+	Math::Vector floorPoint;
 	float newD, planeD;
 	bool standPastSurface;
 	bool garbage;
@@ -150,11 +150,11 @@ void W_Sector::ThingCollisions( W_Thing* collide_thing, W_Surface *ignore )
 
 bool W_Sector::ThingFloorCollisions( W_Thing* collide_thing, W_Surface *ignore )
 {
-	M_Vector distance;
-	M_Vector offset;
+	Math::Vector distance;
+	Math::Vector offset;
 	float collideDistance;
 	int i;
-	M_Vector floorPoint;
+	Math::Vector floorPoint;
 	float newD, planeD;
 	bool standPastSurface;
 	W_Thing *thing;
@@ -203,11 +203,11 @@ bool W_Sector::ThingFloorCollisions( W_Thing* collide_thing, W_Surface *ignore )
 
 void W_Sector::ThingSurfaceCollisions( W_Thing* collide_thing, W_Surface *ignore )
 {
-	M_Vector distance;
-	M_Vector offset;
+	Math::Vector distance;
+	Math::Vector offset;
 	float collideDistance;
 	int i;
-	M_Vector floorPoint;
+	Math::Vector floorPoint;
 	float newD, planeD;
 	bool standPastSurface;
 	bool garbage;
@@ -240,15 +240,15 @@ void W_Sector::ThingSurfaceCollisions( W_Thing* collide_thing, W_Surface *ignore
 	recurseGuard = false;
 }
 
-bool W_Sector::PerformActivate( M_Vector position, M_Vector point, W_Surface *ignore )
+bool W_Sector::PerformActivate( Math::Vector position, Math::Vector point, W_Surface *ignore )
 {
 	int i;
 	float planeD, newD;
 	float t;
-	M_Plane plane;
-	M_Vector newPos;
+	Math::Plane plane;
+	Math::Vector newPos;
 	W_Poly poly;
-	M_Vector distance;
+	Math::Vector distance;
 	float modelSize;
 	W_Thing *thing;
 

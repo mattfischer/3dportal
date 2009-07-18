@@ -3,8 +3,6 @@
 
 #include "C_AST.h"
 
-class M_Vector;
-
 #define STACKSIZE 100
 
 class C_Stack
@@ -15,12 +13,12 @@ public:
 
 	void PushFloat( float a );
 	void PushInt( int a );
-	void PushVector( M_Vector a );
+	void PushVector( Math::Vector a );
 	void Push( void *data, int size );
 
 	float PopFloat();
 	int PopInt();
-	M_Vector PopVector();
+	Math::Vector PopVector();
 	float PopFlex( C_SymbolType destType );
 	void Pop( void *data, int size );
 

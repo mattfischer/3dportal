@@ -33,8 +33,8 @@ namespace Sound
 class C_Script;
 
 struct W_Frame {
-	M_Vector position;
-	M_Vector rotation;
+	Math::Vector position;
+	Math::Vector rotation;
 };
 
 
@@ -47,25 +47,25 @@ public:
 	enum Type { ACTOR, WEAPON, ITEM, EXPLOSION, COG, GHOST, CORPSE, PLAYER, PARTICLE};
 
 	// W_Thing.cpp
-    W_Thing( Jk::Template *t, M_Vector p, M_Vector r, W_Sector *s );
+    W_Thing( Jk::Template *t, Math::Vector p, Math::Vector r, W_Sector *s );
 	W_Thing( W_Thing &c );
 
-    static int Create( Jk::Template *t, M_Vector p, M_Vector r, W_Sector *s );
+    static int Create( Jk::Template *t, Math::Vector p, Math::Vector r, W_Sector *s );
     static int CreateFromThing( W_Thing *thing, Jk::Template *newTemplate );
 
 	virtual ~W_Thing();
 	W_Thing &operator=( W_Thing &c );
 
-	M_Vector GetPosition();
-	void SetPosition( M_Vector p );
-	M_Vector GetRotation();
-	void SetRotation( M_Vector r );
+	Math::Vector GetPosition();
+	void SetPosition( Math::Vector p );
+	Math::Vector GetRotation();
+	void SetRotation( Math::Vector r );
 	W_Sector *GetSector();
 	void SetSector( W_Sector *newSector );
-	M_Vector GetCompositeRotation();
+	Math::Vector GetCompositeRotation();
 
-	M_Vector GetAcceleration();
-	M_Vector GetVelocity();
+	Math::Vector GetAcceleration();
+	Math::Vector GetVelocity();
 	int GetFlagValue();
 	void Destroy();
 
@@ -89,10 +89,10 @@ public:
 	bool WasAttached();
 	W_Surface *GetAttachSurface();
 
-	M_Vector GetEyePosition();
+	Math::Vector GetEyePosition();
 	void SetCrouched( bool c );
 	void Jump();
-	M_Vector GetStandVector();
+	Math::Vector GetStandVector();
 
 	void Update( float time );
 
@@ -109,26 +109,26 @@ public:
 	// P_Thing.cpp
 	static void UpdateThings( float time );
 
-	void ApplyThrust( M_Vector thrust );
+	void ApplyThrust( Math::Vector thrust );
 	
-	void AddVelocity( M_Vector vel );
-	void SetVelocity( M_Vector vel );
+	void AddVelocity( Math::Vector vel );
+	void SetVelocity( Math::Vector vel );
 	
-	void Nudge( M_Vector n );
+	void Nudge( Math::Vector n );
 
 	int GetCurrentFrame();
 	bool IsPathMove();
 	bool IsPhysicsMove();
-	M_Vector GetPathMoveDelta();
+	Math::Vector GetPathMoveDelta();
 	void MoveToFrame( int frame, float speed );
 	void JumpToFrame( int frame, W_Sector *s );
 	bool IsMoving();
 	
 	void Activate();
 	
-	void ArrestMotion( M_Vector normal );
+	void ArrestMotion( Math::Vector normal );
 
-	bool PerformActivate( M_Vector position, M_Vector point );
+	bool PerformActivate( Math::Vector position, Math::Vector point );
 	void ThingCollisions( W_Thing* thing );
 	bool ThingFloorCollisions( W_Thing* thing );
 	void ThingSurfaceCollisions( W_Thing* thing );
@@ -138,18 +138,18 @@ public:
 	void Explode();
 
 	// R_Thing.cpp
-	void Draw( R_Frustum frustum, float light, M_Vector tint );
+	void Draw( R_Frustum frustum, float light, Math::Vector tint );
 
 protected:
 
 	//int num;
-	M_Vector position;
-	M_Vector rotation;
-	M_Vector velocity;
-	M_Vector acceleration;
+	Math::Vector position;
+	Math::Vector rotation;
+	Math::Vector velocity;
+	Math::Vector acceleration;
 	W_Sector *sector;
 
-	M_Vector nudge;
+	Math::Vector nudge;
 	
     Jk::Template *thingTemplate;
 	R_Model *model;
@@ -163,19 +163,19 @@ protected:
 	float airDrag;
 	float size;
 	float moveSize;
-	M_Vector eyeOffset;
+	Math::Vector eyeOffset;
 	int typeFlags;
 	int thingFlags;
 	int physicsFlags;
-	M_Vector rotVelocity;
+	Math::Vector rotVelocity;
 	MoveType move;
 	int collide;
 	float jumpVelocity;
 
 	Sound::Class *soundClass;
-	M_Vector orient;
+	Math::Vector orient;
 
-	M_Vector insertOffset;
+	Math::Vector insertOffset;
 
 	int attachFlags;
 	int oldAttachFlags;
@@ -192,10 +192,10 @@ protected:
 	bool pathMoving;
 	int currentFrame;
 	int destFrame;
-	M_Vector pathVector;
+	Math::Vector pathVector;
 	float pathT;
 	float pathTSpeed;
-	M_Vector pathMoveDelta;
+	Math::Vector pathMoveDelta;
 	vector<W_Frame> frames;
 	vector<C_Script*> cogLinks;
 

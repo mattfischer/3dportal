@@ -119,7 +119,7 @@ protected:
 	static void TimerKickstart( void *object );
 
 	// C_Script.cpp
-	M_Vector ParseVector( const string& s );
+	Math::Vector ParseVector( const string& s );
 
 	// C_Verb.cpp
 	void ExecuteVerbCall( C_ASTNode *node, C_Context &c, bool expression );

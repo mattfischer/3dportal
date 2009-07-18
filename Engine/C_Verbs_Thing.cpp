@@ -131,7 +131,7 @@ C_Type_Void CaptureThing( C_Type_Thing thing_num, C_Script* script )
 
 C_Type_Vector GetThingLVec( C_Type_Thing thing_num )
 {
-	M_Vector vec;
+	Math::Vector vec;
 
 	return vec;
 }

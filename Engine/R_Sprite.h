@@ -24,7 +24,7 @@ protected:
 	int light;
 	int tex;
 	float extraLight;
-	M_Vector offset;
+    Math::Vector offset;
 };
 
 #endif

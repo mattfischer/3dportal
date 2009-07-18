@@ -16,8 +16,8 @@ W_Surface::W_Surface()
 	slideU = 0;
 	slideV = 0;
     flag = 0;
-	moveDelta = M_Vector(0,0,0);
-	moveVector = M_Vector(0,0,0);
+	moveDelta = Math::Vector(0,0,0);
+	moveVector = Math::Vector(0,0,0);
 }
 
 bool W_Surface::Adjoined()
@@ -101,9 +101,9 @@ void W_Surface::StopAnimate()
 	animate=false;
 }
 
-void W_Surface::Slide(M_Vector direction, float speed)
+void W_Surface::Slide(Math::Vector direction, float speed)
 {
-	M_Vector x, x2;
+	Math::Vector x, x2;
 	float u,v;
 	float distance;
 
@@ -157,7 +157,7 @@ void W_Surface::Update()
 	}
 }
 
-M_Vector W_Surface::GetMoveDelta()
+Math::Vector W_Surface::GetMoveDelta()
 {
 	return moveDelta;
 }

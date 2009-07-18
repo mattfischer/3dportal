@@ -13,18 +13,18 @@
 extern bool fullLight;
 extern bool drawPolygons;
 extern bool drawThings;
-void W_Poly::Clip(M_Plane &c)
+void W_Poly::Clip(Math::Plane &c)
 {
 	int i;
 	int v;
 	float ndotp;
 	int state, newstate;
-	M_Vector newPoint;
+	Math::Vector newPoint;
 	float t;
-	M_Vector a;
-	M_Vector a1, a2;
-	M_Vector p, n;
-	M_Vector v1t, v2t, vt;
+	Math::Vector a;
+	Math::Vector a1, a2;
+	Math::Vector p, n;
+	Math::Vector v1t, v2t, vt;
 
 	R_Vertex v1,v2;
 	static R_Vertex *newVertices=NULL;
@@ -101,11 +101,11 @@ void W_Poly::Clip(M_Plane &c)
 
 void W_Poly::Clip(R_Frustum frustum)
 {
-	M_Vector v0, v1, v2;
-	M_Plane p0, p1, p2, p3, p4, p5, p6, p7;
+	Math::Vector v0, v1, v2;
+	Math::Plane p0, p1, p2, p3, p4, p5, p6, p7;
 	int i;
 
-	v0=worldviewInverseMatrix*M_Vector(0,0,0);
+	v0=worldviewInverseMatrix*Math::Vector(0,0,0);
 /*
 	for(i=0;i<frustum.numPlanes;i++)
 	{
@@ -114,32 +114,32 @@ void W_Poly::Clip(R_Frustum frustum)
 		Clip(p0);
 	}*/
 
-	v1=M_Vector(frustum.x0, frustum.y0, -1);
-	v2=M_Vector(frustum.x0, frustum.y1, -1);
+	v1=Math::Vector(frustum.x0, frustum.y0, -1);
+	v2=Math::Vector(frustum.x0, frustum.y1, -1);
 	
 	p0.point=v0;
 	p0.normal=v1%v2;
 	p0.normal.Normalize();
 	p0.normal=rotationInverseMatrix*p0.normal;
 	
-	v1=M_Vector(frustum.x0, frustum.y1, -1);
-	v2=M_Vector(frustum.x1, frustum.y1, -1);
+	v1=Math::Vector(frustum.x0, frustum.y1, -1);
+	v2=Math::Vector(frustum.x1, frustum.y1, -1);
 	
 	p1.point=v0;
 	p1.normal=v1%v2;
 	p1.normal.Normalize();
 	p1.normal=rotationInverseMatrix*p1.normal;
 	
-	v1=M_Vector(frustum.x1, frustum.y1, -1);
-	v2=M_Vector(frustum.x1, frustum.y0, -1);
+	v1=Math::Vector(frustum.x1, frustum.y1, -1);
+	v2=Math::Vector(frustum.x1, frustum.y0, -1);
 	
 	p2.point=v0;
 	p2.normal=v1%v2;
 	p2.normal.Normalize();
 	p2.normal=rotationInverseMatrix*p2.normal;
 	
-	v1=M_Vector(frustum.x1, frustum.y0, -1);
-	v2=M_Vector(frustum.x0, frustum.y0, -1);
+	v1=Math::Vector(frustum.x1, frustum.y0, -1);
+	v2=Math::Vector(frustum.x0, frustum.y0, -1);
 	
 	p3.point=v0;
 	p3.normal=v1%v2;
@@ -154,8 +154,8 @@ void W_Poly::Clip(R_Frustum frustum)
 	
 	if(frustum.x00d>frustum.x0)
 	{
-		v1=M_Vector(frustum.x00d, frustum.y0, -1);
-		v2=M_Vector(frustum.x0, frustum.y0+frustum.x00d-frustum.x0, -1);
+		v1=Math::Vector(frustum.x00d, frustum.y0, -1);
+		v2=Math::Vector(frustum.x0, frustum.y0+frustum.x00d-frustum.x0, -1);
 		
 		p4.point=v0;
 		p4.normal=v1%v2;
@@ -167,8 +167,8 @@ void W_Poly::Clip(R_Frustum frustum)
 
 	if(frustum.x01d>frustum.x0)
 	{
-		v1=M_Vector(frustum.x0, frustum.y1-(frustum.x01d-frustum.x0), -1);
-		v2=M_Vector(frustum.x01d, frustum.y1, -1);
+		v1=Math::Vector(frustum.x0, frustum.y1-(frustum.x01d-frustum.x0), -1);
+		v2=Math::Vector(frustum.x01d, frustum.y1, -1);
 		
 		p5.point=v0;
 		p5.normal=v1%v2;
@@ -180,8 +180,8 @@ void W_Poly::Clip(R_Frustum frustum)
 
 	if(frustum.x11d<frustum.x1)
 	{
-		v1=M_Vector(frustum.x11d, frustum.y1, -1);
-		v2=M_Vector(frustum.x1, frustum.y1-(frustum.x1-frustum.x11d), -1);
+		v1=Math::Vector(frustum.x11d, frustum.y1, -1);
+		v2=Math::Vector(frustum.x1, frustum.y1-(frustum.x1-frustum.x11d), -1);
 		
 		p6.point=v0;
 		p6.normal=v1%v2;
@@ -193,8 +193,8 @@ void W_Poly::Clip(R_Frustum frustum)
 
 	if(frustum.x10d<frustum.x1)
 	{
-		v1=M_Vector(frustum.x1, frustum.y0+frustum.x1-frustum.x10d, -1);
-		v2=M_Vector(frustum.x10d, frustum.y0, -1);
+		v1=Math::Vector(frustum.x1, frustum.y0+frustum.x1-frustum.x10d, -1);
+		v2=Math::Vector(frustum.x10d, frustum.y0, -1);
 		
 		p7.point=v0;
 		p7.normal=v1%v2;
@@ -242,7 +242,7 @@ R_Frustum W_Poly::CreateFrustum()
 	}
 /*
 	frustum.numPlanes=newPoly.NumVertices();
-	frustum.planeNormals=new M_Vector[frustum.numPlanes];
+	frustum.planeNormals=new Math::Vector[frustum.numPlanes];
 
 	for(i=0;i<newPoly.NumVertices();i++)
 		frustum.planeNormals[i]=newPoly[i+1].position%newPoly[i].position;
@@ -250,7 +250,7 @@ R_Frustum W_Poly::CreateFrustum()
 	return frustum;
 }
 
-void W_Poly::Draw(M_Vector tint, float light, bool translucent, bool cullReverse, int cel, float offsetU, float offsetV)
+void W_Poly::Draw(Math::Vector tint, float light, bool translucent, bool cullReverse, int cel, float offsetU, float offsetV)
 {
 	int k;
 	

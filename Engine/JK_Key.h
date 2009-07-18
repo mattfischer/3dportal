@@ -23,7 +23,7 @@ namespace Jk
 
 	    Key( const string& filename );
 
-	    void interpolateFrame( const string& node, float time, int flags, M_Vector& position, M_Vector& orientation );
+	    void interpolateFrame( const string& node, float time, int flags, Math::Vector& position, Math::Vector& orientation );
 
     protected:
 	    string name;
@@ -48,10 +48,10 @@ namespace Jk
 	        int frame;
 	        int flags;
 
-	        M_Vector position;
-	        M_Vector orientation;
-            M_Vector deltaPosition;
-            M_Vector deltaOrientation;
+	        Math::Vector position;
+	        Math::Vector orientation;
+            Math::Vector deltaPosition;
+            Math::Vector deltaOrientation;
         };
 
         struct Node

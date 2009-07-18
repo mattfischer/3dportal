@@ -113,12 +113,12 @@ namespace Jk
     	
     }
 
-    bool Template::GetVector( const string& paramName, M_Vector& vector )
+    bool Template::GetVector( const string& paramName, Math::Vector& vector )
     {
 	    string result;
 	    float pieces[3];
 	    string newString;
-	    M_Vector newVector;
+	    Math::Vector newVector;
 	    int i, j, n;
 
 	    result = FindParam(paramName);

@@ -28,9 +28,9 @@ R_Model::R_Model( const string& filename )
 	bool error;
 	int g, m, f, i, j;
 	int v, t;
-	M_Vector *vertices;
-	M_Vector *normals;
-	M_Vector normal;
+	Math::Vector *vertices;
+	Math::Vector *normals;
+	Math::Vector normal;
 	R_TextureVertex *textureVertices;
 	int numVertices;
 	int numTextureVertices;
@@ -106,8 +106,8 @@ R_Model::R_Model( const string& filename )
 			line = parser.getLine( error );
 			line.matchString( "VERTICES", error );
 			numVertices = line.getInt( error );
-			vertices = new M_Vector[numVertices];
-			normals = new M_Vector[numVertices];
+			vertices = new Math::Vector[numVertices];
+			normals = new Math::Vector[numVertices];
 
 			for( i = 0 ; i < numVertices ; i++ )
 			{

@@ -13,6 +13,8 @@
 #include "S_Sound.h"
 #include "S_SoundClass.h"
 
+#include "U_Matrix.h"
+
 #include <math.h>
 
 extern bool doThingCollisions;
@@ -20,9 +22,9 @@ extern bool updateThings;
 
 extern shared_ptr<W_Thing> player;
 
-void W_Thing::ApplyThrust(M_Vector thrust)
+void W_Thing::ApplyThrust(Math::Vector thrust)
 {
-	M_Vector accel;
+	Math::Vector accel;
 
 	if(thrust.Magnitude2()==0) return;
 
@@ -32,18 +34,18 @@ void W_Thing::ApplyThrust(M_Vector thrust)
 	thrusting=true;
 }
 
-void W_Thing::AddVelocity(M_Vector vel)
+void W_Thing::AddVelocity(Math::Vector vel)
 {
 	velocity+=vel;
 }
 
-void W_Thing::SetVelocity(M_Vector vel)
+void W_Thing::SetVelocity(Math::Vector vel)
 {
 	//if(attached)
 		velocity=vel;
 }
 
-void W_Thing::Nudge(M_Vector n)
+void W_Thing::Nudge(Math::Vector n)
 {
 	nudge=n;
 }
@@ -55,9 +57,9 @@ bool W_Thing::ThingFloorCollisions( W_Thing* thing)
 	R_Mesh *mesh;
 	W_Poly poly;
 	int i;
-	M_Vector normal;
+	Math::Vector normal;
 	float xcos, xsin;
-	M_Vector floorPos;
+	Math::Vector floorPos;
 	
 	if( !doThingCollisions ) return false;
 	if( collide != JK_COLLIDE_FACE ) return false;
@@ -68,18 +70,11 @@ bool W_Thing::ThingFloorCollisions( W_Thing* thing)
 	xcos = cos( rotation.y * 3.14 / 180 );
 	xsin = sin( rotation.y * 3.14 / 180 );
 	
-	M_Matrix rotatex( xcos, -xsin, 0, 0,
-					  xsin,  xcos, 0, 0,
-					  0,     0,    1, 0,
-					  0,     0,    0, 1
-					 );
-	M_Matrix translate( 1, 0, 0, position.x,
-					    0, 1, 0, position.y,
-					    0, 0, 1, position.z,
-					    0, 0, 0, 1);
-	M_Matrix transform = translate * rotatex;
+    Math::Matrix rotatex = Util::Matrix::RotateZ(rotation.y);
+    Math::Matrix translate = Util::Matrix::Translate(position);
+	Math::Matrix transform = translate * rotatex;
 	float t;
-	M_Vector newPos;
+	Math::Vector newPos;
 	float planeD, newD;
 	float offset;
 	bool result;
@@ -107,11 +102,11 @@ bool W_Thing::ThingFloorCollisions( W_Thing* thing)
 		else offset = 0.01;
 
 		if( newD > planeD + offset ) continue;
-		t = ( planeD - newD ) / ( M_Vector( 0, 0, 1) * normal );
-		newPos = floorPos + M_Vector( 0, 0, t );
+		t = ( planeD - newD ) / ( Math::Vector( 0, 0, 1) * normal );
+		newPos = floorPos + Math::Vector( 0, 0, t );
 		if( !poly.VectorIn( newPos ) ) continue;
 		
-		thing->Nudge( M_Vector( 0, 0, ( planeD - newD ) / normal.z ) );
+		thing->Nudge( Math::Vector( 0, 0, ( planeD - newD ) / normal.z ) );
 		thing->SetAttached( &poly, this );
 		thing->ArrestMotion( normal );
 		result = true;
@@ -124,10 +119,10 @@ void W_Thing::ThingSurfaceCollisions( W_Thing* thing)
 	R_Mesh *mesh;
 	W_Poly poly;
 	int i;
-	M_Vector normal;
-	M_Vector offset;
+	Math::Vector normal;
+	Math::Vector offset;
 	float xcos, xsin;
-	M_Vector floorPos;
+	Math::Vector floorPos;
 	
 	if( !doThingCollisions ) return;
 	if( collide != JK_COLLIDE_FACE ) return;
@@ -137,18 +132,11 @@ void W_Thing::ThingSurfaceCollisions( W_Thing* thing)
 	xcos = cos( rotation.y * 3.14 / 180 );
 	xsin = sin( rotation.y * 3.14 / 180 );
 
-	M_Matrix rotatex( xcos, -xsin, 0, 0,
-					  xsin,  xcos, 0, 0,
-					  0,     0,    1, 0,
-					  0,     0,    0, 1
-					);
-	M_Matrix translate( 1, 0, 0, position.x,
-					    0, 1, 0, position.y,
-					    0, 0, 1, position.z,
-					    0, 0, 0, 1);
-	M_Matrix transform = translate * rotatex;
+    Math::Matrix rotatex = Util::Matrix::RotateZ(rotation.y);
+	Math::Matrix translate = Util::Matrix::Translate(position);
+	Math::Matrix transform = translate * rotatex;
 	float t;
-	M_Vector newPos;
+	Math::Vector newPos;
 	float planeD, newD;
 	bool direct;
 
@@ -177,12 +165,12 @@ void W_Thing::ThingSurfaceCollisions( W_Thing* thing)
 
 void W_Thing::ThingCollisions( W_Thing* thing)
 {
-	M_Vector direction;
+	Math::Vector direction;
 	float relVel;
 	float distance;
 	float collideDistance;
 	float difference;
-	M_Vector normalAccel;
+	Math::Vector normalAccel;
 	float p, v, dp;
 	
 	if( !doThingCollisions ) return;
@@ -218,12 +206,12 @@ void W_Thing::ThingCollisions( W_Thing* thing)
 
 void W_Thing::UpdatePath(float time)
 {
-	M_Vector newPos;
-	M_Vector oldPos;
+	Math::Vector newPos;
+	Math::Vector oldPos;
 
 	if(!pathMoving) 
 	{
-		pathMoveDelta=M_Vector(0,0,0);
+		pathMoveDelta=Math::Vector(0,0,0);
 		return;
 	}
 
@@ -293,7 +281,7 @@ int W_Thing::GetCurrentFrame()
 
 void W_Thing::Activate()
 {
-	M_Vector pointVector;
+	Math::Vector pointVector;
 	float xcos, xsin, ycos, ysin;
 	W_Surface *surface;
 	char buffer[100];
@@ -304,50 +292,34 @@ void W_Thing::Activate()
 	ycos=cos(rotation.x*3.14/180);
 	ysin=sin(rotation.x*3.14/180);
 
-	M_Matrix rotatex(xcos,-xsin,0,0,
-			  xsin,xcos,0,0,
-			  0,0,1,0,
-			  0,0,0,1
-			  );
-
-	M_Matrix rotatey(1,0,0,0,
-					 0,ycos,-ysin,0,
-			         0,ysin,ycos,0,
-			    	 0,0,0,1
-					 );
+    Math::Matrix rotatex = Util::Matrix::RotateZ(rotation.y);
+    Math::Matrix rotatey = Util::Matrix::RotateX(rotation.x);
 	
-	pointVector=rotatex*rotatey*M_Vector(0,1,0);
+	pointVector=rotatex*rotatey*Math::Vector(0,1,0);
 
 	sector->PerformActivate(position+eyeOffset, pointVector, NULL);
 }
 
-bool W_Thing::PerformActivate(M_Vector position, M_Vector point)
+bool W_Thing::PerformActivate(Math::Vector position, Math::Vector point)
 {
 	R_Mesh *mesh;
 	W_Poly poly;
 	int i;
-	M_Vector normal;
-	M_Vector offset;
+	Math::Vector normal;
+	Math::Vector offset;
 	float xcos, xsin;
-	M_Vector floorPos;
+	Math::Vector floorPos;
 
 	xcos=cos(rotation.y*3.14/180);
 	xsin=sin(rotation.y*3.14/180);
 
-	M_Matrix rotatex(xcos,-xsin,0,0,
-			  xsin,xcos,0,0,
-			  0,0,1,0,
-			  0,0,0,1
-			  );
-	M_Matrix translate(1,0,0,position.x,
-					   0,1,0,position.y,
-					   0,0,1,position.z,
-					   0,0,0,1);
-	M_Matrix transform=translate*rotatex;
+    Math::Matrix rotatex = Util::Matrix::RotateZ(rotation.y);
+    Math::Matrix translate = Util::Matrix::Translate(position);
+	Math::Matrix transform=translate*rotatex;
 	float t;
-	M_Vector newPos;
+	Math::Vector newPos;
 	float planeD, newD;
-	M_Plane plane;
+	Math::Plane plane;
 
 	if(model==NULL) return false;
 
@@ -384,9 +356,9 @@ bool W_Thing::PerformActivate(M_Vector position, M_Vector point)
 void W_Thing::UpdateForces( float time )
 {
 	bool repeat;
-	M_Vector nudgeVector;
+	Math::Vector nudgeVector;
 	float nudgeVelocity = .5;
-	M_Vector oldPosition;
+	Math::Vector oldPosition;
 
 	if( collide != JK_COLLIDE_SPHERE ) return;
 
@@ -417,7 +389,7 @@ void W_Thing::UpdateForces( float time )
 			}
 		}
 
-		nudgeVector = M_Vector( 0, 0, 0 );
+		nudgeVector = Math::Vector( 0, 0, 0 );
 
 		if( time > 0 )
 		{
@@ -431,7 +403,7 @@ void W_Thing::UpdateForces( float time )
 			}
 		}
 		position += nudgeVector;
-		nudge = M_Vector( 0, 0, 0 );
+		nudge = Math::Vector( 0, 0, 0 );
 	}
 
     sector->SurfaceCollisions( this, NULL );
@@ -442,12 +414,12 @@ void W_Thing::UpdateForces( float time )
 	{
 		acceleration -= velocity * surfaceDrag;
 		if( physicsFlags & JK_PHYSICS_GRAVITY )
-			acceleration += M_Vector( 0, 0, -currentLevel.gravity / 4 );
+			acceleration += Math::Vector( 0, 0, -currentLevel.gravity / 4 );
 	}
 	else
 	{
 		if( physicsFlags & JK_PHYSICS_GRAVITY )
-			acceleration += M_Vector( 0, 0, -currentLevel.gravity );
+			acceleration += Math::Vector( 0, 0, -currentLevel.gravity );
 		acceleration -= velocity * airDrag;
 	}
 
@@ -456,10 +428,10 @@ void W_Thing::UpdateForces( float time )
 
 void W_Thing::UpdateFinalize(float time)
 {
-	M_Vector normal;
-	M_Vector normalAccel;
-	M_Vector normalVel;
-	M_Vector oldPosition;
+	Math::Vector normal;
+	Math::Vector normalAccel;
+	Math::Vector normalVel;
+	Math::Vector oldPosition;
 
 	rotation+=rotVelocity*time;
 
@@ -487,7 +459,7 @@ void W_Thing::UpdateFinalize(float time)
 	if(attachFlags&(JK_ATTACH_WORLD_SURFACE | JK_ATTACH_THING_FACE))
 	{
 		if(!thrusting && velocity.Magnitude()<staticDrag)
-			velocity=M_Vector(0,0,0);
+			velocity=Math::Vector(0,0,0);
 	}
 	oldPosition=GetEyePosition();
 
@@ -495,7 +467,7 @@ void W_Thing::UpdateFinalize(float time)
 	
     sector->UpdateThingSector( this, oldPosition);
 
-	acceleration=M_Vector(0,0,0);
+	acceleration=Math::Vector(0,0,0);
 	thrusting=false;
 
 	if(type==PLAYER)
@@ -503,7 +475,7 @@ void W_Thing::UpdateFinalize(float time)
 		float xcos, xsin;
 		xcos=cos((rotation.y+orient.y)*3.14/180);
 		xsin=sin((rotation.y+orient.y)*3.14/180);
-		M_Vector vector(xcos, xsin, 0);
+		Math::Vector vector(xcos, xsin, 0);
 		rotation.z=vector*velocity*-3;
 	}
 	DoFoley();
@@ -529,7 +501,7 @@ void W_Thing::UpdateFinalize(float time)
     }
 }
 
-void W_Thing::ArrestMotion(M_Vector normal)
+void W_Thing::ArrestMotion(Math::Vector normal)
 {
 	if(acceleration*normal<0)
 		acceleration-=normal*(normal*acceleration);

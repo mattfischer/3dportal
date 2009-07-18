@@ -4,7 +4,6 @@
 #include "Global.h"
 
 #include "M_Vector.h"
-#include "M_Matrix.h"
 #include "R_Vertex.h"
 #include "R_Frame.h"
 #include "M_Plane.h"
@@ -25,35 +24,35 @@ public:
 	int NumVertices() { return numVerts; }
 
 	void BuildPlane();
-	M_Plane GetPlane();
-	void SetPlane( M_Vector normal );
+	Math::Plane GetPlane();
+	void SetPlane( Math::Vector normal );
 
 	R_Texture *GetTexture();
 	void SetTexture( R_Texture *t );
 	
-	void Transform( M_Matrix &m );
+	void Transform( Math::Matrix &m );
 
 	int GetNumCels();
 
 	// R_Poly.cpp
-	void Clip( M_Plane &p );
+	void Clip( Math::Plane &p );
 	void Clip( R_Frustum frustum );
 	
-	void Draw( M_Vector tint, float light, bool translucent, bool cullReverse, int cel, float offsetU, float offsetV );
+	void Draw( Math::Vector tint, float light, bool translucent, bool cullReverse, int cel, float offsetU, float offsetV );
 	R_Frustum CreateFrustum();
 
 	// P_Poly.cpp
-	int InFrontOfPlane( M_Plane &c );
-	int VectorIn( M_Vector &v );
+	int InFrontOfPlane( Math::Plane &c );
+	int VectorIn( Math::Vector &v );
 	
-	M_Vector SpherePlaneOffset( M_Vector position, float radius, bool &direct );
+	Math::Vector SpherePlaneOffset( Math::Vector position, float radius, bool &direct );
 	
 protected:
 	R_Texture *texture;
 	int numVerts;
 	int allocatedVerts;
 	R_Vertex *vertices;
-	M_Plane plane;
+	Math::Plane plane;
 };
 
 #endif

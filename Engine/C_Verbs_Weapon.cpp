@@ -43,11 +43,11 @@ C_Type_Int AutoselectWeapon( C_Type_Thing thing_num, C_Type_Int bin )
 C_Type_Thing FireProjectile( C_Type_Thing thing_num, C_Type_Template template_num, C_Type_Sound sound_num, C_Type_Int mode, C_Type_Vector offset, C_Type_Vector error, C_Type_Flex unk, C_Type_Int flags, C_Type_Flex fov, C_Type_Flex maxDistance )
 {
 	shared_ptr<W_Thing> thing;
-	M_Vector rotation;
+	Math::Vector rotation;
 	float xcos, xsin;
 	float ycos, ysin;
 	int retval;
-	M_Vector fireOffset;
+	Math::Vector fireOffset;
 
 	thing = currentLevel.things[thing_num];
 
@@ -55,7 +55,7 @@ C_Type_Thing FireProjectile( C_Type_Thing thing_num, C_Type_Template template_nu
 		rotation = thing->GetRotation();
 
     fireOffset = Util::Matrix::RotateZ(rotation.y) * Util::Matrix::RotateX(rotation.x) * offset;
-	int thingNum = W_Thing::Create( currentLevel.templates[template_num], thing->GetPosition() + fireOffset, M_Vector(0, 0, 0), thing->GetSector());
+	int thingNum = W_Thing::Create( currentLevel.templates[template_num], thing->GetPosition() + fireOffset, Math::Vector(0, 0, 0), thing->GetSector());
 
 	currentLevel.things[thingNum]->SetRotation( thing->GetRotation() );
 	if( sound_num != -1 )

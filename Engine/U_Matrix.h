@@ -9,12 +9,13 @@ namespace Util
     {
     public:
 
-        static M_Matrix Identity();
-        static M_Matrix Scale(float scale);
-        static M_Matrix Transform(float x, float y, float z);
-        static M_Matrix RotateX(float angle);
-        static M_Matrix RotateY(float angle);
-        static M_Matrix RotateZ(float angle);
+        static Math::Matrix Identity();
+        static Math::Matrix Scale(float scale);
+        static Math::Matrix Translate(float x, float y, float z);
+        static Math::Matrix Translate(Math::Vector offset);
+        static Math::Matrix RotateX(float angle);
+        static Math::Matrix RotateY(float angle);
+        static Math::Matrix RotateZ(float angle);
         
     };
 }

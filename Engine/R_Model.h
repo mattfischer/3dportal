@@ -36,9 +36,9 @@ struct R_Node {
 	int mesh;
 	int numChildren;
 	R_Node *children;
-	M_Vector position;
-	M_Vector pivot;
-	M_Vector rotation;
+	Math::Vector position;
+	Math::Vector pivot;
+	Math::Vector rotation;
 	string name;
 };
 
@@ -49,19 +49,19 @@ public:
 	R_Model( const string& filename );
 
 	// R_Model.cpp
-    void Draw( float distance2, float light, M_Vector tint, Jk::Key::Track *keyTrack );
+    void Draw( float distance2, float light, Math::Vector tint, Jk::Key::Track *keyTrack );
 	float GetRadius();
-	M_Vector GetInsertOffset();
+	Math::Vector GetInsertOffset();
 	R_Mesh *GetMesh( int g, int m );
 
 protected:
 	int numGeoSets;
 	R_GeoSet *geoSets;
 	R_Node *rootNode;
-	M_Vector insertOffset;
+	Math::Vector insertOffset;
 	float radius;
 
-    void DrawNode( R_Node *node, int g, float light, M_Vector tint, Jk::Key::Track *keyTrack );
+    void DrawNode( R_Node *node, int g, float light, Math::Vector tint, Jk::Key::Track *keyTrack );
 };
 
 void JK_Level_Load3DO( const string& name, R_Model *newModel );

@@ -185,7 +185,7 @@ int C_Script::TypeSize(C_SymbolType type)
 			return sizeof(int);
 
 		case C_TYPE_VECTOR: 
-			return sizeof(M_Vector);
+			return sizeof(Math::Vector);
 	}
 }
 
@@ -221,7 +221,7 @@ void C_Script::ExecuteExpression( C_ASTNode *node, C_Context &c )
 	int i;
 	int xi,yi, ri;
 	float xf, yf, rf;
-	M_Vector xv;
+	Math::Vector xv;
 	C_SymbolType type;
 	int index;
 
@@ -386,7 +386,7 @@ void C_Script::ExecuteExpression( C_ASTNode *node, C_Context &c )
 		break;
 
 	case C_AST_VECTOR:
-		xv = *(M_Vector*)node->lexData;
+		xv = *(Math::Vector*)node->lexData;
 		node->type = C_TYPE_VECTOR;
 		c.stack.PushVector( xv );
 		break;

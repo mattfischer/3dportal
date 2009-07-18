@@ -11,16 +11,16 @@ struct R_TextureVertex {
 };
 
 struct R_Vertex {
-	M_Vector position;
+	Math::Vector position;
 	R_TextureVertex texture;
 	float intensity;
-	M_Vector normal;
+	Math::Vector normal;
 };
 
 struct R_ModelVertex {
-	M_Vector position;
+	Math::Vector position;
 	R_TextureVertex texture;
-	M_Vector normal;
+	Math::Vector normal;
 };
 
 #endif

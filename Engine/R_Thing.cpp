@@ -15,52 +15,52 @@ extern shared_ptr<W_Thing> player;
 
 extern bool drawThings;
 
-bool SphereInFrustum(M_Vector position, float radius, R_Frustum frustum)
+bool SphereInFrustum(Math::Vector position, float radius, R_Frustum frustum)
 {
-	M_Vector normal;
+	Math::Vector normal;
 	
 	position=worldviewMatrix*position;
 
-	normal=M_Vector(1, 0, frustum.x0);
+	normal=Math::Vector(1, 0, frustum.x0);
 	normal.Normalize();
 	if(normal*position<-radius) return false;
 
-	normal=M_Vector(-1, 0, -frustum.x1);
+	normal=Math::Vector(-1, 0, -frustum.x1);
 	normal.Normalize();
 	if(normal*position<-radius) return false;
 
-	normal=M_Vector(0, 1, frustum.y0);
+	normal=Math::Vector(0, 1, frustum.y0);
 	normal.Normalize();
 	if(normal*position<-radius) return false;
 
-	normal=M_Vector(0, -1, -frustum.y1);
+	normal=Math::Vector(0, -1, -frustum.y1);
 	normal.Normalize();
 	if(normal*position<-radius) return false;
 
 	if(frustum.x00d>frustum.x0)
 	{
-		normal=M_Vector(frustum.x00d, frustum.y0, -1)%M_Vector(frustum.x0, frustum.y0+frustum.x00d-frustum.x0, -1);
+		normal=Math::Vector(frustum.x00d, frustum.y0, -1)%Math::Vector(frustum.x0, frustum.y0+frustum.x00d-frustum.x0, -1);
 		normal.Normalize();
 		if(normal*position<-radius) return false;
 	}
 
 	if(frustum.x01d>frustum.x0)
 	{
-		normal=M_Vector(frustum.x0, frustum.y1-(frustum.x01d-frustum.x0), -1)%M_Vector(frustum.x01d, frustum.y1, -1);
+		normal=Math::Vector(frustum.x0, frustum.y1-(frustum.x01d-frustum.x0), -1)%Math::Vector(frustum.x01d, frustum.y1, -1);
 		normal.Normalize();
 		if(normal*position<-radius) return false;
 	}
 
 	if(frustum.x11d<frustum.x1)
 	{
-		normal=M_Vector(frustum.x11d, frustum.y1, -1)%M_Vector(frustum.x1, frustum.y1-(frustum.x1-frustum.x11d), -1);
+		normal=Math::Vector(frustum.x11d, frustum.y1, -1)%Math::Vector(frustum.x1, frustum.y1-(frustum.x1-frustum.x11d), -1);
 		normal.Normalize();
 		if(normal*position<-radius) return false;
 	}
 
 	if(frustum.x10d<frustum.x1)
 	{
-		normal=M_Vector(frustum.x1, frustum.y0+frustum.x1-frustum.x10d, -1)%M_Vector(frustum.x10d, frustum.y0, -1);
+		normal=Math::Vector(frustum.x1, frustum.y0+frustum.x1-frustum.x10d, -1)%Math::Vector(frustum.x10d, frustum.y0, -1);
 		normal.Normalize();
 		if(normal*position<-radius) return false;
 	}
@@ -68,10 +68,10 @@ bool SphereInFrustum(M_Vector position, float radius, R_Frustum frustum)
 	return true;
 }
 	
-void W_Thing::Draw( R_Frustum frustum, float light, M_Vector tint )
+void W_Thing::Draw( R_Frustum frustum, float light, Math::Vector tint )
 {
 	float distance2;
-	M_Vector compositeRotation;
+	Math::Vector compositeRotation;
 
 	if( flagValue == globalFlag ) return;
 	if( player.get() == this) return;

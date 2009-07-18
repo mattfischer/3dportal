@@ -75,7 +75,7 @@ void I_ProcessMouse(float time)
 	DIMOUSESTATE diMouseState;
 	POINT cursorPoint;
 	float mouseAnglesize=20;
-	M_Vector rotation;
+	Math::Vector rotation;
 	float x, y;
 	float angleClamp=20;
     static int lastInput=0;
@@ -86,7 +86,7 @@ void I_ProcessMouse(float time)
     time = (GetTickCount() - lastInput) / 1000.0;
     lastInput = GetTickCount();
 
-	if(KEY_DOWN(VK_RBUTTON)) //thrust+=M_Vector(0, 0, 6);
+	if(KEY_DOWN(VK_RBUTTON)) //thrust+=Math::Vector(0, 0, 6);
 		//position.z+=stepsize*time;
 		player->Jump();
 
@@ -142,8 +142,8 @@ void I_ProcessKeyboard( float time )
 {
 	float anglesize = 150;
 	float stepsize = 1.25;
-	M_Vector position, rotation;
-	M_Vector thrust;
+	Math::Vector position, rotation;
+	Math::Vector thrust;
 	float angleSin, angleCos;
 	static LONG controlTimer = 0;
 	static bool activateDown = false;
@@ -155,11 +155,11 @@ void I_ProcessKeyboard( float time )
 	angleSin = sin( rotation.y * 3.14 / 180 );
 	angleCos = cos( rotation.y * 3.14 / 180 );
 
-	thrust = M_Vector( 0, 0, 0 );
+	thrust = Math::Vector( 0, 0, 0 );
 
 	if( KEY_DOWN( VK_RIGHT ) ) 
 	{
-		thrust += M_Vector( angleCos, angleSin, 0 );
+		thrust += Math::Vector( angleCos, angleSin, 0 );
 		thrust = thrust * player->GetMaxThrust() * .75;
 		//position.x+=cos(rotation.y*3.14/180)*stepsize*time;
 		//position.y+=sin(rotation.y*3.14/180)*stepsize*time;
@@ -167,7 +167,7 @@ void I_ProcessKeyboard( float time )
 	
 	if( KEY_DOWN( VK_LEFT ) )
 	{ 
-		thrust += M_Vector( -angleCos, -angleSin, 0 ); 
+		thrust += Math::Vector( -angleCos, -angleSin, 0 ); 
 		thrust = thrust * player->GetMaxThrust() * .75;
 		//position.x-=cos(rotation.y*3.14/180)*stepsize*time;
 		//position.y-=sin(rotation.y*3.14/180)*stepsize*time;
@@ -175,7 +175,7 @@ void I_ProcessKeyboard( float time )
 
 	if( KEY_DOWN( VK_UP ) )
 	{
-		thrust += M_Vector( -angleSin, angleCos, 0 );
+		thrust += Math::Vector( -angleSin, angleCos, 0 );
 		thrust = thrust * player->GetMaxThrust();
 		//position.x-=sin(rotation.y*3.14/180)*stepsize*time;
 		//position.y+=cos(rotation.y*3.14/180)*stepsize*time;
@@ -183,7 +183,7 @@ void I_ProcessKeyboard( float time )
 	
 	if( KEY_DOWN( VK_DOWN ) )
 	{
-		thrust += M_Vector( angleSin, -angleCos, 0 );
+		thrust += Math::Vector( angleSin, -angleCos, 0 );
 		thrust = thrust * player->GetMaxThrust() * .5;
 		//position.x+=sin(rotation.y*3.14/180)*stepsize*time;
 		//position.y-=cos(rotation.y*3.14/180)*stepsize*time;

@@ -3,10 +3,11 @@
 #include <windows.h>
 #include <boost/shared_ptr.hpp>
 
+#include "M_Vector.h"
+
 using boost::shared_ptr;
 
 class W_Thing;
-class M_Vector;
 
 namespace Sound
 {
@@ -17,7 +18,7 @@ namespace Sound
     void PlaySector( Sound::Buffer *sound, float volume );
     void PlayLocal( Sound::Buffer *sound, float volume, float pan );
     Sound::Track *PlayThing( Sound::Buffer *sound, shared_ptr<W_Thing> thing, bool loop, float volume, float minDist, float maxDist );
-    void PlayPos( Sound::Buffer *sound, M_Vector position, float volume, float minDist, float maxDist );
+    void PlayPos( Sound::Buffer *sound, Math::Vector position, float volume, float minDist, float maxDist );
     void Update();
 }
 #endif

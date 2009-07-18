@@ -21,7 +21,7 @@
 #include <math.h>
 #include <assert.h>
 
-W_Thing::W_Thing(Jk::Template *t, M_Vector p, M_Vector r, W_Sector *s) 
+W_Thing::W_Thing(Jk::Template *t, Math::Vector p, Math::Vector r, W_Sector *s) 
 {
     thingTemplate=new Jk::Template(t->GetName(), t);
 	position=p;
@@ -29,15 +29,15 @@ W_Thing::W_Thing(Jk::Template *t, M_Vector p, M_Vector r, W_Sector *s)
 	sector=s;
 
 	attachFlags=JK_ATTACH_FREE;
-	velocity=M_Vector(0,0,0);
-	acceleration=M_Vector(0,0,0);
-	nudge=M_Vector(0,0,0);
+	velocity=Math::Vector(0,0,0);
+	acceleration=Math::Vector(0,0,0);
+	nudge=Math::Vector(0,0,0);
 	crouched=false;
 	
 	pathMoving=false;
 	currentFrame=0;
 	destFrame=0;
-	pathVector=M_Vector(0,0,0);
+	pathVector=Math::Vector(0,0,0);
 	pathT=0;
 	pathTSpeed=0;
 
@@ -66,15 +66,15 @@ W_Thing::W_Thing(W_Thing &c)
 	sector=c.sector;
 
 	attachFlags=JK_ATTACH_FREE;
-	velocity=M_Vector(0,0,0);
-	acceleration=M_Vector(0,0,0);
-	nudge=M_Vector(0,0,0);
+	velocity=Math::Vector(0,0,0);
+	acceleration=Math::Vector(0,0,0);
+	nudge=Math::Vector(0,0,0);
 	crouched=false;
 	
 	pathMoving=false;
 	currentFrame=0;
 	destFrame=0;
-	pathVector=M_Vector(0,0,0);
+	pathVector=Math::Vector(0,0,0);
 	pathT=0;
 	pathTSpeed=0;
 
@@ -99,7 +99,7 @@ W_Thing::~W_Thing()
 {
 }
 
-int W_Thing::Create( Jk::Template *t, M_Vector p, M_Vector r, W_Sector *s )
+int W_Thing::Create( Jk::Template *t, Math::Vector p, Math::Vector r, W_Sector *s )
 {
 	shared_ptr<W_Thing> newThing( new W_Thing( t, p, r, s ) );
 
@@ -175,24 +175,24 @@ int W_Thing::GetNum()
     return num;
 }
 
-M_Vector W_Thing::GetPosition()
+Math::Vector W_Thing::GetPosition()
 {
 	return position;
 }
 
-void W_Thing::SetPosition(M_Vector p)
+void W_Thing::SetPosition(Math::Vector p)
 {
 	position=p;
 }
 
-M_Vector W_Thing::GetRotation()
+Math::Vector W_Thing::GetRotation()
 {
 	return rotation;
 }
 
-void W_Thing::SetRotation(M_Vector r)
+void W_Thing::SetRotation(Math::Vector r)
 {
-	M_Vector delta;
+	Math::Vector delta;
 	
 	delta=r-rotation;
 	
@@ -212,7 +212,7 @@ void W_Thing::SetSector( W_Sector *newSector )
 	sector->AddThing( this );
 }
 
-M_Vector W_Thing::GetCompositeRotation()
+Math::Vector W_Thing::GetCompositeRotation()
 {
 	return orient + rotation;
 }
@@ -272,7 +272,7 @@ R_Model *W_Thing::GetModel()
 	return model;
 }
 
-M_Vector W_Thing::GetEyePosition()
+Math::Vector W_Thing::GetEyePosition()
 {
 	return position+eyeOffset;
 }
@@ -300,10 +300,10 @@ void W_Thing::Jump()
 		}
 }
 
-M_Vector W_Thing::GetStandVector()
+Math::Vector W_Thing::GetStandVector()
 {
 	if(crouched)
-		return M_Vector(0,0,moveSize);
+		return Math::Vector(0,0,moveSize);
 	else
 		return insertOffset;
 }
@@ -338,12 +338,12 @@ int W_Thing::GetCollide()
 	return collide;
 }
 
-M_Vector W_Thing::GetAcceleration()
+Math::Vector W_Thing::GetAcceleration()
 {
 	return acceleration;
 }
 
-M_Vector W_Thing::GetVelocity()
+Math::Vector W_Thing::GetVelocity()
 {
 	return velocity;
 }
@@ -380,7 +380,7 @@ bool W_Thing::IsPhysicsMove()
 	else return false;
 }
 
-M_Vector W_Thing::GetPathMoveDelta()
+Math::Vector W_Thing::GetPathMoveDelta()
 {
 	return pathMoveDelta;
 }

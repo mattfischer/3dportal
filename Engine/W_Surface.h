@@ -42,17 +42,17 @@ public:
 
 	void Animate( float fps, int flags );
 	void StopAnimate();
-	void Slide( M_Vector direction, float speed );
+	void Slide( Math::Vector direction, float speed );
 
 	void Update();
 
-	M_Vector GetMoveDelta();
+	Math::Vector GetMoveDelta();
 
 	// R_Surface.cpp
-	void Draw( M_Vector tint, float light );
+	void Draw( Math::Vector tint, float light );
 
 	// P_Surface.cpp
-	bool PerformActivate( M_Vector position, M_Vector point );
+	bool PerformActivate( Math::Vector position, Math::Vector point );
 	void SurfaceCollisions( W_Thing* thing );
 	bool FloorCollisions( W_Thing* thing );
 int flag;
@@ -90,8 +90,8 @@ protected:
 	float offsetU;
 	float offsetV;
 	long slideTimer;
-	M_Vector moveDelta;
-	M_Vector moveVector;
+	Math::Vector moveDelta;
+	Math::Vector moveVector;
 };
 
 #endif

@@ -10,6 +10,8 @@
 #include "W_Thing.h"
 #include "W_Sector.h"
 
+#include "U_Matrix.h"
+
 extern shared_ptr<W_Thing> player;
 
 R_Model *povModel = NULL;
@@ -21,27 +23,27 @@ int ScreenY=800;
 float SX=tan(FOV/2*3.14159265359/180)*ScreenX/ScreenY+.1;
 float SY=tan(FOV/2*3.14159265359/180)+.1;
 
-M_Matrix perspectiveMatrix(1, 0 , 0, 0,
+Math::Matrix perspectiveMatrix(1, 0 , 0, 0,
 						 0 , 1, 0, 0,
 						 0 , 0 , 1, 0,
 						 0 , 0 , -1, 0);
-M_Matrix rotationMatrix;
-M_Matrix rotationInverseMatrix;
+Math::Matrix rotationMatrix;
+Math::Matrix rotationInverseMatrix;
 
-M_Matrix worldviewMatrix;
-M_Matrix worldviewInverseMatrix;
+Math::Matrix worldviewMatrix;
+Math::Matrix worldviewInverseMatrix;
 
-M_Matrix coordConversionMatrix( 1 , 0 , 0, 0,
+Math::Matrix coordConversionMatrix( 1 , 0 , 0, 0,
 							  0 , 0 , 1, 0,
 							  0 , -1, 0, 0,
 							  0 , 0 , 0, 1
 							 );
-M_Matrix coordConversionInverseMatrix( 1 , 0 , 0, 0,
+Math::Matrix coordConversionInverseMatrix( 1 , 0 , 0, 0,
 									 0 , 0 ,-1, 0,
 									 0 , 1 , 0, 0,
 									 0 , 0 , 0, 1
 									);
-M_Matrix totalTransformationMatrix;
+Math::Matrix totalTransformationMatrix;
 
 int globalFlag=0;
 
@@ -53,7 +55,7 @@ void R_Frame_ConstructMatricies()
 	float ycos, ysin;
 	float zcos, zsin;
 
-	M_Vector position, rotation;
+	Math::Vector position, rotation;
 
 	position=player->GetEyePosition();
 	rotation=player->GetCompositeRotation();
@@ -65,47 +67,15 @@ void R_Frame_ConstructMatricies()
 	zcos=cos(rotation.z*PI/180);
 	zsin=sin(rotation.z*PI/180);
 
-	M_Matrix m(1 , 0 , 0, -position.x, 
-		     0 , 1 , 0, -position.y,
-			 0 , 0 , 1, -position.z,
-			 0 , 0 , 0, 1
-			 );
-	M_Matrix m2(xcos,xsin,0,0,
-			  -xsin,xcos,0,0,
-			  0,0,1,0,
-			  0,0,0,1
-			  );
-	
-	M_Matrix m3(1,0,0,0,
-			  0,ycos, ysin,0,
-			  0, -ysin, ycos,0,
-			  0,0,0,1);
-	
-	M_Matrix m4(zcos, 0, zsin,0,
-				0,1,0,0,
-				-zsin,0,zcos,0,
-			    0,0,0,1);
+    Math::Matrix m = Util::Matrix::Translate(-position);
+	Math::Matrix m2 = Util::Matrix::RotateZ(-rotation.y);
+    Math::Matrix m3 = Util::Matrix::RotateX(-rotation.x);
+    Math::Matrix m4 = Util::Matrix::RotateY(rotation.z);
 
-	M_Matrix mi(1 , 0 , 0, position.x, 
-		      0 , 1 , 0, position.y,
-			  0 , 0 , 1, position.z,
-			  0 , 0 , 0, 1
-			 );
-	M_Matrix mi2(xcos,-xsin,0,0,
-			   xsin,xcos,0,0,
-			   0,0,1,0,
-			   0,0,0,1
-			  );
-	
-	M_Matrix mi3(1,0,0,0,
-			  0,ycos, -ysin,0,
-			  0, ysin, ycos,0,
-			  0,0,0,1);
-
-	M_Matrix mi4(zcos, 0, -zsin,0,
-				0,1,0,0,
-				zsin,0,zcos,0,
-			    0,0,0,1);
+    Math::Matrix mi = Util::Matrix::Translate(position);
+    Math::Matrix mi2 = Util::Matrix::RotateZ(rotation.y);
+    Math::Matrix mi3 = Util::Matrix::RotateX(rotation.x);
+    Math::Matrix mi4 = Util::Matrix::RotateY(-rotation.z);
 
 	worldviewMatrix=coordConversionMatrix*m4*m3*m2*m;
 	worldviewInverseMatrix=mi*mi2*mi3*mi4*coordConversionInverseMatrix;
@@ -116,7 +86,7 @@ void R_Frame_ConstructMatricies()
 
 void R_Frame_Render(float time)
 {
-	M_Vector position, rotation;
+	Math::Vector position, rotation;
     
 	position=player->GetEyePosition();
 	rotation=player->GetCompositeRotation();
@@ -153,7 +123,7 @@ void R_Frame_Render(float time)
             povKeyTrack.time += time;
         }
 
-		povModel->Draw( 0, 1, M_Vector( 0, 0, 0 ), &povKeyTrack );
+		povModel->Draw( 0, 1, Math::Vector( 0, 0, 0 ), &povKeyTrack );
 	}
 
 	SwapBuffers(hDC);

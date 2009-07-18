@@ -15,7 +15,6 @@ using std::vector;
 class W_Thing;
 class W_Surface;
 struct R_Frustum;
-class M_Vector;
 class C_Script;
 namespace Sound
 {
@@ -48,11 +47,11 @@ public:
 	void Draw( R_Frustum frustum, W_Surface *ignore );
 
 	// P_Sector.cpp
-	bool UpdateThingSector( W_Thing* thing, M_Vector oldPosition );
+	bool UpdateThingSector( W_Thing* thing, Math::Vector oldPosition );
 	void SurfaceCollisions( W_Thing* thing, W_Surface *ignore );
 	bool FloorCollisions( W_Thing* thing, W_Surface *ignore );
 	void ThingCollisions( W_Thing* thing, W_Surface *ignore );
-	bool PerformActivate( M_Vector position, M_Vector point, W_Surface *ignore );
+	bool PerformActivate( Math::Vector position, Math::Vector point, W_Surface *ignore );
 
 	bool ThingFloorCollisions( W_Thing* thing, W_Surface *ignore );
 	void ThingSurfaceCollisions( W_Thing* thing, W_Surface *ignore );
@@ -63,7 +62,7 @@ protected:
 	float ambientLight;
 	float extraLight;
 	
-	M_Vector tint;
+	Math::Vector tint;
 	
 	int numSurfaces;
 	W_Surface **surfaces;

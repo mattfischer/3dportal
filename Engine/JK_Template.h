@@ -3,10 +3,11 @@
 
 #include "Global.h"
 
+#include "M_Vector.h"
+
 #include <string>
 #include <vector>
 
-class M_Vector;
 struct W_Frame;
 
 using std::string;
@@ -33,7 +34,7 @@ namespace Jk
 	    void AddParam( const string& s );
     	
 	    bool GetString( const string& paramName, string& s );
-	    bool GetVector( const string& paramName, M_Vector& vector);
+	    bool GetVector( const string& paramName, Math::Vector& vector);
 	    bool GetFloat( const string& paramName, float& data);
 	    bool GetInt( const string& paramName, int& data);
 	    bool GetHex( const string& paramName, int& data);

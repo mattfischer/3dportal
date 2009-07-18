@@ -14,15 +14,15 @@
 
 extern shared_ptr<W_Thing> player;
 
-void W_Surface::Draw(M_Vector tint, float light)
+void W_Surface::Draw(Math::Vector tint, float light)
 {
 	int k;
 	int i;
 	int skySizeX, skySizeY;
 	float startXOffset, startYOffset;
 	float x,y;
-	M_Vector position, rotation;
-	M_Vector tempVector;
+	Math::Vector position, rotation;
+	Math::Vector tempVector;
 	
 	if(geo==JK_GEO_NO_DRAW) return;
     if(flag == globalFlag) return;
@@ -39,7 +39,7 @@ void W_Surface::Draw(M_Vector tint, float light)
 		for(i=0;i<poly2.NumVertices();i++)
 		{
 			poly2[i].position=poly2[i].position-position;
-			poly2[i].position=poly2[i].position*(currentLevel.ceilingSkyZ/(poly2[i].position*M_Vector(0,0,1)));
+			poly2[i].position=poly2[i].position*(currentLevel.ceilingSkyZ/(poly2[i].position*Math::Vector(0,0,1)));
 			poly2[i].position=poly2[i].position+position;
 
 			poly2[i].texture.u=currentLevel.ceilingSkyZ*(poly2[i].position-position).x;

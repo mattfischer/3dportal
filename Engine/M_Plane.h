@@ -3,9 +3,11 @@
 
 #include "M_Vector.h"
 
-struct M_Plane {
-	M_Vector normal;
-	M_Vector point;
-};
-
+namespace Math
+{
+    struct Plane {
+	    Vector normal;
+	    Vector point;
+    };
+}
 #endif

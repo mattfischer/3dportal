@@ -20,7 +20,7 @@ void W_Thing::ProcessTemplate()
 	if( thingTemplate->GetString( "model3d", s ) )
 		model = currentLevel.models[s];
 		
-	orient = M_Vector( 0, 0, 0 );
+	orient = Math::Vector( 0, 0, 0 );
 	thingTemplate->GetVector( "orient", orient );
 
 	maxVelocity = 0;
@@ -47,7 +47,7 @@ void W_Thing::ProcessTemplate()
 	airDrag = 0;
 	thingTemplate->GetFloat( "airdrag", airDrag );
 
-	eyeOffset = M_Vector( 0, 0, 0 );
+	eyeOffset = Math::Vector( 0, 0, 0 );
 	thingTemplate->GetVector( "eyeoffset", eyeOffset );
 
 	moveSize = 0;
@@ -71,16 +71,16 @@ void W_Thing::ProcessTemplate()
 	typeFlags = 0;
 	thingTemplate->GetHex( "typeflags", typeFlags );
 
-	rotVelocity = M_Vector( 0, 0, 0 );
+	rotVelocity = Math::Vector( 0, 0, 0 );
 	thingTemplate->GetVector( "angvel", rotVelocity );
 
 	height = 0;
 	if( thingTemplate->GetFloat( "height", height ) )
-		insertOffset = M_Vector( 0, 0, height / 2 );
+		insertOffset = Math::Vector( 0, 0, height / 2 );
 	else if( model != NULL )
 		insertOffset = model->GetInsertOffset();
 	else
-		insertOffset = M_Vector( 0, 0, 0 );
+		insertOffset = Math::Vector( 0, 0, 0 );
 
 	collide = 0;
 	thingTemplate->GetInt( "collide", collide );
@@ -110,7 +110,7 @@ void W_Thing::ProcessTemplate()
 	}
 	else type = GHOST;
 
-	velocity = M_Vector( 0, 0, 0 );
+	velocity = Math::Vector( 0, 0, 0 );
 	thingTemplate->GetVector( "vel", velocity );
 	
 	animClass = NULL;

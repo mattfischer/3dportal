@@ -25,7 +25,7 @@ void C_Stack::PushInt(int a)
 	Push(&a, sizeof(a));
 }
 
-void C_Stack::PushVector(M_Vector a)
+void C_Stack::PushVector(Math::Vector a)
 {
 	Push(&a, sizeof(a));
 }
@@ -51,9 +51,9 @@ int C_Stack::PopInt()
 	return retVal;
 }
 
-M_Vector C_Stack::PopVector()
+Math::Vector C_Stack::PopVector()
 {
-	M_Vector retVal;
+	Math::Vector retVal;
 
 	Pop(&retVal, sizeof(retVal));
 	return retVal;

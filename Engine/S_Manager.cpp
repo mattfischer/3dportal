@@ -34,7 +34,7 @@ namespace Sound
 
         boost::weak_ptr<W_Thing> thing;
 
-	    M_Vector position;
+	    Math::Vector position;
 
 	    PlayItem *next;
     };
@@ -55,10 +55,10 @@ namespace Sound
 
     void Update()
     {
-	    M_Vector distance, direction;
+	    Math::Vector distance, direction;
 	    float volume;
 	    float magnitude;
-	    M_Vector position;
+	    Math::Vector position;
 	    shared_ptr<W_Thing> thing;
 	    unsigned int i;
 
@@ -79,7 +79,7 @@ namespace Sound
 
 			    items[i]->track->SetVolume( volume * items[i]->volume);
 
-			    direction = M_Vector( cos( player->GetCompositeRotation().y * 3.14 / 180 ) , sin( player->GetCompositeRotation().y * 3.14 / 180 ), 0 );
+			    direction = Math::Vector( cos( player->GetCompositeRotation().y * 3.14 / 180 ) , sin( player->GetCompositeRotation().y * 3.14 / 180 ), 0 );
 			    distance.Normalize();
 			    items[i]->track->SetPan( distance * direction * .8 * ( 1 - volume ) );
     			
@@ -158,7 +158,7 @@ namespace Sound
 	    return newItem->track;
     }
 
-    void PlayPos( Sound::Buffer *buffer, M_Vector position, float volume, float minDist, float maxDist )
+    void PlayPos( Sound::Buffer *buffer, Math::Vector position, float volume, float minDist, float maxDist )
     {
 	    PlayItem *newItem;
 	    bool done;

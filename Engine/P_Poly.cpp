@@ -1,10 +1,10 @@
 #include "W_Poly.h"
 
-int W_Poly::VectorIn(M_Vector &v)
+int W_Poly::VectorIn(Math::Vector &v)
 {
 	int i;
-	M_Vector line;
-	M_Vector normal;
+	Math::Vector line;
+	Math::Vector normal;
 
 	for(i=0;i<numVerts;i++)
 	{
@@ -17,10 +17,10 @@ int W_Poly::VectorIn(M_Vector &v)
 	return 1;
 }
 
-int W_Poly::InFrontOfPlane(M_Plane &c)
+int W_Poly::InFrontOfPlane(Math::Plane &c)
 {
 	float ndotp;
-	M_Vector p, n;
+	Math::Vector p, n;
 	int i;
 
 	p=c.point;
@@ -32,23 +32,23 @@ int W_Poly::InFrontOfPlane(M_Plane &c)
 	return 0;
 }
 
-M_Vector W_Poly::SpherePlaneOffset(M_Vector position, float radius, bool &direct)
+Math::Vector W_Poly::SpherePlaneOffset(Math::Vector position, float radius, bool &direct)
 {
 	float planeD, posD;
 	int i;
-	M_Vector line, point;
-	M_Vector lineNorm;
+	Math::Vector line, point;
+	Math::Vector lineNorm;
 	float distance;
 	float lineMag;
 	float t;
-	M_Vector normal;
-	M_Vector result;
+	Math::Vector normal;
+	Math::Vector result;
 
 	planeD=plane.point*plane.normal;
 	posD=position*plane.normal;
 
 	direct=true;
-	if(posD>planeD+radius) return M_Vector(0,0,0);
+	if(posD>planeD+radius) return Math::Vector(0,0,0);
 
 	if(!VectorIn(position))
 	{
@@ -79,7 +79,7 @@ M_Vector W_Poly::SpherePlaneOffset(M_Vector position, float radius, bool &direct
 				return result;
 			}
 		}
-		return M_Vector(0,0,0);
+		return Math::Vector(0,0,0);
 	}
 
 	return plane.normal*(planeD-posD+radius);

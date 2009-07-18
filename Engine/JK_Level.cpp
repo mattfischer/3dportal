@@ -54,14 +54,14 @@ void JK_Level_Load(const string& name)
 	int start;
 	int found;
 	int numEntries;
-	M_Vector position, rotation;
+	Math::Vector position, rotation;
 	vector<string> textureNames;
 
 	W_Thing *newThing;
 	shared_ptr<W_Thing> thing;
 
 	int numVertices;
-	M_Vector *vertices;
+	Math::Vector *vertices;
 	int numTextureVertices;
 	R_TextureVertex *textureVertices;
 	int numAdjoins;
@@ -206,7 +206,7 @@ void JK_Level_Load(const string& name)
 	line = parser.getLine( error );
 	line.matchString( "World vertices", error );
 	numVertices = line.getInt( error );
-	vertices = new M_Vector[numVertices];
+	vertices = new Math::Vector[numVertices];
 
 	for( i = 0 ; i < numVertices ; i++ )
 	{
@@ -327,7 +327,7 @@ void JK_Level_Load(const string& name)
 		y = line.getFloat( error );
 		z = line.getFloat( error );
 		
-		currentLevel.surfaces[i].polygon.SetPlane( M_Vector( x, y, z) );
+		currentLevel.surfaces[i].polygon.SetPlane( Math::Vector( x, y, z) );
 	}
 
 
