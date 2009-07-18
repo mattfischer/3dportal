@@ -3,50 +3,53 @@
 
 #include <string>
 
-struct C_ASTNode;
-
 using std::string;
 
-struct C_Token
+namespace Cog
 {
-	int type;
-	void *lexData;
-	C_ASTNode *astnode;
-	int line;
-};
+    struct ASTNode;
 
-struct C_Terminal
-{
-	string name;
-	int index;
-};
+    struct Token
+    {
+	    int type;
+	    void *lexData;
+	    ASTNode *astnode;
+	    int line;
+    };
 
-class C_Tokenizer
-{
-public:
-	C_Tokenizer( const string& source);
-	C_Token NextToken( bool stringHack, bool stringHack2 );
-	bool IsEof() { return eof; }
+    struct Terminal
+    {
+	    string name;
+	    int index;
+    };
 
-protected:
-	int ParseHex(const char *string);
+    class Tokenizer
+    {
+    public:
+	    Tokenizer( const string& source);
+	    Token NextToken( bool stringHack, bool stringHack2 );
+	    bool IsEof() { return eof; }
 
-	int p;
-	int idIndex;
-	int endIndex;
-	int floatIndex;
-	int intIndex;
-	int messageIndex;
-	int hexIndex;
-	int vectorIndex;
-	int stringIndex;
+    protected:
+	    int ParseHex(const char *string);
 
-	std::string data;
-	bool eof;
-	int lineNum;
+	    int p;
+	    int idIndex;
+	    int endIndex;
+	    int floatIndex;
+	    int intIndex;
+	    int messageIndex;
+	    int hexIndex;
+	    int vectorIndex;
+	    int stringIndex;
 
-	static C_Terminal terminals[];
-	static int numTerminals;
-};
+	    std::string data;
+	    bool eof;
+	    int lineNum;
+
+	    static Terminal terminals[];
+	    static int numTerminals;
+    };
+}
 
 #endif

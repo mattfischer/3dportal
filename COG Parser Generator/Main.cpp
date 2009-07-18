@@ -334,7 +334,7 @@ void main()
 	generateParser(rules, tokens, FindOrAddToken("S'", false));
 
 	tokenizerOut.open("..\\Engine\\C_Tokenizer.inc");
-	tokenizerOut << "C_Terminal C_Tokenizer::terminals[] = {" << endl;
+	tokenizerOut << "Terminal Tokenizer::terminals[] = {" << endl;
 	for(i=0;i<tokens.size();i++)
 	{
 		if(tokens[i].isTerminal()) 
@@ -344,6 +344,6 @@ void main()
 		}
 	}
 	tokenizerOut << "};" << endl << endl;
-	tokenizerOut << "int C_Tokenizer::numTerminals = " << numTerminals << ";" << endl;
+	tokenizerOut << "int Tokenizer::numTerminals = " << numTerminals << ";" << endl;
 	
 }

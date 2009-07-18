@@ -39,7 +39,7 @@ void W_Sector::RemoveThing( W_Thing* thing )
 	}
 }
 
-void W_Sector::AddCogLink(C_Script *cogScript)
+void W_Sector::AddCogLink(Cog::Script *cogScript)
 {
 	cogLinks.push_back( cogScript );
 }

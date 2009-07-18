@@ -4,71 +4,74 @@
 
 #include <assert.h>
 
-C_Stack::C_Stack()
+namespace Cog
 {
-	stack=new char[STACKSIZE];
-	pointer=STACKSIZE;
-}
+    Stack::Stack()
+    {
+	    stack=new char[STACKSIZE];
+	    pointer=STACKSIZE;
+    }
 
-C_Stack::~C_Stack()
-{
-	delete[] stack;
-}
+    Stack::~Stack()
+    {
+	    delete[] stack;
+    }
 
-void C_Stack::PushFloat(float a)
-{
-	Push(&a, sizeof(a));
-}
+    void Stack::PushFloat(float a)
+    {
+	    Push(&a, sizeof(a));
+    }
 
-void C_Stack::PushInt(int a)
-{
-	Push(&a, sizeof(a));
-}
+    void Stack::PushInt(int a)
+    {
+	    Push(&a, sizeof(a));
+    }
 
-void C_Stack::PushVector(Math::Vector a)
-{
-	Push(&a, sizeof(a));
-}
+    void Stack::PushVector(Math::Vector a)
+    {
+	    Push(&a, sizeof(a));
+    }
 
-void C_Stack::Push(void *data, int size)
-{
-	pointer-=size;
-	memcpy(stack+pointer, data, size);
-}
+    void Stack::Push(void *data, int size)
+    {
+	    pointer-=size;
+	    memcpy(stack+pointer, data, size);
+    }
 
-float C_Stack::PopFloat()
-{
-	float retVal;
+    float Stack::PopFloat()
+    {
+	    float retVal;
 
-	Pop((void*)&retVal, sizeof(retVal));
-	return retVal;
-}
+	    Pop((void*)&retVal, sizeof(retVal));
+	    return retVal;
+    }
 
-int C_Stack::PopInt()
-{
-	int retVal;
-	Pop(&retVal, sizeof(retVal));
-	return retVal;
-}
+    int Stack::PopInt()
+    {
+	    int retVal;
+	    Pop(&retVal, sizeof(retVal));
+	    return retVal;
+    }
 
-Math::Vector C_Stack::PopVector()
-{
-	Math::Vector retVal;
+    Math::Vector Stack::PopVector()
+    {
+	    Math::Vector retVal;
 
-	Pop(&retVal, sizeof(retVal));
-	return retVal;
-}
+	    Pop(&retVal, sizeof(retVal));
+	    return retVal;
+    }
 
-void C_Stack::Pop(void *data, int size)
-{
-	assert(pointer+size<=STACKSIZE);
+    void Stack::Pop(void *data, int size)
+    {
+	    assert(pointer+size<=STACKSIZE);
 
-	memcpy(data, stack+pointer, size);
-	pointer+=size;
-}
+	    memcpy(data, stack+pointer, size);
+	    pointer+=size;
+    }
 
-float C_Stack::PopFlex(C_SymbolType destType)
-{
-	if(destType==C_TYPE_FLOAT) return PopFloat();
-	else					   return PopInt();
+    float Stack::PopFlex(SymbolType destType)
+    {
+	    if(destType==TYPE_FLOAT) return PopFloat();
+	    else					   return PopInt();
+    }
 }

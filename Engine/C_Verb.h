@@ -4,87 +4,90 @@
 #include "C_Type.h"
 #include "C_Script.h"
 
-/* -------- C_Verbs_Inventory.cpp -------- */
-C_Type_Float GetInv( C_Type_Thing thing_num, C_Type_Int bin );
-C_Type_Float GetInvMax( C_Type_Thing thing_num, C_Type_Int bin );
-C_Type_Float GetInvMin( C_Type_Thing thing_num, C_Type_Int bin );
-C_Type_Float ChangeInv( C_Type_Thing thing_num, C_Type_Int bin, C_Type_Float delta );
+namespace Cog
+{
+    /* -------- C_Verbs_Inventory.cpp -------- */
+    Type_Float GetInv( Type_Thing thing_num, Type_Int bin );
+    Type_Float GetInvMax( Type_Thing thing_num, Type_Int bin );
+    Type_Float GetInvMin( Type_Thing thing_num, Type_Int bin );
+    Type_Float ChangeInv( Type_Thing thing_num, Type_Int bin, Type_Float delta );
 
-/* -------- C_Verbs_Anim_Key.cpp -------- */
-C_Type_Void jkSetPovModel( C_Type_Thing thing_num, C_Type_Model model_num );
-C_Type_Int jkPlayPovKey( C_Type_Thing thing_num, C_Type_Keyframe key, C_Type_Int param2, C_Type_Int flags );
-C_Type_Int PlayKey( C_Type_Thing thing_num, C_Type_Keyframe key, C_Type_Int param2, C_Type_Int flags );
-C_Type_Int GetKeyLen( C_Type_Keyframe key );
+    /* -------- C_Verbs_Anim_Key.cpp -------- */
+    Type_Void jkSetPovModel( Type_Thing thing_num, Type_Model model_num );
+    Type_Int jkPlayPovKey( Type_Thing thing_num, Type_Keyframe key, Type_Int param2, Type_Int flags );
+    Type_Int PlayKey( Type_Thing thing_num, Type_Keyframe key, Type_Int param2, Type_Int flags );
+    Type_Int GetKeyLen( Type_Keyframe key );
 
-/* -------- C_Verbs_Output.cpp -------- */
-C_Type_Void jkPrintUniString( C_Type_Int destination, C_Type_Int string );
+    /* -------- C_Verbs_Output.cpp -------- */
+    Type_Void jkPrintUniString( Type_Int destination, Type_Int string );
 
-/* -------- C_Verbs_Sector.cpp -------- */
-C_Type_Void SetSectorAdjoins( C_Type_Sector sector_num, C_Type_Int status );
-C_Type_Void SectorAdjoins( C_Type_Sector sector_num, C_Type_Int status );
-C_Type_Void SetSectorLight( C_Type_Sector sector_num, C_Type_Flex light, C_Type_Flex delay );
-C_Type_Void SectorLight( C_Type_Sector sector_num, C_Type_Flex light, C_Type_Flex delay );
+    /* -------- C_Verbs_Sector.cpp -------- */
+    Type_Void SetSectorAdjoins( Type_Sector sector_num, Type_Int status );
+    Type_Void SectorAdjoins( Type_Sector sector_num, Type_Int status );
+    Type_Void SetSectorLight( Type_Sector sector_num, Type_Flex light, Type_Flex delay );
+    Type_Void SectorLight( Type_Sector sector_num, Type_Flex light, Type_Flex delay );
 
-/* -------- C_VerbSound::Buffer.cpp -------- */
-C_Type_Int PlaySoundLocal( C_Type_Sound sound_num, C_Type_Flex volume, C_Type_Flex pan, C_Type_Int flags );
-C_Type_Int PlaySoundPos( C_Type_Sound sound_num, C_Type_Vector position, C_Type_Flex volume, C_Type_Flex minDistance, C_Type_Flex maxDistance, C_Type_Int flags );
-C_Type_Int PlaySoundThing( C_Type_Sound sound_num, C_Type_Thing thing_num, C_Type_Flex volume, C_Type_Flex minDistance, C_Type_Flex maxDistance, C_Type_Int flags ); 
-C_Type_Int GetSoundLen( C_Type_Sound sound_num );
+    /* -------- C_VerbSound::Buffer.cpp -------- */
+    Type_Int PlaySoundLocal( Type_Sound sound_num, Type_Flex volume, Type_Flex pan, Type_Int flags );
+    Type_Int PlaySoundPos( Type_Sound sound_num, Type_Vector position, Type_Flex volume, Type_Flex minDistance, Type_Flex maxDistance, Type_Int flags );
+    Type_Int PlaySoundThing( Type_Sound sound_num, Type_Thing thing_num, Type_Flex volume, Type_Flex minDistance, Type_Flex maxDistance, Type_Int flags ); 
+    Type_Int GetSoundLen( Type_Sound sound_num );
 
-/* -------- C_Verbs_Special_Effects.cpp -------- */
-C_Type_Void AddDynamicTint( C_Type_Thing thing_num, C_Type_Float red, C_Type_Float gree, C_Type_Float blue );
+    /* -------- C_Verbs_Special_Effects.cpp -------- */
+    Type_Void AddDynamicTint( Type_Thing thing_num, Type_Float red, Type_Float gree, Type_Float blue );
 
-/* -------- C_Verbs_Surface.cpp -------- */
-C_Type_Int SetWallCel( C_Type_Surface surface_num, C_Type_Int cel );
-C_Type_Int GetWallCel( C_Type_Surface surface_num );
-C_Type_Vector GetSurfaceCenter( C_Type_Surface surface_num );
-C_Type_Vector SurfaceCenter( C_Type_Surface surface_num );
-C_Type_Void SurfaceAnim( C_Type_Surface surface_num, C_Type_Flex fps, C_Type_Int flags );
-C_Type_Void StopSurfaceAnim( C_Type_Surface surface_num );
-C_Type_Void SlideWall( C_Type_Surface surface_num, C_Type_Vector direction, C_Type_Flex speed );
+    /* -------- C_Verbs_Surface.cpp -------- */
+    Type_Int SetWallCel( Type_Surface surface_num, Type_Int cel );
+    Type_Int GetWallCel( Type_Surface surface_num );
+    Type_Vector GetSurfaceCenter( Type_Surface surface_num );
+    Type_Vector SurfaceCenter( Type_Surface surface_num );
+    Type_Void SurfaceAnim( Type_Surface surface_num, Type_Flex fps, Type_Int flags );
+    Type_Void StopSurfaceAnim( Type_Surface surface_num );
+    Type_Void SlideWall( Type_Surface surface_num, Type_Vector direction, Type_Flex speed );
 
-/* -------- C_Verbs_System.cpp -------- */
-C_Type_Int jkGetSaberCam();
-C_Type_Int GetCurrentCamera();
-C_Type_Int GetPrimaryFocus();
-C_Type_Void sleep( C_Type_Float delay );
-C_Type_Float Rand();
-C_Type_Void TakeItem( C_Type_Thing thing_num, C_Type_Thing player_num );
-C_Type_Int GetAutoSwitch();
-C_Type_Variant GetSenderRef( C_Context& c );
-C_Type_Int GetSourceRef( C_Context& c );
-C_Type_Int GetSenderId( C_Context& c );
-C_Type_Int GetDifficulty();
-C_Type_Float GetLevelTime();
-C_Type_Void SetTimer( C_Type_Flex t, C_Script* script );
-C_Type_Vector VectorSet( C_Type_Flex x, C_Type_Flex y, C_Type_Flex z );
-C_Type_Vector VectorScale( C_Type_Vector v, C_Type_Flex scale );
-C_Type_Vector RandVec();
+    /* -------- C_Verbs_System.cpp -------- */
+    Type_Int jkGetSaberCam();
+    Type_Int GetCurrentCamera();
+    Type_Int GetPrimaryFocus();
+    Type_Void sleep( Type_Float delay );
+    Type_Float Rand();
+    Type_Void TakeItem( Type_Thing thing_num, Type_Thing player_num );
+    Type_Int GetAutoSwitch();
+    Type_Variant GetSenderRef( Context& c );
+    Type_Int GetSourceRef( Context& c );
+    Type_Int GetSenderId( Context& c );
+    Type_Int GetDifficulty();
+    Type_Float GetLevelTime();
+    Type_Void SetTimer( Type_Flex t, Script* script );
+    Type_Vector VectorSet( Type_Flex x, Type_Flex y, Type_Flex z );
+    Type_Vector VectorScale( Type_Vector v, Type_Flex scale );
+    Type_Vector RandVec();
 
-/* -------- C_Verbs_Thing.cpp -------- */
-C_Type_Int GetCurFrame( C_Type_Thing thing_num );
-C_Type_Void MoveToFrame( C_Type_Thing thing_num, C_Type_Int frame, C_Type_Flex speed );
-C_Type_Sector GetThingSector( C_Type_Thing thing_num );
-C_Type_Thing GetLocalPlayerThing();
-C_Type_Thing jkGetLocalPlayer();
-C_Type_Int IsThingMoving( C_Type_Thing thing_num );
-C_Type_Int IsMoving( C_Type_Thing thing_num );
-C_Type_Void JumpToFrame( C_Type_Thing thing_num, C_Type_Int frame, C_Type_Sector sector_num );
-C_Type_Float GetThingHealth( C_Type_Thing thing_num );
-C_Type_Float GetHealth( C_Type_Thing thing_num );
-C_Type_Void DestroyThing( C_Type_Thing thing_num );
-C_Type_Thing CreateThing( C_Type_Template template_num, C_Type_Thing position_num );
-C_Type_Void CaptureThing( C_Type_Thing thing_num, C_Script* script );
-C_Type_Vector GetThingLVec( C_Type_Thing thing_num );
+    /* -------- C_Verbs_Thing.cpp -------- */
+    Type_Int GetCurFrame( Type_Thing thing_num );
+    Type_Void MoveToFrame( Type_Thing thing_num, Type_Int frame, Type_Flex speed );
+    Type_Sector GetThingSector( Type_Thing thing_num );
+    Type_Thing GetLocalPlayerThing();
+    Type_Thing jkGetLocalPlayer();
+    Type_Int IsThingMoving( Type_Thing thing_num );
+    Type_Int IsMoving( Type_Thing thing_num );
+    Type_Void JumpToFrame( Type_Thing thing_num, Type_Int frame, Type_Sector sector_num );
+    Type_Float GetThingHealth( Type_Thing thing_num );
+    Type_Float GetHealth( Type_Thing thing_num );
+    Type_Void DestroyThing( Type_Thing thing_num );
+    Type_Thing CreateThing( Type_Template template_num, Type_Thing position_num );
+    Type_Void CaptureThing( Type_Thing thing_num, Script* script );
+    Type_Vector GetThingLVec( Type_Thing thing_num );
 
-/* -------- C_Verbs_Weapon.cpp -------- */
-C_Type_Int GetAutoReload();
-C_Type_Int GetAutoPickup();
-C_Type_Int GetWeaponPriority( C_Type_Int thing_num, C_Type_Int weapon, C_Type_Int select_mode );
-C_Type_Int GetCurWeapon( C_Type_Thing thing_num, C_Type_Int param );
-C_Type_Void SelectWeapon( C_Type_Thing thing_num, C_Type_Int bin );
-C_Type_Int AutoselectWeapon( C_Type_Thing thing_num, C_Type_Int bin );
-C_Type_Thing FireProjectile( C_Type_Thing thing_num, C_Type_Template template_num, C_Type_Sound sound_num, C_Type_Int mode, C_Type_Vector offset, C_Type_Vector error, C_Type_Flex unk, C_Type_Int flags, C_Type_Flex fov, C_Type_Flex maxDistance );
-C_Type_Void SetCurWeapon( C_Type_Thing thing_num, C_Type_Int bin );
+    /* -------- C_Verbs_Weapon.cpp -------- */
+    Type_Int GetAutoReload();
+    Type_Int GetAutoPickup();
+    Type_Int GetWeaponPriority( Type_Int thing_num, Type_Int weapon, Type_Int select_mode );
+    Type_Int GetCurWeapon( Type_Thing thing_num, Type_Int param );
+    Type_Void SelectWeapon( Type_Thing thing_num, Type_Int bin );
+    Type_Int AutoselectWeapon( Type_Thing thing_num, Type_Int bin );
+    Type_Thing FireProjectile( Type_Thing thing_num, Type_Template template_num, Type_Sound sound_num, Type_Int mode, Type_Vector offset, Type_Vector error, Type_Flex unk, Type_Int flags, Type_Flex fov, Type_Flex maxDistance );
+    Type_Void SetCurWeapon( Type_Thing thing_num, Type_Int bin );
+}
 
 #endif

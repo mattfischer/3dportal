@@ -10,61 +10,64 @@
 
 int curWeapon = -1;
 
-C_Type_Int GetAutoReload() // ****
-{	
-	return 0;
-}
-
-C_Type_Int GetAutoPickup() // ****
-{	
-	return 0;
-}
-
-C_Type_Int GetWeaponPriority( C_Type_Int thing_num, C_Type_Int weapon, C_Type_Int select_mode ) // ****
+namespace Cog
 {
-	return 0;
-}
+    Type_Int GetAutoReload() // ****
+    {	
+	    return 0;
+    }
 
-C_Type_Int GetCurWeapon( C_Type_Thing thing_num, C_Type_Int param ) // ?????
-{
-	return curWeapon;
-}
+    Type_Int GetAutoPickup() // ****
+    {	
+	    return 0;
+    }
 
-C_Type_Void SelectWeapon( C_Type_Thing thing_num, C_Type_Int bin )
-{
-	
-}
-	
-C_Type_Int AutoselectWeapon( C_Type_Thing thing_num, C_Type_Int bin )
-{
-	return 0;
-}
+    Type_Int GetWeaponPriority( Type_Int thing_num, Type_Int weapon, Type_Int select_mode ) // ****
+    {
+	    return 0;
+    }
 
-C_Type_Thing FireProjectile( C_Type_Thing thing_num, C_Type_Template template_num, C_Type_Sound sound_num, C_Type_Int mode, C_Type_Vector offset, C_Type_Vector error, C_Type_Flex unk, C_Type_Int flags, C_Type_Flex fov, C_Type_Flex maxDistance )
-{
-	shared_ptr<W_Thing> thing;
-	Math::Vector rotation;
-	float xcos, xsin;
-	float ycos, ysin;
-	int retval;
-	Math::Vector fireOffset;
+    Type_Int GetCurWeapon( Type_Thing thing_num, Type_Int param ) // ?????
+    {
+	    return curWeapon;
+    }
 
-	thing = currentLevel.things[thing_num];
+    Type_Void SelectWeapon( Type_Thing thing_num, Type_Int bin )
+    {
+    	
+    }
+    	
+    Type_Int AutoselectWeapon( Type_Thing thing_num, Type_Int bin )
+    {
+	    return 0;
+    }
 
-	if( thing )
-		rotation = thing->GetRotation();
+    Type_Thing FireProjectile( Type_Thing thing_num, Type_Template template_num, Type_Sound sound_num, Type_Int mode, Type_Vector offset, Type_Vector error, Type_Flex unk, Type_Int flags, Type_Flex fov, Type_Flex maxDistance )
+    {
+	    shared_ptr<W_Thing> thing;
+	    Math::Vector rotation;
+	    float xcos, xsin;
+	    float ycos, ysin;
+	    int retval;
+	    Math::Vector fireOffset;
 
-    fireOffset = Util::Matrix::RotateZ(rotation.y) * Util::Matrix::RotateX(rotation.x) * offset;
-	int thingNum = W_Thing::Create( currentLevel.templates[template_num], thing->GetPosition() + fireOffset, Math::Vector(0, 0, 0), thing->GetSector());
+	    thing = currentLevel.things[thing_num];
 
-	currentLevel.things[thingNum]->SetRotation( thing->GetRotation() );
-	if( sound_num != -1 )
-        Sound::PlayLocal( currentLevel.sounds[sound_num], 1.0, 0 );
+	    if( thing )
+		    rotation = thing->GetRotation();
 
-	return thingNum;
-}
+        fireOffset = Util::Matrix::RotateZ(rotation.y) * Util::Matrix::RotateX(rotation.x) * offset;
+	    int thingNum = W_Thing::Create( currentLevel.templates[template_num], thing->GetPosition() + fireOffset, Math::Vector(0, 0, 0), thing->GetSector());
 
-C_Type_Void SetCurWeapon( C_Type_Thing thing_num, C_Type_Int bin )
-{
-	curWeapon = bin;
+	    currentLevel.things[thingNum]->SetRotation( thing->GetRotation() );
+	    if( sound_num != -1 )
+            Sound::PlayLocal( currentLevel.sounds[sound_num], 1.0, 0 );
+
+	    return thingNum;
+    }
+
+    Type_Void SetCurWeapon( Type_Thing thing_num, Type_Int bin )
+    {
+	    curWeapon = bin;
+    }
 }

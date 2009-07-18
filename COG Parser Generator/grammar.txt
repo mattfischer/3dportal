@@ -3,18 +3,18 @@ newToken.astnode=input[0].astnode;
 
 
 %CogFile: flags = <hex> SymbolSection CodeSection
-newToken.astnode=NewNode(C_AST_COG_FLAGS, 2, input[3].astnode, input[4].astnode);
+newToken.astnode=NewNode(NODE_COG_FLAGS, 2, input[3].astnode, input[4].astnode);
 newToken.astnode->lexData=input[2].lexData;
 
 %CogFile: SymbolSection CodeSection
-newToken.astnode=NewNode(C_AST_COG, 2, input[0].astnode, input[1].astnode);
+newToken.astnode=NewNode(NODE_COG, 2, input[0].astnode, input[1].astnode);
 
 
 %SymbolSection: symbols SymbolList end
 newToken.astnode=input[1].astnode;
 
 %SymbolList: SymbolEntry
-newToken.astnode=NewNode(C_AST_SYMBOL_LIST, 1, input[0].astnode);
+newToken.astnode=NewNode(NODE_SYMBOL_LIST, 1, input[0].astnode);
 
 %SymbolList: SymbolList SymbolEntry
 newToken.astnode=AddNode(input[0].astnode, input[1].astnode);
@@ -22,35 +22,35 @@ newToken.astnode=AddNode(input[0].astnode, input[1].astnode);
 
 
 %SymbolEntry: <id> Name SymbolUseList
-newToken.astnode=NewNode(C_AST_SYMBOL_ENTRY_USE, 2, input[1].astnode, input[2].astnode);
+newToken.astnode=NewNode(NODE_SYMBOL_ENTRY_USE, 2, input[1].astnode, input[2].astnode);
 newToken.astnode->lexData=input[0].lexData;
 
 %SymbolEntry: <id> Name
-newToken.astnode=NewNode(C_AST_SYMBOL_ENTRY, 1, input[1].astnode);
+newToken.astnode=NewNode(NODE_SYMBOL_ENTRY, 1, input[1].astnode);
 newToken.astnode->lexData=input[0].lexData;
 
 
 %Name: <id>
-newToken.astnode=NewNode(C_AST_NAME, 0);
+newToken.astnode=NewNode(NODE_NAME, 0);
 newToken.astnode->lexData=input[0].lexData;
 
 %Name: <id> = Literal
-newToken.astnode=NewNode(C_AST_NAME_INIT, 1, input[2].astnode);
+newToken.astnode=NewNode(NODE_NAME_INIT, 1, input[2].astnode);
 newToken.astnode->lexData=input[0].lexData;
 
 %Name: flags
-newToken.astnode=NewNode(C_AST_NAME, 0);
+newToken.astnode=NewNode(NODE_NAME, 0);
 newToken.astnode->lexData=new char[6];
 strcpy((char*)newToken.astnode->lexData, "flags");
 
 %Name: flags = Literal
-newToken.astnode=NewNode(C_AST_NAME_INIT, 1, input[2].astnode);
+newToken.astnode=NewNode(NODE_NAME_INIT, 1, input[2].astnode);
 newToken.astnode->lexData=new char[6];
 strcpy((char*)newToken.astnode->lexData, "flags");
 
 
 %SymbolUseList: SymbolUse
-newToken.astnode=NewNode(C_AST_SYMBOL_USE_LIST, 1, input[0].astnode);
+newToken.astnode=NewNode(NODE_SYMBOL_USE_LIST, 1, input[0].astnode);
 
 %SymbolUseList: SymbolUseList SymbolUse
 newToken.astnode=AddNode(input[0].astnode, input[1].astnode);
@@ -59,19 +59,19 @@ newToken.astnode=AddNode(input[0].astnode, input[1].astnode);
 newToken.astnode=AddNode(input[0].astnode, input[2].astnode);
 
 %SymbolUse: desc = <id>
-newToken.astnode=NewNode(C_AST_SYMBOL_USE_DESC, 0);
+newToken.astnode=NewNode(NODE_SYMBOL_USE_DESC, 0);
 
 %SymbolUse: local
-newToken.astnode=NewNode(C_AST_SYMBOL_USE_LOCAL, 0);
+newToken.astnode=NewNode(NODE_SYMBOL_USE_LOCAL, 0);
 
 %SymbolUse: nolink
-newToken.astnode=NewNode(C_AST_SYMBOL_USE_NOLINK, 0);
+newToken.astnode=NewNode(NODE_SYMBOL_USE_NOLINK, 0);
 
 %SymbolUse: linkid = Literal
-newToken.astnode=NewNode(C_AST_SYMBOL_USE_LINKID, 1, input[2].astnode);
+newToken.astnode=NewNode(NODE_SYMBOL_USE_LINKID, 1, input[2].astnode);
 
 %SymbolUse: mask = Literal
-newToken.astnode=NewNode(C_AST_SYMBOL_USE_MASK, 1, input[2].astnode);
+newToken.astnode=NewNode(NODE_SYMBOL_USE_MASK, 1, input[2].astnode);
 
 
 %CodeSection: code StatementList end
@@ -82,88 +82,88 @@ newToken.astnode=input[1].astnode;
 
 
 %StatementList: Statement
-newToken.astnode=NewNode(C_AST_STATEMENT_LIST, 1, input[0].astnode);
+newToken.astnode=NewNode(NODE_STATEMENT_LIST, 1, input[0].astnode);
 
 %StatementList: StatementList Statement
 newToken.astnode=AddNode(input[0].astnode, input[1].astnode);
 
 %Statement: <id> ;
-newToken.astnode=NewNode(C_AST_STATEMENT_EMPTY, 0);
+newToken.astnode=NewNode(NODE_STATEMENT_EMPTY, 0);
 
 %Statement: { StatementList }
 newToken.astnode=input[1].astnode;
 
 %Statement: <id> :
-newToken.astnode=NewNode(C_AST_STATEMENT_LABEL, 0);
+newToken.astnode=NewNode(NODE_STATEMENT_LABEL, 0);
 newToken.astnode->lexData=input[0].lexData;
 
 %Statement: VerbCall ;
 newToken.astnode=input[0].astnode;
 
 %Statement: call <id> ;
-newToken.astnode=NewNode(C_AST_STATEMENT_CALL, 0);
+newToken.astnode=NewNode(NODE_STATEMENT_CALL, 0);
 newToken.astnode->lexData=input[1].lexData;
 
 %Statement: <id> = Expression ;
-newToken.astnode=NewNode(C_AST_STATEMENT_ASSIGN, 1, input[2].astnode);
+newToken.astnode=NewNode(NODE_STATEMENT_ASSIGN, 1, input[2].astnode);
 newToken.astnode->lexData=input[0].lexData;
 
 %Statement: <id> [ Expression ] = Expression ;
-newToken.astnode=NewNode(C_AST_STATEMENT_ASSIGN_INDEXED, 2, input[2].astnode, input[5].astnode);
+newToken.astnode=NewNode(NODE_STATEMENT_ASSIGN_INDEXED, 2, input[2].astnode, input[5].astnode);
 newToken.astnode->lexData=input[0].lexData;
 
 %Statement: flags = Expression ;
-newToken.astnode=NewNode(C_AST_STATEMENT_ASSIGN, 1, input[2].astnode);
+newToken.astnode=NewNode(NODE_STATEMENT_ASSIGN, 1, input[2].astnode);
 newToken.astnode->lexData=new char[6];
 strcpy((char*)newToken.astnode->lexData, "flags");
 
 %Statement: { }
-newToken.astnode=NewNode(C_AST_STATEMENT_EMPTY, 0);
+newToken.astnode=NewNode(NODE_STATEMENT_EMPTY, 0);
 
 %Statement: return ;
-newToken.astnode=NewNode(C_AST_STATEMENT_RETURN, 0);
+newToken.astnode=NewNode(NODE_STATEMENT_RETURN, 0);
 
 %Statement: stop ;
-newToken.astnode=NewNode(C_AST_STATEMENT_RETURN, 0);
+newToken.astnode=NewNode(NODE_STATEMENT_RETURN, 0);
 
 %Statement: if ( Expression ) Statement
-newToken.astnode=NewNode(C_AST_STATEMENT_IF, 2, input[2].astnode, input[4].astnode);
+newToken.astnode=NewNode(NODE_STATEMENT_IF, 2, input[2].astnode, input[4].astnode);
 
 %Statement: if ( Expression ) ; Statement
-newToken.astnode=NewNode(C_AST_STATEMENT_IF, 2, input[2].astnode, input[5].astnode);
+newToken.astnode=NewNode(NODE_STATEMENT_IF, 2, input[2].astnode, input[5].astnode);
 
 %Statement: if ( Expression ) Statement else Statement
-newToken.astnode=NewNode(C_AST_STATEMENT_IF_ELSE, 3, input[2].astnode, input[4].astnode, input[6].astnode);
+newToken.astnode=NewNode(NODE_STATEMENT_IF_ELSE, 3, input[2].astnode, input[4].astnode, input[6].astnode);
 
 %Statement: for ( Expression ; Expression ; Expression ) Statement
-newToken.astnode=NewNode(C_AST_STATEMENT_FOR, 4, input[2].astnode, input[4].astnode, input[6].astnode, input[8].astnode);
+newToken.astnode=NewNode(NODE_STATEMENT_FOR, 4, input[2].astnode, input[4].astnode, input[6].astnode, input[8].astnode);
 
 %Statement: while ( Expression ) Statement
-newToken.astnode=NewNode(C_AST_STATEMENT_WHILE, 2, input[2].astnode, input[4].astnode);
+newToken.astnode=NewNode(NODE_STATEMENT_WHILE, 2, input[2].astnode, input[4].astnode);
 
 
 %VerbCall: <id> ( )
-newToken.astnode=NewNode(C_AST_STATEMENT_VERBCALL, 0);
+newToken.astnode=NewNode(NODE_STATEMENT_VERBCALL, 0);
 newToken.astnode->lexData=input[0].lexData;
 
 %VerbCall: <id> ( ArgumentList )
-newToken.astnode=AddChildren(NewNode(C_AST_STATEMENT_VERBCALL, 0), input[2].astnode);
+newToken.astnode=AddChildren(NewNode(NODE_STATEMENT_VERBCALL, 0), input[2].astnode);
 newToken.astnode->lexData=input[0].lexData;
 
 
 %ArgumentList: Expression
-newToken.astnode=NewNode(C_AST_ARGUMENT_LIST, 1, input[0].astnode);
+newToken.astnode=NewNode(NODE_ARGUMENT_LIST, 1, input[0].astnode);
 
 %ArgumentList: ArgumentList , Expression
 newToken.astnode=AddNode(input[0].astnode, input[2].astnode);
 
 
 %Expression: <id> = AssignmentExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_ASSIGN, 1, input[2].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_ASSIGN, 1, input[2].astnode);
 newToken.astnode->lexData=input[0].lexData;
 
 %Expression: <id> [ Expression ] = Expression ;
-newToken.astnode=NewNode(C_AST_EXPRESSION_ASSIGN_INDEXED, 2, input[2].astnode, input[5].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_ASSIGN_INDEXED, 2, input[2].astnode, input[5].astnode);
 newToken.astnode->lexData=input[0].lexData;
 
 %Expression: AssignmentExpression
@@ -171,91 +171,91 @@ newToken.astnode=input[0].astnode;
 
 
 %AssignmentExpression: AssignmentExpression || LORExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_LOR, 2, input[0].astnode, input[2].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_LOR, 2, input[0].astnode, input[2].astnode);
 
 %AssignmentExpression: LORExpression
 newToken.astnode=input[0].astnode;
 
 
 %LORExpression: LORExpression && LANDExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_LAND, 2, input[0].astnode, input[2].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_LAND, 2, input[0].astnode, input[2].astnode);
 
 %LORExpression: LANDExpression
 newToken.astnode=input[0].astnode;
 
 
 %LANDExpression: ! BooleanExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_LINVERSE, 1, input[1].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_LINVERSE, 1, input[1].astnode);
 
 %LANDExpression: BooleanExpression
 newToken.astnode=input[0].astnode;
 
 
 %BooleanExpression: ArithmeticExpression BooleanOp ArithmeticExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_BOOLEAN, 3, input[0].astnode, input[1].astnode, input[2].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_BOOLEAN, 3, input[0].astnode, input[1].astnode, input[2].astnode);
 
 %BooleanExpression: ArithmeticExpression
 newToken.astnode=input[0].astnode;
 
 
 %BooleanOp: ==
-newToken.astnode=NewNode(C_AST_EXPRESSION_BOOLEAN_EQUAL, 0);
+newToken.astnode=NewNode(NODE_EXPRESSION_BOOLEAN_EQUAL, 0);
 
 %BooleanOp: !=
-newToken.astnode=NewNode(C_AST_EXPRESSION_BOOLEAN_UNEQUAL, 0);
+newToken.astnode=NewNode(NODE_EXPRESSION_BOOLEAN_UNEQUAL, 0);
 
 %BooleanOp: >
-newToken.astnode=NewNode(C_AST_EXPRESSION_BOOLEAN_GREATER, 0);
+newToken.astnode=NewNode(NODE_EXPRESSION_BOOLEAN_GREATER, 0);
 
 %BooleanOp: <
-newToken.astnode=NewNode(C_AST_EXPRESSION_BOOLEAN_LESS, 0);
+newToken.astnode=NewNode(NODE_EXPRESSION_BOOLEAN_LESS, 0);
 
 %BooleanOp: >=
-newToken.astnode=NewNode(C_AST_EXPRESSION_BOOLEAN_GREATER_EQUAL, 0);
+newToken.astnode=NewNode(NODE_EXPRESSION_BOOLEAN_GREATER_EQUAL, 0);
 
 %BooleanOp: <=
-newToken.astnode=NewNode(C_AST_EXPRESSION_BOOLEAN_LESS_EQUAL, 0);
+newToken.astnode=NewNode(NODE_EXPRESSION_BOOLEAN_LESS_EQUAL, 0);
 
 
 %ArithmeticExpression: ArithmeticExpression + PlusExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_PLUS, 2, input[0].astnode, input[2].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_PLUS, 2, input[0].astnode, input[2].astnode);
 
 %ArithmeticExpression: ArithmeticExpression - PlusExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_MINUS, 2, input[0].astnode, input[2].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_MINUS, 2, input[0].astnode, input[2].astnode);
 
 %ArithmeticExpression: PlusExpression
 newToken.astnode=input[0].astnode;
 
 
 %PlusExpression: PlusExpression * MultiplyExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_TIMES, 2, input[0].astnode, input[2].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_TIMES, 2, input[0].astnode, input[2].astnode);
 
 %PlusExpression: PlusExpression / MultiplyExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_DIVIDE, 2, input[0].astnode, input[2].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_DIVIDE, 2, input[0].astnode, input[2].astnode);
 
 %PlusExpression: PlusExpression % MultiplyExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_MODULUS, 2, input[0].astnode, input[2].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_MODULUS, 2, input[0].astnode, input[2].astnode);
 
 %PlusExpression: MultiplyExpression
 newToken.astnode=input[0].astnode;
 
 
 %MultiplyExpression: MultiplyExpression | BORExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_BOR, 2, input[0].astnode, input[2].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_BOR, 2, input[0].astnode, input[2].astnode);
 
 %MultiplyExpression: BORExpression
 newToken.astnode=input[0].astnode;
 
 
 %BORExpression: BORExpression & BANDExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_BAND, 2, input[0].astnode, input[2].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_BAND, 2, input[0].astnode, input[2].astnode);
 
 %BORExpression: BANDExpression
 newToken.astnode=input[0].astnode;
 
 
 %BANDExpression: - BaseExpression
-newToken.astnode=NewNode(C_AST_EXPRESSION_NEGATIVE, 1, input[1].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_NEGATIVE, 1, input[1].astnode);
 
 %BANDExpression: BaseExpression
 newToken.astnode=input[0].astnode;
@@ -271,37 +271,37 @@ newToken.astnode=input[0].astnode;
 newToken.astnode=input[0].astnode;
 
 %BaseExpression: <id> [ Expression ]
-newToken.astnode=NewNode(C_AST_EXPRESSION_INDEX, 1, input[2].astnode);
+newToken.astnode=NewNode(NODE_EXPRESSION_INDEX, 1, input[2].astnode);
 newToken.astnode->lexData=input[0].lexData;
 
 %Literal: <id>
-newToken.astnode=NewNode(C_AST_ID, 0);
+newToken.astnode=NewNode(NODE_ID, 0);
 newToken.astnode->lexData=input[0].lexData;
 
 %Literal: flags
-newToken.astnode=NewNode(C_AST_ID, 0);
+newToken.astnode=NewNode(NODE_ID, 0);
 newToken.astnode->lexData=new char[6];
 strcpy((char*)newToken.astnode->lexData, "flags");
 
 %Literal: <int>
-newToken.astnode=NewNode(C_AST_INT, 0);
+newToken.astnode=NewNode(NODE_INT, 0);
 newToken.astnode->lexData=input[0].lexData;
 
 %Literal: <float>
-newToken.astnode=NewNode(C_AST_FLOAT, 0);
+newToken.astnode=NewNode(NODE_FLOAT, 0);
 newToken.astnode->lexData=input[0].lexData;
 
 %Literal: <hex>
-newToken.astnode=NewNode(C_AST_HEX, 0);
+newToken.astnode=NewNode(NODE_HEX, 0);
 newToken.astnode->lexData=input[0].lexData;
 
 %Literal: <vector>
-newToken.astnode=NewNode(C_AST_VECTOR, 0);
+newToken.astnode=NewNode(NODE_VECTOR, 0);
 newToken.astnode->lexData=input[0].lexData;
 
 %Literal: <string>
-newToken.astnode=NewNode(C_AST_STRING, 0);
+newToken.astnode=NewNode(NODE_STRING, 0);
 newToken.astnode->lexData=input[0].lexData;
 
 %Literal: linkid
-newToken.astnode=NewNode(C_AST_LINKID, 0);
+newToken.astnode=NewNode(NODE_LINKID, 0);

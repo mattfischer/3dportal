@@ -76,11 +76,11 @@ void StateTable::Save(char *filename)
 
 	file.open(filename);
 
-	file << "int C_StateTable::numTokens=" << numTokens << ";" << endl;
-	file << "int C_StateTable::numStates=" << numStates << ";" << endl;
-	file << "int C_StateTable::accept=" << accept << ";" << endl;
+	file << "int StateTable::numTokens=" << numTokens << ";" << endl;
+	file << "int StateTable::numStates=" << numStates << ";" << endl;
+	file << "int StateTable::accept=" << accept << ";" << endl;
 	file << endl;
-	file << "C_StateTableItem C_StateTable::table[]={" << endl;
+    file << "StateTable::Item StateTable::table[]={" << endl;
 
 	for(i=0;i<numStates;i++)
 	{

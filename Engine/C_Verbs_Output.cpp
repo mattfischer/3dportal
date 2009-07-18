@@ -1,5 +1,8 @@
 #include "C_Verb.h"
 
-C_Type_Void jkPrintUniString( C_Type_Int destination, C_Type_Int string )
+namespace Cog
 {
+    Type_Void jkPrintUniString( Type_Int destination, Type_Int string )
+    {
+    }
 }

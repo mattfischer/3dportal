@@ -60,7 +60,7 @@ W_Surface *W_Surface::GetMirror()
 	return mirror;
 }
 
-void W_Surface::AddCogLink( C_Script *cogScript )
+void W_Surface::AddCogLink( Cog::Script *cogScript )
 {
 	cogLinks.push_back( cogScript );
 }

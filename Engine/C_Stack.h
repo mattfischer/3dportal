@@ -5,26 +5,29 @@
 
 #define STACKSIZE 100
 
-class C_Stack
+namespace Cog
 {
-public:
-	C_Stack();
-	~C_Stack();
+    class Stack
+    {
+    public:
+	    Stack();
+	    ~Stack();
 
-	void PushFloat( float a );
-	void PushInt( int a );
-	void PushVector( Math::Vector a );
-	void Push( void *data, int size );
+	    void PushFloat( float a );
+	    void PushInt( int a );
+	    void PushVector( Math::Vector a );
+	    void Push( void *data, int size );
 
-	float PopFloat();
-	int PopInt();
-	Math::Vector PopVector();
-	float PopFlex( C_SymbolType destType );
-	void Pop( void *data, int size );
+	    float PopFloat();
+	    int PopInt();
+	    Math::Vector PopVector();
+	    float PopFlex( SymbolType destType );
+	    void Pop( void *data, int size );
 
-protected:
-	char *stack;
-	int pointer;
-};
+    protected:
+	    char *stack;
+	    int pointer;
+    };
+}
 
 #endif

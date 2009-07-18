@@ -30,7 +30,10 @@ namespace Sound
     class Class;
     class Track;
 }
-class C_Script;
+namespace Cog
+{
+    class Script;
+}
 
 struct W_Frame {
 	Math::Vector position;
@@ -96,7 +99,7 @@ public:
 
 	void Update( float time );
 
-	void AddCogLink( C_Script *cogScript );
+	void AddCogLink( Cog::Script *cogScript );
 	void SendCogMessages( const string& message, int source, bool synchronous = false );
 
     void playKey( Jk::Key *key, int flags );
@@ -197,7 +200,7 @@ protected:
 	float pathTSpeed;
 	Math::Vector pathMoveDelta;
 	vector<W_Frame> frames;
-	vector<C_Script*> cogLinks;
+	vector<Cog::Script*> cogLinks;
 
 	Sound::Track *moveSound;
 	LONG walkTimer;

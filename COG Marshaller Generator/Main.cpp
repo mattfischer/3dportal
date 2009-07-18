@@ -28,12 +28,13 @@ void LoadFunctionDefs( const string& filename, vector<FunctionInfo>& functions )
 
 		getline( inputFile, line );
 		if( line == "" ) continue;
-
+        printf("Processing line %s\n", line.c_str());
 		while( line[0] == ' ' ) line.erase( 0, 1 );
 
 		if( line.length() < 2 ) continue;
 		if( line[0] == '#' ) continue;
 		if( line[0] == '/' && ( line[1] == '*' || line[1] == '/' ) ) continue;
+        if( line.find("namespace") != string::npos ) continue;
 
 		index = line.find( " " );
 		newFunction.returnType = line.substr( 0, index );
@@ -106,46 +107,46 @@ void OutputMarshallers( const std::string& filename, vector<FunctionInfo>& funct
 			if( paramType[paramType.size()-1] == '*' )
 				paramType.erase( paramType.size()-1, 1 );
 
-			if( paramType == "C_Context" )
+			if( paramType == "Context" )
 			{
-				outputFile << "    C_Context& param" << j << " = c;" << endl;
+				outputFile << "    Context& param" << j << " = c;" << endl;
 				continue;
 			}
 			
-			if( paramType == "C_Script" )
+			if( paramType == "Script" )
 			{
-				outputFile << "    C_Script* param" << j << " = this;" << endl;
+				outputFile << "    Script* param" << j << " = this;" << endl;
 				continue;
 			}
 
 			outputFile << "    " << paramType << " param" << j << " = ";
-			if( paramType == "C_Type_AI" ||
-				paramType == "C_Type_Cog" ||
-				paramType == "C_Type_Thing" || 
-				paramType == "C_Type_Sector" ||
-				paramType == "C_Type_Surface" ||
-				paramType == "C_Type_Int" ||
-				paramType == "C_Type_Keyframe" ||
-				paramType == "C_Type_Material" ||
-				paramType == "C_Type_Message" ||
-				paramType == "C_Type_Model" ||
-				paramType == "C_Type_Sound" ||
-				paramType == "C_Type_Template" )
+			if( paramType == "Type_AI" ||
+				paramType == "Type_Cog" ||
+				paramType == "Type_Thing" || 
+				paramType == "Type_Sector" ||
+				paramType == "Type_Surface" ||
+				paramType == "Type_Int" ||
+				paramType == "Type_Keyframe" ||
+				paramType == "Type_Material" ||
+				paramType == "Type_Message" ||
+				paramType == "Type_Model" ||
+				paramType == "Type_Sound" ||
+				paramType == "Type_Template" )
 			{
 				outputFile << "c.stack.PopInt();" << endl;
 			}
 				
-			if(	paramType == "C_Type_Vector" )
+			if(	paramType == "Type_Vector" )
 			{
 				outputFile << "c.stack.PopVector();" << endl;
 			}
 
-			if( paramType == "C_Type_Float" )
+			if( paramType == "Type_Float" )
 			{
 				outputFile << "c.stack.PopFloat();" << endl;
 			}
 
-			if( paramType == "C_Type_Flex" )
+			if( paramType == "Type_Flex" )
 			{
 				//outputFile << "c.stack.PopFlex( node->children[" << j << "]->type );" << endl;
 				outputFile << "c.stack.PopFloat();" << endl;
@@ -153,7 +154,7 @@ void OutputMarshallers( const std::string& filename, vector<FunctionInfo>& funct
 		}
 		
 		outputFile << "    ";
-		if( returnType != "C_Type_Void" )
+		if( returnType != "Type_Void" )
 			 outputFile << returnType << " retval = ";
 		
 		outputFile << functions[i].name << "( ";
@@ -167,63 +168,63 @@ void OutputMarshallers( const std::string& filename, vector<FunctionInfo>& funct
 		}
 		outputFile << " );" << endl;
 
-		if( returnType != "C_Type_Void" )
+		if( returnType != "Type_Void" )
 		{
 			outputFile << "    if( expression )" << endl;
 			outputFile << "    {" << endl;
 
-			if( returnType == "C_Type_AI" ||
-				returnType == "C_Type_Cog" ||
-				returnType == "C_Type_Thing" || 
-				returnType == "C_Type_Sector" ||
-				returnType == "C_Type_Surface" ||
-				returnType == "C_Type_Int" ||
-				returnType == "C_Type_Keyframe" ||
-				returnType == "C_Type_Material" ||
-				returnType == "C_Type_Message" ||
-				returnType == "C_Type_Model" ||
-				returnType == "C_Type_Sound" ||
-				returnType == "C_Type_Template" )
+			if( returnType == "Type_AI" ||
+				returnType == "Type_Cog" ||
+				returnType == "Type_Thing" || 
+				returnType == "Type_Sector" ||
+				returnType == "Type_Surface" ||
+				returnType == "Type_Int" ||
+				returnType == "Type_Keyframe" ||
+				returnType == "Type_Material" ||
+				returnType == "Type_Message" ||
+				returnType == "Type_Model" ||
+				returnType == "Type_Sound" ||
+				returnType == "Type_Template" )
 			{
 				outputFile << "        c.stack.PushInt( retval );" << endl;
 				outputFile << "        node->type = " << TypeToSymbolType( returnType ) << ";" << endl;
 			}
 				
-			if(	returnType == "C_Type_Vector" )
+			if(	returnType == "Type_Vector" )
 			{
 				outputFile << "        c.stack.PushVector( retval );" << endl;
 				outputFile << "        node->type = " << TypeToSymbolType( returnType ) << ";" << endl;
 			}
 
-			if( returnType == "C_Type_Flex" || returnType == "C_Type_Float" )
+			if( returnType == "Type_Flex" || returnType == "Type_Float" )
 			{
 				outputFile << "        c.stack.PushFloat( retval );" << endl;
 				outputFile << "        node->type = " << TypeToSymbolType( returnType ) << ";" << endl;
 			}
 
-			if( returnType == "C_Type_Variant" )
+			if( returnType == "Type_Variant" )
 			{
 				outputFile << "        switch( retval.type ) " << endl;
 				outputFile << "        {" << endl;
-				outputFile << "        case C_TYPE_AI:" << endl;
-				outputFile << "        case C_TYPE_COG:" << endl;
-				outputFile << "        case C_TYPE_THING:" << endl;
-				outputFile << "        case C_TYPE_SECTOR:" << endl;
-				outputFile << "        case C_TYPE_SURFACE:" << endl; 
-				outputFile << "        case C_TYPE_INT:" << endl;
-				outputFile << "        case C_TYPE_KEYFRAME:" << endl;
-				outputFile << "        case C_TYPE_MATERIAL:" << endl;
-				outputFile << "        case C_TYPE_MESSAGE:" << endl;
-				outputFile << "        case C_TYPE_MODEL:" << endl;
-				outputFile << "        case C_TYPE_SOUND:" << endl;
-				outputFile << "        case C_TYPE_TEMPLATE:" << endl;
+				outputFile << "        case TYPE_AI:" << endl;
+				outputFile << "        case TYPE_COG:" << endl;
+				outputFile << "        case TYPE_THING:" << endl;
+				outputFile << "        case TYPE_SECTOR:" << endl;
+				outputFile << "        case TYPE_SURFACE:" << endl; 
+				outputFile << "        case TYPE_INT:" << endl;
+				outputFile << "        case TYPE_KEYFRAME:" << endl;
+				outputFile << "        case TYPE_MATERIAL:" << endl;
+				outputFile << "        case TYPE_MESSAGE:" << endl;
+				outputFile << "        case TYPE_MODEL:" << endl;
+				outputFile << "        case TYPE_SOUND:" << endl;
+				outputFile << "        case TYPE_TEMPLATE:" << endl;
 				outputFile << "            c.stack.PushInt( retval.v_int );" << endl;
 				outputFile << "            break;" << endl;
-				outputFile << "        case C_TYPE_VECTOR:" << endl;
+				outputFile << "        case TYPE_VECTOR:" << endl;
 				outputFile << "            c.stack.PushVector( retval.v_vector );" << endl;
 				outputFile << "            break;" << endl;
-				outputFile << "        case C_TYPE_FLOAT:" << endl;
-				outputFile << "        case C_TYPE_FLEX:" << endl;
+				outputFile << "        case TYPE_FLOAT:" << endl;
+				outputFile << "        case TYPE_FLEX:" << endl;
 				outputFile << "            c.stack.PushFloat( retval.v_float );" << endl;
 				outputFile << "            break;" << endl;
 				outputFile << "        }" << endl;

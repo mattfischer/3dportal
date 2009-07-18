@@ -5,24 +5,27 @@
 extern R_Model* povModel;
 extern Jk::Key::Track povKeyTrack;
 
-C_Type_Void jkSetPovModel( C_Type_Thing thing_num, C_Type_Model model_num )
+namespace Cog
 {
-	povModel = currentLevel.models[model_num];
-}
+    Type_Void jkSetPovModel( Type_Thing thing_num, Type_Model model_num )
+    {
+	    povModel = currentLevel.models[model_num];
+    }
 
-C_Type_Int jkPlayPovKey( C_Type_Thing thing_num, C_Type_Keyframe key, C_Type_Int param2, C_Type_Int flags )
-{
-    povKeyTrack = Jk::Key::Track( currentLevel.keyframes[key], 0, flags );
+    Type_Int jkPlayPovKey( Type_Thing thing_num, Type_Keyframe key, Type_Int param2, Type_Int flags )
+    {
+        povKeyTrack = Jk::Key::Track( currentLevel.keyframes[key], 0, flags );
 
-	return key;
-}
+	    return key;
+    }
 
-C_Type_Int PlayKey( C_Type_Thing thing_num, C_Type_Keyframe key, C_Type_Int param2, C_Type_Int flags )
-{
-    return 0;
-}
+    Type_Int PlayKey( Type_Thing thing_num, Type_Keyframe key, Type_Int param2, Type_Int flags )
+    {
+        return 0;
+    }
 
-C_Type_Int GetKeyLen( C_Type_Keyframe key )
-{
-	return 0;
+    Type_Int GetKeyLen( Type_Keyframe key )
+    {
+	    return 0;
+    }
 }

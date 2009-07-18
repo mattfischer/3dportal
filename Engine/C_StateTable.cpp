@@ -1,3 +1,6 @@
 #include "C_StateTable.h"
 
-#include "C_StateTable.inc"
+namespace Cog
+{
+    #include "C_StateTable.inc"
+}

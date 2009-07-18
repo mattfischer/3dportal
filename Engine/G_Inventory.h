@@ -1,7 +1,10 @@
 #ifndef G_INVENTORY_H
 #define G_INVENTORY_H
 
-struct C_Script;
+namespace Cog
+{
+    struct Script;
+}
 
 struct G_Item
 {
@@ -9,7 +12,7 @@ struct G_Item
 	float min;
 	float max;
 	int flags;
-	C_Script *cog;
+    Cog::Script *cog;
 };
 
 void G_SetupInventory();

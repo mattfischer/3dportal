@@ -15,7 +15,10 @@ using boost::shared_ptr;
 
 class W_Sector;
 struct R_Frustum;
-class C_Script;
+namespace Cog
+{
+    class Script;
+}
 class W_Thing;
 
 class W_Surface {
@@ -34,7 +37,7 @@ public:
 	W_Sector *GetAdjoin();
 	W_Surface *GetMirror();
 
-	void AddCogLink( C_Script *cogScript );
+    void AddCogLink( Cog::Script *cogScript );
 	void SendCogMessages( const string& message, int source, bool synchronous=false);
 
 	void SetCel( int c );
@@ -72,7 +75,7 @@ protected:
 	int adjoinFlags;
 	int drawCounter;
     
-	vector<C_Script*> cogLinks;
+    vector<Cog::Script*> cogLinks;
 
 	float r;
 	float g;

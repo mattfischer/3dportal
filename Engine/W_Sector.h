@@ -15,7 +15,10 @@ using std::vector;
 class W_Thing;
 class W_Surface;
 struct R_Frustum;
-class C_Script;
+namespace Cog
+{
+    class Script;
+}
 namespace Sound
 {
     class Buffer;
@@ -34,7 +37,7 @@ public:
 	void RemoveThing( W_Thing* thing );
 	void AddThing( W_Thing* thing );
 
-	void AddCogLink( C_Script *cogScript );
+    void AddCogLink( Cog::Script *cogScript );
 	void SendCogMessages( const string& message, int source, bool synchronous = false );
 
 	int GetNum();
@@ -67,7 +70,7 @@ protected:
 	int numSurfaces;
 	W_Surface **surfaces;
 	vector<W_Thing*> things;
-	vector<C_Script*> cogLinks;
+    vector<Cog::Script*> cogLinks;
 
 	Sound::Buffer *sound;
 	float soundVolume;

@@ -4,6 +4,7 @@
 	Version="8.00"
 	Name="COG Parser Generator"
 	ProjectGUID="{77ABF0C1-D9DE-45BC-80D2-D50B2CBF9F1D}"
+	RootNamespace="COG Parser Generator"
 	>
 	<Platforms>
 		<Platform
@@ -48,8 +49,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsound.lib"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft DirectX SDK (June 2008)\Lib\x86&quot;"
+				AdditionalLibraryDirectories=""
 			/>
 			<Tool
 				Name="VCALinkTool"

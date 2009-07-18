@@ -5,9 +5,12 @@
 
 using std::string;
 
-struct C_ASTNode;
-struct C_Tokenizer;
+namespace Cog
+{
+    struct ASTNode;
+    struct Tokenizer;
 
-C_ASTNode *C_ParseString( C_Tokenizer &t, const string& filename );
+    ASTNode *ParseString( Tokenizer &t, const string& filename );
+}
 
 #endif

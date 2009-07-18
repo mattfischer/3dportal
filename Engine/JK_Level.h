@@ -19,7 +19,10 @@ class W_Sector;
 class W_Thing;
 class R_Model;
 struct R_Texture;
-class C_Script;
+namespace Cog
+{
+    class Script;
+}
 namespace Sound
 {
     class Buffer;
@@ -41,7 +44,7 @@ namespace Jk
 
         Util::VectorMap<R_Texture*> textures;
 	    Util::VectorMap<JK_Colormap*> colormaps;
-	    Util::VectorMap<C_Script*> cogScripts;
+        Util::VectorMap<Cog::Script*> cogScripts;
 	    Util::VectorMap<Sound::Buffer*> sounds;
 	    Util::VectorMap<Sound::Class*> soundClasses;
 	    Util::VectorMap<R_Model*> models;
@@ -50,7 +53,7 @@ namespace Jk
 	    Util::VectorMap<R_Sprite*> sprites;
 
 	    std::vector<shared_ptr<W_Thing> > things;
-	    std::vector<C_Script*> cogs;
+        std::vector<Cog::Script*> cogs;
         Util::VectorMap<Jk::Template*> templates;
 
 	    int numSurfaces;

@@ -580,7 +580,7 @@ void JK_Level_Load(const string& name)
 		line.getInt( error );
 
 		filename = line.getString( error );
-		currentLevel.cogScripts.push_back( new C_Script( filename ), filename );
+        currentLevel.cogScripts.push_back( new Cog::Script( filename ), filename );
 	}
 
 	// =====================================================================
@@ -604,7 +604,7 @@ void JK_Level_Load(const string& name)
 		line.getInt( error );
 
 		filename = line.getString( error );
-		currentLevel.cogs.push_back( new C_Script( *currentLevel.cogScripts[filename] ) );
+        currentLevel.cogs.push_back( new Cog::Script( *currentLevel.cogScripts[filename] ) );
 
 		currentLevel.cogs[i]->SaveArgumentString( line.rest() );
 	}

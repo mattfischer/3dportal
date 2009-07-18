@@ -34,7 +34,7 @@ void G_SetupInventory()
 		text = line.getString( error );
 		if( error == 0 && text[0] != '#' )
 		{
-			G_Items[id].cog = new C_Script( text.substr( 4 ) );
+            G_Items[id].cog = new Cog::Script( text.substr( 4 ) );
 			G_Items[id].cog->Message( "startup", -1, 0, 0 );
 		}
 	}

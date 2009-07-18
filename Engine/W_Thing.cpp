@@ -353,7 +353,7 @@ float W_Thing::GetMass()
 	return mass;
 }
 
-void W_Thing::AddCogLink(C_Script *cogScript)
+void W_Thing::AddCogLink(Cog::Script *cogScript)
 {
 	cogLinks.push_back( cogScript );
 }

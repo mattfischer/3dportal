@@ -58,7 +58,7 @@ void G_Initialize()
 	
     Jk::Gob::init();
 	
-	C_Script::Setup();
+    Cog::Script::Setup();
 	
 	JK_Level_Load( string( levelName ) );
 	for( i = 0 ; i < currentLevel.textures.size() ; i++ )
