@@ -10,7 +10,7 @@ namespace Cog
 {
     Type_Int GetCurFrame( Type_Thing thing_num )
     {
-	    shared_ptr<W_Thing> thing;
+	    shared_ptr<World::Thing> thing;
 	    int frame;
 
 	    thing = currentLevel.things[thing_num];
@@ -26,7 +26,7 @@ namespace Cog
 
     Type_Void MoveToFrame( Type_Thing thing_num, Type_Int frame, Type_Flex speed )
     {
-	    shared_ptr<W_Thing> thing;
+	    shared_ptr<World::Thing> thing;
 	    thing = currentLevel.things[thing_num];
 	    if( thing )
 	    {
@@ -36,7 +36,7 @@ namespace Cog
 
     Type_Sector GetThingSector( Type_Thing thing_num )
     {
-	    shared_ptr<W_Thing> thing;
+	    shared_ptr<World::Thing> thing;
 	    thing = currentLevel.things[thing_num];
 
 	    if( thing )
@@ -47,7 +47,7 @@ namespace Cog
 
     Type_Int IsThingMoving( Type_Thing thing_num )
     {
-	    shared_ptr<W_Thing> thing;
+	    shared_ptr<World::Thing> thing;
 	    thing = currentLevel.things[thing_num];
     	
 	    if( thing )
@@ -79,7 +79,7 @@ namespace Cog
 
     Type_Void JumpToFrame( Type_Thing thing_num, Type_Int frame, Type_Sector sector_num )
     {
-	    shared_ptr<W_Thing> thing;
+	    shared_ptr<World::Thing> thing;
 
 	    thing = currentLevel.things[thing_num];
 	    if( thing )
@@ -98,7 +98,7 @@ namespace Cog
 
     Type_Void DestroyThing( Type_Thing thing_num )
     {
-        boost::shared_ptr<W_Thing> thing = currentLevel.things[thing_num];
+        boost::shared_ptr<World::Thing> thing = currentLevel.things[thing_num];
 
         if(thing) 
         {
@@ -108,12 +108,12 @@ namespace Cog
 
     Type_Thing CreateThing( Type_Thing template_num, Type_Thing position_num )
     {
-	    shared_ptr<W_Thing> thing;
+	    shared_ptr<World::Thing> thing;
 	    thing = currentLevel.things[position_num];
 
 	    if( thing )
 	    {
-		    return W_Thing::CreateFromThing( thing.get(), currentLevel.templates[template_num] );
+		    return World::Thing::CreateFromThing( thing.get(), currentLevel.templates[template_num] );
 	    }
 
 	    return -1;
@@ -121,7 +121,7 @@ namespace Cog
 
     Type_Void CaptureThing( Type_Thing thing_num, Script* script )
     {
-	    shared_ptr<W_Thing> thing;
+	    shared_ptr<World::Thing> thing;
 
 	    thing = currentLevel.things[thing_num];
 	    if( thing )

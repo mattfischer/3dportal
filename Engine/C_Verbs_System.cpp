@@ -34,7 +34,7 @@ namespace Cog
 
     Type_Void TakeItem( Type_Thing thing_num, Type_Thing player_num )
     {
-	    shared_ptr<W_Thing> thing;
+        shared_ptr<World::Thing> thing;
     	
 	    thing = currentLevel.things[thing_num];
 	    if( thing )

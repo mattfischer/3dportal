@@ -16,7 +16,7 @@
 #include <math.h>
 #include <Dinput.h>
 
-extern shared_ptr<W_Thing> player;
+extern shared_ptr<World::Thing> player;
 
 #define KEY_DOWN(i) ((GetAsyncKeyState(i) & 0x8000) ? 1 : 0)
 #define KEY_UP(i) ((GetAsyncKeyState(i) & 0x8000) ? 0 : 1)

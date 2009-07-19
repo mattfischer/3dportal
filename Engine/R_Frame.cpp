@@ -12,7 +12,7 @@
 
 #include "U_Matrix.h"
 
-extern shared_ptr<W_Thing> player;
+extern shared_ptr<World::Thing> player;
 int globalFlag=0;
 
 namespace Render

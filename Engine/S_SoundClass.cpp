@@ -12,7 +12,7 @@ namespace Sound
     Sound::Track *Class::Play( const string& sound, int thing_num )
     {
 	    int i;
-	    shared_ptr<W_Thing> thing;
+        shared_ptr<World::Thing> thing;
 	    Sound::Track *returnVal;
 
 	    thing = currentLevel.things[thing_num];

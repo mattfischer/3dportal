@@ -8,7 +8,10 @@
 #include <string>
 #include <vector>
 
-struct W_Frame;
+namespace World
+{
+    struct Frame;
+}
 
 using std::string;
 using std::vector;
@@ -38,12 +41,12 @@ namespace Jk
 	    bool GetFloat( const string& paramName, float& data);
 	    bool GetInt( const string& paramName, int& data);
 	    bool GetHex( const string& paramName, int& data);
-	    bool GetFrames( vector<W_Frame>& frames );
+        bool GetFrames( vector<World::Frame>& frames );
 
     protected:
 	    string FindParam( const string& paramName );
 
-	    W_Frame ParseFrame( const string& data );
+        World::Frame ParseFrame( const string& data );
 	    vector<TemplateParam> params;
 
         string name;

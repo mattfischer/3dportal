@@ -169,7 +169,7 @@ namespace Render
 				    line.getFloat( error );
 
 				    numVertices = line.getInt( error );
-				    geoSets[g].meshes[m].faces[f].poly = W_Poly( numVertices );
+                    geoSets[g].meshes[m].faces[f].poly = World::Poly( numVertices );
 
 				    if( index < 0 || index >= numMaterials )
 					    geoSets[g].meshes[m].faces[f].poly.SetTexture( NULL );

@@ -26,7 +26,7 @@ namespace Cog
 
     Type_Int PlaySoundThing( Type_Sound sound_num, Type_Thing thing_num, Type_Flex volume, Type_Flex minDistance, Type_Flex maxDistance, Type_Int flags ) // ****
     {
-	    shared_ptr<W_Thing> thing;
+        shared_ptr<World::Thing> thing;
 
 	    if( minDistance != -1 ) minDistance /= 10;
 	    if( maxDistance != -1 ) maxDistance /= 10;

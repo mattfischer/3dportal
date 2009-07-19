@@ -44,7 +44,7 @@ namespace Cog
 
     Type_Thing FireProjectile( Type_Thing thing_num, Type_Template template_num, Type_Sound sound_num, Type_Int mode, Type_Vector offset, Type_Vector error, Type_Flex unk, Type_Int flags, Type_Flex fov, Type_Flex maxDistance )
     {
-	    shared_ptr<W_Thing> thing;
+	    shared_ptr<World::Thing> thing;
 	    Math::Vector rotation;
 	    float xcos, xsin;
 	    float ycos, ysin;
@@ -57,7 +57,7 @@ namespace Cog
 		    rotation = thing->GetRotation();
 
         fireOffset = Util::Matrix::RotateZ(rotation.y) * Util::Matrix::RotateX(rotation.x) * offset;
-	    int thingNum = W_Thing::Create( currentLevel.templates[template_num], thing->GetPosition() + fireOffset, Math::Vector(0, 0, 0), thing->GetSector());
+	    int thingNum = World::Thing::Create( currentLevel.templates[template_num], thing->GetPosition() + fireOffset, Math::Vector(0, 0, 0), thing->GetSector());
 
 	    currentLevel.things[thingNum]->SetRotation( thing->GetRotation() );
 	    if( sound_num != -1 )

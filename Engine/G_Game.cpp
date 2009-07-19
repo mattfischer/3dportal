@@ -24,7 +24,7 @@
 
 #include "S_Manager.h"
 
-shared_ptr<W_Thing> player;
+shared_ptr<World::Thing> player;
 extern Render::Model *povModel;
 
 #define NUMAVERAGEFRAMES 1
@@ -100,7 +100,7 @@ void G_GameLoop()
 	average/=(float)NUMAVERAGEFRAMES;
 
 	I_Process(average);
-	W_Thing::UpdateThings(average);
+	World::Thing::UpdateThings(average);
     Sound::Update();
 	Render::Frame_Render(average);
 	

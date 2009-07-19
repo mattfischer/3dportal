@@ -13,88 +13,92 @@ using std::string;
 using std::vector;
 using boost::shared_ptr;
 
-class W_Sector;
-struct R_Frustum;
 namespace Cog
 {
     class Script;
 }
-class W_Thing;
 
-class W_Surface {
-	friend void JK_Level_Load( const string& name);
+void JK_Level_Load( const string& name );
 
-public:
-	W_Surface();
+namespace World
+{
+    class Thing;
+    class Sector;
 
-	bool Adjoined();
-	int GetFlags();
-	int GetGeo();
-	int GetFace();
-	int GetAdjoinFlags();
+    class Surface {
+        friend void ::JK_Level_Load( const string& name);
 
-	W_Poly GetPoly();
-	W_Sector *GetAdjoin();
-	W_Surface *GetMirror();
+    public:
+	    Surface();
 
-    void AddCogLink( Cog::Script *cogScript );
-	void SendCogMessages( const string& message, int source, bool synchronous=false);
+	    bool Adjoined();
+	    int GetFlags();
+	    int GetGeo();
+	    int GetFace();
+	    int GetAdjoinFlags();
 
-	void SetCel( int c );
-	int GetCel();
+	    Poly GetPoly();
+	    Sector *GetAdjoin();
+	    Surface *GetMirror();
 
-	void Animate( float fps, int flags );
-	void StopAnimate();
-	void Slide( Math::Vector direction, float speed );
+        void AddCogLink( Cog::Script *cogScript );
+	    void SendCogMessages( const string& message, int source, bool synchronous=false);
 
-	void Update();
+	    void SetCel( int c );
+	    int GetCel();
 
-	Math::Vector GetMoveDelta();
+	    void Animate( float fps, int flags );
+	    void StopAnimate();
+	    void Slide( Math::Vector direction, float speed );
 
-	// R_Surface.cpp
-	void Draw( Math::Vector tint, float light );
+	    void Update();
 
-	// P_Surface.cpp
-	bool PerformActivate( Math::Vector position, Math::Vector point );
-	void SurfaceCollisions( W_Thing* thing );
-	bool FloorCollisions( W_Thing* thing );
-int flag;
-protected:
+	    Math::Vector GetMoveDelta();
 
-	int num;
-	bool adjoined;
-	W_Poly polygon;
-	W_Poly clipped;
-	W_Sector *adjoin;
-	W_Surface *mirror;
-	int flags;
-	int face;
-	int geo;
-	int adjnum;
-	int visible;
-	int adjoinFlags;
-	int drawCounter;
-    
-    vector<Cog::Script*> cogLinks;
+	    // R_Surface.cpp
+	    void Draw( Math::Vector tint, float light );
 
-	float r;
-	float g;
-	float b;
+	    // P_Surface.cpp
+	    bool PerformActivate( Math::Vector position, Math::Vector point );
+	    void SurfaceCollisions( Thing* thing );
+	    bool FloorCollisions( Thing* thing );
+    int flag;
+    protected:
 
-	int cel;
+	    int num;
+	    bool adjoined;
+	    Poly polygon;
+	    Poly clipped;
+	    Sector *adjoin;
+	    Surface *mirror;
+	    int flags;
+	    int face;
+	    int geo;
+	    int adjnum;
+	    int visible;
+	    int adjoinFlags;
+	    int drawCounter;
+        
+        vector<Cog::Script*> cogLinks;
 
-	bool animate;
-	float animateFPS;
-	int animateFlags;
-	long animateTimer;
+	    float r;
+	    float g;
+	    float b;
 
-	float slideU;
-	float slideV;
-	float offsetU;
-	float offsetV;
-	long slideTimer;
-	Math::Vector moveDelta;
-	Math::Vector moveVector;
-};
+	    int cel;
 
+	    bool animate;
+	    float animateFPS;
+	    int animateFlags;
+	    long animateTimer;
+
+	    float slideU;
+	    float slideV;
+	    float offsetU;
+	    float offsetV;
+	    long slideTimer;
+	    Math::Vector moveDelta;
+	    Math::Vector moveVector;
+    };
+}
 #endif

@@ -27,7 +27,7 @@
 
 #include "U_Lowercase.h"
 
-extern shared_ptr<W_Thing> player;
+extern shared_ptr<World::Thing> player;
 
 namespace Cog
 {

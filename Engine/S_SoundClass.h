@@ -3,7 +3,7 @@
 
 #include <string>
 
-class W_Thing;
+class Thing;
 
 using std::string;
 

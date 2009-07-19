@@ -191,10 +191,10 @@ namespace Jk
 	    return true;
     }
 
-    bool Template::GetFrames( vector<W_Frame>& frames )
+    bool Template::GetFrames( vector<World::Frame>& frames )
     {
 	    int i;
-	    W_Frame frame;
+        World::Frame frame;
 
 	    frames.clear();
 	    for( i = 0 ; i < params.size() ; i++ )
@@ -209,11 +209,11 @@ namespace Jk
 	    return true;
     }
 
-    W_Frame Template::ParseFrame( const string& data )
+    World::Frame Template::ParseFrame( const string& data )
     {
 	    float pieces[6];
 	    string newString;
-	    W_Frame newFrame;
+        World::Frame newFrame;
 	    int i, j, n;
 
 	    for( i = 0 ; i < 6 ; i++ ) pieces[i] = 0;

@@ -16,7 +16,7 @@
 
 #include <boost/weak_ptr.hpp>
 
-extern shared_ptr<W_Thing> player;
+extern shared_ptr<World::Thing> player;
 
 namespace Sound
 {
@@ -32,7 +32,7 @@ namespace Sound
 
 	    float localPan;
 
-        boost::weak_ptr<W_Thing> thing;
+        boost::weak_ptr<World::Thing> thing;
 
 	    Math::Vector position;
 
@@ -59,7 +59,7 @@ namespace Sound
 	    float volume;
 	    float magnitude;
 	    Math::Vector position;
-	    shared_ptr<W_Thing> thing;
+        shared_ptr<World::Thing> thing;
 	    unsigned int i;
 
 	    EnterCriticalSection( &critSec );
@@ -128,7 +128,7 @@ namespace Sound
 	    LeaveCriticalSection( &critSec );
     }
 
-    Sound::Track *PlayThing( Sound::Buffer *buffer, shared_ptr<W_Thing> thing, bool loop, float volume, float minDist, float maxDist )
+    Sound::Track *PlayThing( Sound::Buffer *buffer, shared_ptr<World::Thing> thing, bool loop, float volume, float minDist, float maxDist )
     {
 	    PlayItem *newItem;
 	    bool done;

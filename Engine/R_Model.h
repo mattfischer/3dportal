@@ -17,13 +17,12 @@ namespace Render
 {
     struct Texture;
    
-
     class Model 
     {
     public:
         struct Face {
 	        int type;
-	        W_Poly poly;
+            World::Poly poly;
         };
 
         struct Mesh {

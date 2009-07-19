@@ -12,84 +12,87 @@
 #include <gl/gl.h>
 #include <math.h>
 
-extern shared_ptr<W_Thing> player;
+extern shared_ptr<World::Thing> player;
 
-void W_Surface::Draw(Math::Vector tint, float light)
+namespace World
 {
-	int k;
-	int i;
-	int skySizeX, skySizeY;
-	float startXOffset, startYOffset;
-	float x,y;
-	Math::Vector position, rotation;
-	Math::Vector tempVector;
-	
-	if(geo==JK_GEO_NO_DRAW) return;
-    if(flag == globalFlag) return;
+    void Surface::Draw(Math::Vector tint, float light)
+    {
+	    int k;
+	    int i;
+	    int skySizeX, skySizeY;
+	    float startXOffset, startYOffset;
+	    float x,y;
+	    Math::Vector position, rotation;
+	    Math::Vector tempVector;
+    	
+	    if(geo==JK_GEO_NO_DRAW) return;
+        if(flag == globalFlag) return;
 
-	position=player->GetEyePosition();
-	rotation=player->GetCompositeRotation();
+	    position=player->GetEyePosition();
+	    rotation=player->GetCompositeRotation();
 
-    glEnable(GL_CULL_FACE);
+        glEnable(GL_CULL_FACE);
 
-	if(flags&JK_SURFACE_CEILING_SKY)
-	{
-		W_Poly poly2(polygon);
+	    if(flags&JK_SURFACE_CEILING_SKY)
+	    {
+		    Poly poly2(polygon);
 
-		for(i=0;i<poly2.NumVertices();i++)
-		{
-			poly2[i].position=poly2[i].position-position;
-			poly2[i].position=poly2[i].position*(currentLevel.ceilingSkyZ/(poly2[i].position*Math::Vector(0,0,1)));
-			poly2[i].position=poly2[i].position+position;
+		    for(i=0;i<poly2.NumVertices();i++)
+		    {
+			    poly2[i].position=poly2[i].position-position;
+			    poly2[i].position=poly2[i].position*(currentLevel.ceilingSkyZ/(poly2[i].position*Math::Vector(0,0,1)));
+			    poly2[i].position=poly2[i].position+position;
 
-			poly2[i].texture.u=currentLevel.ceilingSkyZ*(poly2[i].position-position).x;
-			poly2[i].texture.v=currentLevel.ceilingSkyZ*(poly2[i].position-position).y;
-		}
-				
-		poly2.Draw(tint, 1.0, false, false, 0, 0, 0);
-		return;
-	}
+			    poly2[i].texture.u=currentLevel.ceilingSkyZ*(poly2[i].position-position).x;
+			    poly2[i].texture.v=currentLevel.ceilingSkyZ*(poly2[i].position-position).y;
+		    }
+    				
+		    poly2.Draw(tint, 1.0, false, false, 0, 0, 0);
+		    return;
+	    }
 
-	else if(flags&JK_SURFACE_HORIZON_SKY)
-	{
-		W_Poly poly2(polygon);
-        poly2.Clip(Render::WindowFrustum);
-		poly2.Transform(Render::totalTransformationMatrix);
+	    else if(flags&JK_SURFACE_HORIZON_SKY)
+	    {
+		    Poly poly2(polygon);
+            poly2.Clip(Render::WindowFrustum);
+		    poly2.Transform(Render::totalTransformationMatrix);
 
-		glPushMatrix();
-		glLoadIdentity();
-			
-		skySizeX=2*currentLevel.horizonDistance*cos(FOV*3.14/360);
-		skySizeY=skySizeX*Render::SY/Render::SX;
-		startXOffset=-(rotation.y*currentLevel.numPixelsPerRev)/360-currentLevel.horizonOffsetX;
-		startYOffset=polygon.GetTexture()->SizeY()-skySizeY-(rotation.x*currentLevel.numPixelsPerRev)/360-currentLevel.horizonOffsetY;
-		
-		for(k=0;k<poly2.NumVertices();k++)
-		{
-			x=(poly2[k].position.x+Render::SX)/(2*Render::SX);
-			y=(-poly2[k].position.y+Render::SY)/(2*Render::SY);
-						
-			poly2[k].texture.u=startXOffset+x*skySizeX;
-			poly2[k].texture.v=startYOffset+y*skySizeY;
-			
-			tempVector=poly2[k].position;
-			poly2[k].position.z=tempVector.y;
-			poly2[k].position.y=-tempVector.z;
-			poly2[k].position=poly2[k].position*100;
-			
-		}
+		    glPushMatrix();
+		    glLoadIdentity();
+    			
+		    skySizeX=2*currentLevel.horizonDistance*cos(FOV*3.14/360);
+		    skySizeY=skySizeX*Render::SY/Render::SX;
+		    startXOffset=-(rotation.y*currentLevel.numPixelsPerRev)/360-currentLevel.horizonOffsetX;
+		    startYOffset=polygon.GetTexture()->SizeY()-skySizeY-(rotation.x*currentLevel.numPixelsPerRev)/360-currentLevel.horizonOffsetY;
+    		
+		    for(k=0;k<poly2.NumVertices();k++)
+		    {
+			    x=(poly2[k].position.x+Render::SX)/(2*Render::SX);
+			    y=(-poly2[k].position.y+Render::SY)/(2*Render::SY);
+    						
+			    poly2[k].texture.u=startXOffset+x*skySizeX;
+			    poly2[k].texture.v=startYOffset+y*skySizeY;
+    			
+			    tempVector=poly2[k].position;
+			    poly2[k].position.z=tempVector.y;
+			    poly2[k].position.y=-tempVector.z;
+			    poly2[k].position=poly2[k].position*100;
+    			
+		    }
 
-		poly2.Draw(tint, 1.0, false, false, 0, 0, 0);
-		glPopMatrix();
-	}
-	else
-	{
-		if(face&JK_FACE_TRANSLUCENT)
-			polygon.Draw(tint, light, true, false, cel, offsetU, offsetV);
-		else
-			polygon.Draw(tint, light, false, false, cel, offsetU, offsetV);
-	
-	}
-	Update();
-    flag = globalFlag;
+		    poly2.Draw(tint, 1.0, false, false, 0, 0, 0);
+		    glPopMatrix();
+	    }
+	    else
+	    {
+		    if(face&JK_FACE_TRANSLUCENT)
+			    polygon.Draw(tint, light, true, false, cel, offsetU, offsetV);
+		    else
+			    polygon.Draw(tint, light, false, false, cel, offsetU, offsetV);
+    	
+	    }
+	    Update();
+        flag = globalFlag;
+    }
 }

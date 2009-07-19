@@ -9,150 +9,152 @@
 
 #include "C_Script.h"
 
-
-void W_Thing::ProcessTemplate()
+namespace World
 {
-	string s;
-	int i;
-	float height;
+    void Thing::ProcessTemplate()
+    {
+	    string s;
+	    int i;
+	    float height;
 
-	model = NULL;
-	if( thingTemplate->GetString( "model3d", s ) )
-		model = currentLevel.models[s];
-		
-	orient = Math::Vector( 0, 0, 0 );
-	thingTemplate->GetVector( "orient", orient );
+	    model = NULL;
+	    if( thingTemplate->GetString( "model3d", s ) )
+		    model = currentLevel.models[s];
+    		
+	    orient = Math::Vector( 0, 0, 0 );
+	    thingTemplate->GetVector( "orient", orient );
 
-	maxVelocity = 0;
-	thingTemplate->GetFloat( "maxvel", maxVelocity );
+	    maxVelocity = 0;
+	    thingTemplate->GetFloat( "maxvel", maxVelocity );
 
-	maxThrust = 0;
-	thingTemplate->GetFloat( "maxthrust", maxThrust );
+	    maxThrust = 0;
+	    thingTemplate->GetFloat( "maxthrust", maxThrust );
 
-	maxRotVelocity = 0;
-	thingTemplate->GetFloat( "maxrotvel", maxRotVelocity );
+	    maxRotVelocity = 0;
+	    thingTemplate->GetFloat( "maxrotvel", maxRotVelocity );
 
-	maxRotThrust = 0;
-	thingTemplate->GetFloat( "maxrotthrust", maxRotThrust );
+	    maxRotThrust = 0;
+	    thingTemplate->GetFloat( "maxrotthrust", maxRotThrust );
 
-	mass = 0;
-	thingTemplate->GetFloat( "mass", mass );
+	    mass = 0;
+	    thingTemplate->GetFloat( "mass", mass );
 
-	surfaceDrag = 0;
-	thingTemplate->GetFloat( "surfdrag", surfaceDrag );
+	    surfaceDrag = 0;
+	    thingTemplate->GetFloat( "surfdrag", surfaceDrag );
 
-	staticDrag = 0;
-	thingTemplate->GetFloat( "staticdrag", staticDrag );
+	    staticDrag = 0;
+	    thingTemplate->GetFloat( "staticdrag", staticDrag );
 
-	airDrag = 0;
-	thingTemplate->GetFloat( "airdrag", airDrag );
+	    airDrag = 0;
+	    thingTemplate->GetFloat( "airdrag", airDrag );
 
-	eyeOffset = Math::Vector( 0, 0, 0 );
-	thingTemplate->GetVector( "eyeoffset", eyeOffset );
+	    eyeOffset = Math::Vector( 0, 0, 0 );
+	    thingTemplate->GetVector( "eyeoffset", eyeOffset );
 
-	moveSize = 0;
-	thingTemplate->GetFloat( "movesize", moveSize );
+	    moveSize = 0;
+	    thingTemplate->GetFloat( "movesize", moveSize );
 
-	size = 0;
-	thingTemplate->GetFloat( "size", size );
+	    size = 0;
+	    thingTemplate->GetFloat( "size", size );
 
-	move = MOVE_NONE;
-	thingTemplate->GetString( "move", s );
-	if( s == "none" ) move = MOVE_NONE;
-	if( s == "path" ) move = MOVE_PATH;
-	if( s == "physics" ) move = MOVE_PHYSICS;
+	    move = MOVE_NONE;
+	    thingTemplate->GetString( "move", s );
+	    if( s == "none" ) move = MOVE_NONE;
+	    if( s == "path" ) move = MOVE_PATH;
+	    if( s == "physics" ) move = MOVE_PHYSICS;
 
-	thingFlags = 0;
-	thingTemplate->GetHex( "thingflags", thingFlags );
+	    thingFlags = 0;
+	    thingTemplate->GetHex( "thingflags", thingFlags );
 
-	physicsFlags = 0;
-	thingTemplate->GetHex( "physflags", physicsFlags );
+	    physicsFlags = 0;
+	    thingTemplate->GetHex( "physflags", physicsFlags );
 
-	typeFlags = 0;
-	thingTemplate->GetHex( "typeflags", typeFlags );
+	    typeFlags = 0;
+	    thingTemplate->GetHex( "typeflags", typeFlags );
 
-	rotVelocity = Math::Vector( 0, 0, 0 );
-	thingTemplate->GetVector( "angvel", rotVelocity );
+	    rotVelocity = Math::Vector( 0, 0, 0 );
+	    thingTemplate->GetVector( "angvel", rotVelocity );
 
-	height = 0;
-	if( thingTemplate->GetFloat( "height", height ) )
-		insertOffset = Math::Vector( 0, 0, height / 2 );
-	else if( model != NULL )
-		insertOffset = model->GetInsertOffset();
-	else
-		insertOffset = Math::Vector( 0, 0, 0 );
+	    height = 0;
+	    if( thingTemplate->GetFloat( "height", height ) )
+		    insertOffset = Math::Vector( 0, 0, height / 2 );
+	    else if( model != NULL )
+		    insertOffset = model->GetInsertOffset();
+	    else
+		    insertOffset = Math::Vector( 0, 0, 0 );
 
-	collide = 0;
-	thingTemplate->GetInt( "collide", collide );
+	    collide = 0;
+	    thingTemplate->GetInt( "collide", collide );
 
-	jumpVelocity = 0;
-	thingTemplate->GetFloat( "jumpspeed", jumpVelocity );
-	
-	thingTemplate->GetFrames( frames );
+	    jumpVelocity = 0;
+	    thingTemplate->GetFloat( "jumpspeed", jumpVelocity );
+    	
+	    thingTemplate->GetFrames( frames );
 
-	if( thingTemplate->GetString( "cog", s ) )
-		AddCogLink( currentLevel.cogScripts[s] );
+	    if( thingTemplate->GetString( "cog", s ) )
+		    AddCogLink( currentLevel.cogScripts[s] );
 
-	if( thingTemplate->GetString( "soundclass", s ) )
-		soundClass = currentLevel.soundClasses[s];
-	else soundClass = NULL;
+	    if( thingTemplate->GetString( "soundclass", s ) )
+		    soundClass = currentLevel.soundClasses[s];
+	    else soundClass = NULL;
 
-	if( thingTemplate->GetString( "type", s ) )
-	{
-		if( s == "actor" )     type = ACTOR;
-		if( s == "weapon" )    type = WEAPON;
-		if( s == "item" )      type = ITEM;
-		if( s == "explosion" ) type = EXPLOSION;
-		if( s == "cog" )       type = COG;
-		if( s == "ghost" )     type = GHOST;
-		if( s == "corpse" )    type = CORPSE;
-		if( s == "player" )    type = PLAYER;
-	}
-	else type = GHOST;
+	    if( thingTemplate->GetString( "type", s ) )
+	    {
+		    if( s == "actor" )     type = ACTOR;
+		    if( s == "weapon" )    type = WEAPON;
+		    if( s == "item" )      type = ITEM;
+		    if( s == "explosion" ) type = EXPLOSION;
+		    if( s == "cog" )       type = COG;
+		    if( s == "ghost" )     type = GHOST;
+		    if( s == "corpse" )    type = CORPSE;
+		    if( s == "player" )    type = PLAYER;
+	    }
+	    else type = GHOST;
 
-	velocity = Math::Vector( 0, 0, 0 );
-	thingTemplate->GetVector( "vel", velocity );
-	
-	animClass = NULL;
-	if( thingTemplate->GetString( "puppet", s ) )
-	{
-		animClass = currentLevel.animClasses[s];
-		if(animClass->modes.size() > 0)
-		{
-		    std::string filename = animClass->modes[0].submodes["stand"].key;
-		    if(filename != "")
+	    velocity = Math::Vector( 0, 0, 0 );
+	    thingTemplate->GetVector( "vel", velocity );
+    	
+	    animClass = NULL;
+	    if( thingTemplate->GetString( "puppet", s ) )
+	    {
+		    animClass = currentLevel.animClasses[s];
+		    if(animClass->modes.size() > 0)
 		    {
-                keyTrack = Jk::Key::Track( currentLevel.keyframes[filename], 0, 0 );
+		        std::string filename = animClass->modes[0].submodes["stand"].key;
+		        if(filename != "")
+		        {
+                    keyTrack = Jk::Key::Track( currentLevel.keyframes[filename], 0, 0 );
+		        }
 		    }
-		}
-	}
-    
-	explodeTemplate = NULL;
-	if( thingTemplate->GetString( "explode", s ) )
-	{
-		explodeTemplate = currentLevel.templates[s];
-	}
+	    }
+        
+	    explodeTemplate = NULL;
+	    if( thingTemplate->GetString( "explode", s ) )
+	    {
+		    explodeTemplate = currentLevel.templates[s];
+	    }
 
-	sprite = NULL;
-	if( thingTemplate->GetString( "sprite", s ) )
-	{
-		sprite = currentLevel.sprites[s];
-	}
+	    sprite = NULL;
+	    if( thingTemplate->GetString( "sprite", s ) )
+	    {
+		    sprite = currentLevel.sprites[s];
+	    }
 
-	killTime = -1;
-	float timer;
-	if( thingTemplate->GetFloat( "timer", timer ) )
-	{
-		killTime = GetTickCount() + timer * 1000;
-	}
-}
+	    killTime = -1;
+	    float timer;
+	    if( thingTemplate->GetFloat( "timer", timer ) )
+	    {
+		    killTime = GetTickCount() + timer * 1000;
+	    }
+    }
 
-void W_Thing::Explode()
-{
-	if( explodeTemplate )
-	{
-		W_Thing::Create( explodeTemplate, position, rotation, sector );
-	}
+    void Thing::Explode()
+    {
+	    if( explodeTemplate )
+	    {
+		    Thing::Create( explodeTemplate, position, rotation, sector );
+	    }
 
-	Destroy();
+	    Destroy();
+    }
 }

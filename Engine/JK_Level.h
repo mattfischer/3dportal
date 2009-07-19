@@ -15,8 +15,6 @@
 using std::string;
 using std::map;
 
-class W_Sector;
-class W_Thing;
 namespace Render
 {
     class Model;
@@ -33,7 +31,13 @@ namespace Sound
     class Class;
 }
 class JK_Colormap;
-class W_Thing;
+
+namespace World
+{
+    class Sector;
+    class Thing;
+    class Surface;
+}
 
 using boost::shared_ptr;
 
@@ -55,15 +59,15 @@ namespace Jk
         Util::VectorMap<Jk::AnimClass*> animClasses;
 	    Util::VectorMap<Render::Sprite*> sprites;
 
-	    std::vector<shared_ptr<W_Thing> > things;
+        std::vector<shared_ptr<World::Thing> > things;
         std::vector<Cog::Script*> cogs;
         Util::VectorMap<Jk::Template*> templates;
 
 	    int numSurfaces;
-	    W_Surface *surfaces;
+        World::Surface *surfaces;
 
 	    int numSectors;
-	    W_Sector *sectors;
+	    World::Sector *sectors;
 
 	    float gravity;
 	    int numPixelsPerRev;

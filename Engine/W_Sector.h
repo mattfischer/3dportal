@@ -12,8 +12,6 @@ using boost::shared_ptr;
 using std::string;
 using std::vector;
 
-class W_Thing;
-class W_Surface;
 namespace Render
 {
     struct Frustum;
@@ -27,61 +25,66 @@ namespace Sound
     class Buffer;
 }
 
-class W_Sector {
-	
-	friend void JK_Level_Load( const string& name );
+void JK_Level_Load( const string& name );
 
-public:
-	// W_Sector.cpp
-	W_Sector();
-	int NumSurfaces();
-	W_Surface *operator[]( int n );
+namespace World
+{
+    class Thing;
+    class Surface;
+    class Sector {
+        friend void ::JK_Level_Load( const string& name );
 
-	void RemoveThing( W_Thing* thing );
-	void AddThing( W_Thing* thing );
+    public:
+	    // Sector.cpp
+	    Sector();
+	    int NumSurfaces();
+	    Surface *operator[]( int n );
 
-    void AddCogLink( Cog::Script *cogScript );
-	void SendCogMessages( const string& message, int source, bool synchronous = false );
+	    void RemoveThing( Thing* thing );
+	    void AddThing( Thing* thing );
 
-	int GetNum();
-	void RenderAdjoins( bool r );
-	void SetLight( float l );
+        void AddCogLink( Cog::Script *cogScript );
+	    void SendCogMessages( const string& message, int source, bool synchronous = false );
 
-	void PlaySectorSound();
+	    int GetNum();
+	    void RenderAdjoins( bool r );
+	    void SetLight( float l );
 
-	// R_Sector.cpp
-	void Draw( Render::Frustum frustum, W_Surface *ignore );
+	    void PlaySectorSound();
 
-	// P_Sector.cpp
-	bool UpdateThingSector( W_Thing* thing, Math::Vector oldPosition );
-	void SurfaceCollisions( W_Thing* thing, W_Surface *ignore );
-	bool FloorCollisions( W_Thing* thing, W_Surface *ignore );
-	void ThingCollisions( W_Thing* thing, W_Surface *ignore );
-	bool PerformActivate( Math::Vector position, Math::Vector point, W_Surface *ignore );
+	    // R_Sector.cpp
+	    void Draw( Render::Frustum frustum, Surface *ignore );
 
-	bool ThingFloorCollisions( W_Thing* thing, W_Surface *ignore );
-	void ThingSurfaceCollisions( W_Thing* thing, W_Surface *ignore );
+	    // P_Sector.cpp
+	    bool UpdateThingSector( Thing* thing, Math::Vector oldPosition );
+	    void SurfaceCollisions( Thing* thing, Surface *ignore );
+	    bool FloorCollisions( Thing* thing, Surface *ignore );
+	    void ThingCollisions( Thing* thing, Surface *ignore );
+	    bool PerformActivate( Math::Vector position, Math::Vector point, Surface *ignore );
 
-protected:
-	int listname;
-	int num;
-	float ambientLight;
-	float extraLight;
-	
-	Math::Vector tint;
-	
-	int numSurfaces;
-	W_Surface **surfaces;
-	vector<W_Thing*> things;
-    vector<Cog::Script*> cogLinks;
+	    bool ThingFloorCollisions( Thing* thing, Surface *ignore );
+	    void ThingSurfaceCollisions( Thing* thing, Surface *ignore );
 
-	Sound::Buffer *sound;
-	float soundVolume;
+    protected:
+	    int listname;
+	    int num;
+	    float ambientLight;
+	    float extraLight;
+    	
+	    Math::Vector tint;
+    	
+	    int numSurfaces;
+	    Surface **surfaces;
+	    vector<Thing*> things;
+        vector<Cog::Script*> cogLinks;
 
-	bool renderAdjoins;
+	    Sound::Buffer *sound;
+	    float soundVolume;
 
-	bool drawing;
-	bool recurseGuard;
-};
+	    bool renderAdjoins;
 
+	    bool drawing;
+	    bool recurseGuard;
+    };
+}
 #endif

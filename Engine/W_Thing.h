@@ -20,14 +20,12 @@ using std::string;
 using std::vector;
 using boost::shared_ptr;
 
-class W_Sector;
 namespace Render
 {
     class Model;
     struct Node;
     struct Frustum;
 }
-class W_Surface;
 namespace Sound
 {
     class Class;
@@ -38,204 +36,210 @@ namespace Cog
     class Script;
 }
 
-struct W_Frame {
-	Math::Vector position;
-	Math::Vector rotation;
-};
+void JK_Level_Load( const string& name );
 
-
-class W_Thing
+namespace World
 {
-	enum MoveType {MOVE_NONE, MOVE_PATH, MOVE_PHYSICS};
-	
-	friend void JK_Level_Load( const string& name );
-public:
-	enum Type { ACTOR, WEAPON, ITEM, EXPLOSION, COG, GHOST, CORPSE, PLAYER, PARTICLE};
+    class Sector;
+    class Surface;
 
-	// W_Thing.cpp
-    W_Thing( Jk::Template *t, Math::Vector p, Math::Vector r, W_Sector *s );
-	W_Thing( W_Thing &c );
+    struct Frame {
+	    Math::Vector position;
+	    Math::Vector rotation;
+    };
 
-    static int Create( Jk::Template *t, Math::Vector p, Math::Vector r, W_Sector *s );
-    static int CreateFromThing( W_Thing *thing, Jk::Template *newTemplate );
+    class Thing
+    {
+	    enum MoveType {MOVE_NONE, MOVE_PATH, MOVE_PHYSICS};
+    	
+        friend void ::JK_Level_Load( const string& name );
+    public:
+	    enum Type { ACTOR, WEAPON, ITEM, EXPLOSION, COG, GHOST, CORPSE, PLAYER, PARTICLE};
 
-	virtual ~W_Thing();
-	W_Thing &operator=( W_Thing &c );
+	    // Thing.cpp
+        Thing( Jk::Template *t, Math::Vector p, Math::Vector r, Sector *s );
+	    Thing( Thing &c );
 
-	Math::Vector GetPosition();
-	void SetPosition( Math::Vector p );
-	Math::Vector GetRotation();
-	void SetRotation( Math::Vector r );
-	W_Sector *GetSector();
-	void SetSector( W_Sector *newSector );
-	Math::Vector GetCompositeRotation();
+        static int Create( Jk::Template *t, Math::Vector p, Math::Vector r, Sector *s );
+        static int CreateFromThing( Thing *thing, Jk::Template *newTemplate );
 
-	Math::Vector GetAcceleration();
-	Math::Vector GetVelocity();
-	int GetFlagValue();
-	void Destroy();
+	    virtual ~Thing();
+	    Thing &operator=( Thing &c );
 
-	int GetType();
-	int GetTypeFlags();
-	int GetThingFlags();
-	int GetPhysicsFlags();
-	int GetCollide();
-    Jk::Template *GetTemplate();
-    void SetTemplate( Jk::Template* t );
+	    Math::Vector GetPosition();
+	    void SetPosition( Math::Vector p );
+	    Math::Vector GetRotation();
+	    void SetRotation( Math::Vector r );
+	    Sector *GetSector();
+	    void SetSector( Sector *newSector );
+	    Math::Vector GetCompositeRotation();
 
-	Render::Model *GetModel();
-	float GetMoveSize();
-	float GetSize();
-	float GetMass();
-	float GetMaxThrust();
+	    Math::Vector GetAcceleration();
+	    Math::Vector GetVelocity();
+	    int GetFlagValue();
+	    void Destroy();
 
-	void SetAttached( W_Surface *s );
-	void SetAttached( W_Poly *p, W_Thing *t );
-	bool IsAttached();
-	bool WasAttached();
-	W_Surface *GetAttachSurface();
+	    int GetType();
+	    int GetTypeFlags();
+	    int GetThingFlags();
+	    int GetPhysicsFlags();
+	    int GetCollide();
+        Jk::Template *GetTemplate();
+        void SetTemplate( Jk::Template* t );
 
-	Math::Vector GetEyePosition();
-	void SetCrouched( bool c );
-	void Jump();
-	Math::Vector GetStandVector();
+	    Render::Model *GetModel();
+	    float GetMoveSize();
+	    float GetSize();
+	    float GetMass();
+	    float GetMaxThrust();
 
-	void Update( float time );
+	    void SetAttached( Surface *s );
+	    void SetAttached( Poly *p, Thing *t );
+	    bool IsAttached();
+	    bool WasAttached();
+	    Surface *GetAttachSurface();
 
-	void AddCogLink( Cog::Script *cogScript );
-	void SendCogMessages( const string& message, int source, bool synchronous = false );
+	    Math::Vector GetEyePosition();
+	    void SetCrouched( bool c );
+	    void Jump();
+	    Math::Vector GetStandVector();
 
-    void playKey( Jk::Key *key, int flags );
+	    void Update( float time );
 
-    int GetNum();
+	    void AddCogLink( Cog::Script *cogScript );
+	    void SendCogMessages( const string& message, int source, bool synchronous = false );
 
-    void addSound( Sound::Track *track );
-    void removeSound( Sound::Track *track );
+        void playKey( Jk::Key *key, int flags );
 
-	// P_Thing.cpp
-	static void UpdateThings( float time );
+        int GetNum();
 
-	void ApplyThrust( Math::Vector thrust );
-	
-	void AddVelocity( Math::Vector vel );
-	void SetVelocity( Math::Vector vel );
-	
-	void Nudge( Math::Vector n );
+        void addSound( Sound::Track *track );
+        void removeSound( Sound::Track *track );
 
-	int GetCurrentFrame();
-	bool IsPathMove();
-	bool IsPhysicsMove();
-	Math::Vector GetPathMoveDelta();
-	void MoveToFrame( int frame, float speed );
-	void JumpToFrame( int frame, W_Sector *s );
-	bool IsMoving();
-	
-	void Activate();
-	
-	void ArrestMotion( Math::Vector normal );
+	    // P_Thing.cpp
+	    static void UpdateThings( float time );
 
-	bool PerformActivate( Math::Vector position, Math::Vector point );
-	void ThingCollisions( W_Thing* thing );
-	bool ThingFloorCollisions( W_Thing* thing );
-	void ThingSurfaceCollisions( W_Thing* thing );
+	    void ApplyThrust( Math::Vector thrust );
+    	
+	    void AddVelocity( Math::Vector vel );
+	    void SetVelocity( Math::Vector vel );
+    	
+	    void Nudge( Math::Vector n );
 
-	// JK_Thing.cpp
-	void ProcessTemplate();
-	void Explode();
+	    int GetCurrentFrame();
+	    bool IsPathMove();
+	    bool IsPhysicsMove();
+	    Math::Vector GetPathMoveDelta();
+	    void MoveToFrame( int frame, float speed );
+	    void JumpToFrame( int frame, Sector *s );
+	    bool IsMoving();
+    	
+	    void Activate();
+    	
+	    void ArrestMotion( Math::Vector normal );
 
-	// R_Thing.cpp
-	void Draw( Render::Frustum frustum, float light, Math::Vector tint );
+	    bool PerformActivate( Math::Vector position, Math::Vector point );
+	    void ThingCollisions( Thing* thing );
+	    bool ThingFloorCollisions( Thing* thing );
+	    void ThingSurfaceCollisions( Thing* thing );
 
-protected:
+	    // JK_Thing.cpp
+	    void ProcessTemplate();
+	    void Explode();
 
-	//int num;
-	Math::Vector position;
-	Math::Vector rotation;
-	Math::Vector velocity;
-	Math::Vector acceleration;
-	W_Sector *sector;
+	    // R_Thing.cpp
+	    void Draw( Render::Frustum frustum, float light, Math::Vector tint );
 
-	Math::Vector nudge;
-	
-    Jk::Template *thingTemplate;
-	Render::Model *model;
-	float maxVelocity;
-	float maxThrust;
-	float maxRotVelocity;
-	float maxRotThrust;
-	float mass;
-	float surfaceDrag;
-	float staticDrag;
-	float airDrag;
-	float size;
-	float moveSize;
-	Math::Vector eyeOffset;
-	int typeFlags;
-	int thingFlags;
-	int physicsFlags;
-	Math::Vector rotVelocity;
-	MoveType move;
-	int collide;
-	float jumpVelocity;
+    protected:
 
-	Sound::Class *soundClass;
-	Math::Vector orient;
+	    //int num;
+	    Math::Vector position;
+	    Math::Vector rotation;
+	    Math::Vector velocity;
+	    Math::Vector acceleration;
+	    Sector *sector;
 
-	Math::Vector insertOffset;
+	    Math::Vector nudge;
+    	
+        Jk::Template *thingTemplate;
+	    Render::Model *model;
+	    float maxVelocity;
+	    float maxThrust;
+	    float maxRotVelocity;
+	    float maxRotThrust;
+	    float mass;
+	    float surfaceDrag;
+	    float staticDrag;
+	    float airDrag;
+	    float size;
+	    float moveSize;
+	    Math::Vector eyeOffset;
+	    int typeFlags;
+	    int thingFlags;
+	    int physicsFlags;
+	    Math::Vector rotVelocity;
+	    MoveType move;
+	    int collide;
+	    float jumpVelocity;
 
-	int attachFlags;
-	int oldAttachFlags;
-	W_Surface *attachSurface;
-	W_Poly attachPoly;
-	W_Thing *attachThing;
+	    Sound::Class *soundClass;
+	    Math::Vector orient;
 
-	int flagValue;
-	
-	bool jumping;
-	bool thrusting;
-	bool crouched;
-	
-	bool pathMoving;
-	int currentFrame;
-	int destFrame;
-	Math::Vector pathVector;
-	float pathT;
-	float pathTSpeed;
-	Math::Vector pathMoveDelta;
-	vector<W_Frame> frames;
-	vector<Cog::Script*> cogLinks;
+	    Math::Vector insertOffset;
 
-	Sound::Track *moveSound;
-	LONG walkTimer;
-	int walkSide;
+	    int attachFlags;
+	    int oldAttachFlags;
+	    Surface *attachSurface;
+	    Poly attachPoly;
+	    Thing *attachThing;
 
-	Type type;
+	    int flagValue;
+    	
+	    bool jumping;
+	    bool thrusting;
+	    bool crouched;
+    	
+	    bool pathMoving;
+	    int currentFrame;
+	    int destFrame;
+	    Math::Vector pathVector;
+	    float pathT;
+	    float pathTSpeed;
+	    Math::Vector pathMoveDelta;
+	    vector<Frame> frames;
+	    vector<Cog::Script*> cogLinks;
 
-    Jk::Key::Track keyTrack;
-	
-    Jk::AnimClass *animClass;
+	    Sound::Track *moveSound;
+	    LONG walkTimer;
+	    int walkSide;
 
-    Jk::Template *explodeTemplate;
+	    Type type;
 
-	Render::Sprite *sprite;
-	float spriteTime;
+        Jk::Key::Track keyTrack;
+    	
+        Jk::AnimClass *animClass;
 
-	LONG killTime;
+        Jk::Template *explodeTemplate;
 
-    std::vector<Sound::Track*> sounds;
+	    Render::Sprite *sprite;
+	    float spriteTime;
 
-    int num;
-    bool pendingDestroy;
+	    LONG killTime;
 
-	// P_Thing.cpp
-	void UpdatePath(float time);
-	void UpdateForces(float time);
-	void UpdateFinalize(float time);
+        std::vector<Sound::Track*> sounds;
 
-	// W_Thing.cpp
-	void DoFoley();
-	int GetSurfaceType();
-    void RealDestroy();
-};
+        int num;
+        bool pendingDestroy;
 
+	    // P_Thing.cpp
+	    void UpdatePath(float time);
+	    void UpdateForces(float time);
+	    void UpdateFinalize(float time);
+
+	    // Thing.cpp
+	    void DoFoley();
+	    int GetSurfaceType();
+        void RealDestroy();
+    };
+}
 #endif

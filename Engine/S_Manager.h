@@ -7,7 +7,10 @@
 
 using boost::shared_ptr;
 
-class W_Thing;
+namespace World
+{
+    class Thing;
+}
 
 namespace Sound
 {
@@ -17,7 +20,7 @@ namespace Sound
     void Initialize( HWND hWnd );
     void PlaySector( Sound::Buffer *sound, float volume );
     void PlayLocal( Sound::Buffer *sound, float volume, float pan );
-    Sound::Track *PlayThing( Sound::Buffer *sound, shared_ptr<W_Thing> thing, bool loop, float volume, float minDist, float maxDist );
+    Sound::Track *PlayThing( Sound::Buffer *sound, shared_ptr<World::Thing> thing, bool loop, float volume, float minDist, float maxDist );
     void PlayPos( Sound::Buffer *sound, Math::Vector position, float volume, float minDist, float maxDist );
     void Update();
 }

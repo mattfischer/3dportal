@@ -24,11 +24,11 @@
 struct Adjoin {
 	int mirror;
 	int flags;
-	W_Sector *sector;
-	W_Surface *surface;
+    World::Sector *sector;
+    World::Surface *surface;
 };
 
-extern shared_ptr<W_Thing> player;
+extern shared_ptr<World::Thing> player;
 
 Jk::Level currentLevel;
 
@@ -57,8 +57,8 @@ void JK_Level_Load(const string& name)
 	Math::Vector position, rotation;
 	vector<string> textureNames;
 
-	W_Thing *newThing;
-	shared_ptr<W_Thing> thing;
+	World::Thing *newThing;
+	shared_ptr<World::Thing> thing;
 
 	int numVertices;
 	Math::Vector *vertices;
@@ -262,7 +262,7 @@ void JK_Level_Load(const string& name)
 	line = parser.getLine( error );
 	line.matchString( "World surfaces", error );
 	currentLevel.numSurfaces = line.getInt( error );
-	currentLevel.surfaces = new W_Surface[currentLevel.numSurfaces];
+    currentLevel.surfaces = new World::Surface[currentLevel.numSurfaces];
 
 	for( i = 0 ; i < currentLevel.numSurfaces ; i++ )
 	{
@@ -293,7 +293,7 @@ void JK_Level_Load(const string& name)
 		line.getFloat( error );
 
 		numVerts = line.getInt( error );
-		currentLevel.surfaces[i].polygon = W_Poly( numVerts, 4 );
+        currentLevel.surfaces[i].polygon = World::Poly( numVerts, 4 );
 
 		if( index != -1 ) currentLevel.surfaces[i].polygon.SetTexture( currentLevel.textures[textureNames[index]] );
 		else   		      currentLevel.surfaces[i].polygon.SetTexture( NULL );
@@ -338,7 +338,7 @@ void JK_Level_Load(const string& name)
 	line = parser.getLine( error );
 	line.matchString( "World sectors", error );
 	currentLevel.numSectors = line.getInt( error );
-	currentLevel.sectors = new W_Sector[currentLevel.numSectors];
+    currentLevel.sectors = new World::Sector[currentLevel.numSectors];
 	
 	for( i = 0 ; i < currentLevel.numSectors ; i++ )
 	{
@@ -402,7 +402,7 @@ void JK_Level_Load(const string& name)
 		currentLevel.sectors[i].drawing = 0;
 		currentLevel.sectors[i].num = i;
 		currentLevel.sectors[i].numSurfaces = line.getInt( error );
-		currentLevel.sectors[i].surfaces = new W_Surface*[currentLevel.sectors[i].numSurfaces];
+        currentLevel.sectors[i].surfaces = new World::Surface*[currentLevel.sectors[i].numSurfaces];
 
 		for( j = 0 ; j < currentLevel.sectors[i].numSurfaces ; j++ )
 		{
@@ -670,7 +670,7 @@ void JK_Level_Load(const string& name)
 
 		index = line.getInt( error );
 
-		thing = shared_ptr<W_Thing>( new W_Thing( currentLevel.templates[text], position, rotation, &currentLevel.sectors[index] ) );
+		thing = shared_ptr<World::Thing>( new World::Thing( currentLevel.templates[text], position, rotation, &currentLevel.sectors[index] ) );
 		thing->num = currentLevel.things.size();
 		currentLevel.things.push_back( thing );
 		
