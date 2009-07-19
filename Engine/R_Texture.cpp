@@ -10,7 +10,7 @@
 
 namespace Render
 {
-    void Texture::Register(Util::VectorMap<JK_Colormap*> &colormaps)
+    void Texture::Register(Util::VectorMap<Jk::Colormap*> &colormaps)
     {
 	    int i, j, x;
 	    int cel;

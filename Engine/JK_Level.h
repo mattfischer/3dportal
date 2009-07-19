@@ -30,13 +30,17 @@ namespace Sound
     class Buffer;
     class Class;
 }
-class JK_Colormap;
 
 namespace World
 {
     class Sector;
     class Thing;
     class Surface;
+}
+
+namespace Jk
+{
+    class Colormap;
 }
 
 using boost::shared_ptr;
@@ -50,7 +54,7 @@ namespace Jk
 	    int playerNum;
 
         Util::VectorMap<Render::Texture*> textures;
-	    Util::VectorMap<JK_Colormap*> colormaps;
+        Util::VectorMap<Jk::Colormap*> colormaps;
         Util::VectorMap<Cog::Script*> cogScripts;
 	    Util::VectorMap<Sound::Buffer*> sounds;
 	    Util::VectorMap<Sound::Class*> soundClasses;

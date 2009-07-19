@@ -271,10 +271,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\JK_Model.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\JK_Parse.cpp"
 				>
 			</File>
@@ -283,23 +279,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\JK_SoundClass.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\JK_Sprite.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\JK_Template.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\JK_Texture.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\JK_Thing.cpp"
 				>
 			</File>
 			<File
@@ -315,22 +295,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\P_Poly.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\P_Sector.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\P_Surface.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\P_Thing.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\R_Frame.cpp"
 				>
 			</File>
@@ -339,15 +303,11 @@
 				>
 			</File>
 			<File
+				RelativePath=".\R_Model_Load.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\R_OpenGL.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\R_Poly.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\R_Sector.cpp"
 				>
 			</File>
 			<File
@@ -355,7 +315,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\R_Surface.cpp"
+				RelativePath=".\R_Sprite_Load.cpp"
 				>
 			</File>
 			<File
@@ -363,7 +323,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\R_Thing.cpp"
+				RelativePath=".\R_Texture_Load.cpp"
 				>
 			</File>
 			<File
@@ -379,6 +339,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\S_SoundClass_Load.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\U_Lowercase.cpp"
 				>
 			</File>
@@ -391,7 +355,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\W_Poly_Physics.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\W_Poly_Render.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\W_Sector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\W_Sector_Physics.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\W_Sector_Render.cpp"
 				>
 			</File>
 			<File
@@ -399,7 +379,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\W_Surface_Physics.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\W_Surface_Render.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\W_Thing.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\W_Thing_Load.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\W_Thing_Physics.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\W_Thing_Render.cpp"
 				>
 			</File>
 		</Filter>

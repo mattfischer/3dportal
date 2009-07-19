@@ -6,7 +6,10 @@
 
 #include "U_VectorMap.h"
 
-class JK_Colormap;
+namespace Jk
+{
+    class Colormap;
+}
 
 using std::string;
 
@@ -17,7 +20,7 @@ namespace Render
     public:
 	    Texture( const string& filename );
 
-        void Register( Util::VectorMap<JK_Colormap*> &colormaps );
+        void Register( Util::VectorMap<Jk::Colormap*> &colormaps );
 	    void Select( int colormap, int cel );
 
 	    int SizeX();

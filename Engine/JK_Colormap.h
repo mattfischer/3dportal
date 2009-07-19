@@ -7,29 +7,30 @@
 
 using std::string;
 
-struct JK_C_RGBTriple {
-	char r;
-	char g;
-	char b;
-};
-
-struct JK_CMP {
-	char name[4];
-	long unk0;
-	long transp;
-	char unk1[52];
-	JK_C_RGBTriple palette[256];
-};
-
-struct JK_Colormap 
+namespace Jk
 {
-public:
-	JK_Colormap( const string& filename );
-	
-	JK_C_RGBTriple Palette(UCHAR i);
+    struct Colormap 
+    {
+    public:
+        struct RGBTriple {
+	        char r;
+	        char g;
+	        char b;
+        };
 
-protected:
-	JK_CMP cmp;
-};
+	    Colormap( const string& filename );
+    	
+	    RGBTriple Palette(UCHAR i);
 
+    protected:
+        struct CMP {
+	        char name[4];
+	        long unk0;
+	        long transp;
+	        char unk1[52];
+	        RGBTriple palette[256];
+        };
+	    CMP cmp;
+    };
+}
 #endif

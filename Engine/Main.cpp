@@ -116,7 +116,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,LPSTR Cmdline,int nShow)
 
 	ShowCursor(FALSE);
 	SetCursorPos(Render::ScreenX/2, Render::ScreenY/2);
-	I_Setup(hWnd, hInst);
+    Input::Setup(hWnd, hInst);
 
 	while(1)
 	{

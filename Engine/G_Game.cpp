@@ -101,7 +101,7 @@ namespace Game
 		    average+=lastFrameTimes[i];
 	    average/=(float)NUMAVERAGEFRAMES;
 
-	    I_Process(average);
+        Input::Process(average);
 	    World::Thing::UpdateThings(average);
         Sound::Update();
 	    Render::Frame_Render(average);

@@ -198,7 +198,7 @@ void JK_Level_Load(const string& name)
 		line.getFloat( error );
 
 		filename = line.getString( error );
-		currentLevel.colormaps.push_back( new JK_Colormap( filename ), filename );
+        currentLevel.colormaps.push_back( new Jk::Colormap( filename ), filename );
 	}
 
 	// -------------------------------------------------------------------------

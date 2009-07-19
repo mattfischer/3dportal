@@ -3,9 +3,11 @@
 
 #include <windows.h>
 
-void I_Process( float time );
-void I_EnableInput( bool enable );
-bool I_IsInputEnabled();
-void I_Setup( HWND hWnd, HINSTANCE hInst );
-
+namespace Input
+{
+    void Process( float time );
+    void EnableInput( bool enable );
+    bool IsInputEnabled();
+    void Setup( HWND hWnd, HINSTANCE hInst );
+}
 #endif
