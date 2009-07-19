@@ -46,80 +46,83 @@ extern bool updateThings;
 
 extern char levelName[];
 
-bool G_GoodFramerate()
+namespace Game
 {
-	if(fps>60) return true;
-	else return false;
-}
+    bool GoodFramerate()
+    {
+	    if(fps>60) return true;
+	    else return false;
+    }
 
-void G_Initialize()
-{ 
-	int i;
-	
-    Jk::Gob::init();
-	
-    Cog::Script::Setup();
-	
-	JK_Level_Load( string( levelName ) );
-	for( i = 0 ; i < currentLevel.textures.size() ; i++ )
-		currentLevel.textures[i]->Register( currentLevel.colormaps );
+    void Initialize()
+    { 
+	    int i;
+    	
+        Jk::Gob::init();
+    	
+        Cog::Script::Setup();
+    	
+	    JK_Level_Load( string( levelName ) );
+	    for( i = 0 ; i < currentLevel.textures.size() ; i++ )
+		    currentLevel.textures[i]->Register( currentLevel.colormaps );
 
-	//R_Texture_Register(currentLevel.textures, currentLevel.numTextures);
+	    //R_Texture_Register(currentLevel.textures, currentLevel.numTextures);
 
-	G_SetupInventory();
-	fpsTimer=GetTickCount();
-	frames=0;
-	for(i=0;i<NUMAVERAGEFRAMES;i++)
-		lastFrameTimes[i]=.015;
+        Game::SetupInventory();
+	    fpsTimer=GetTickCount();
+	    frames=0;
+	    for(i=0;i<NUMAVERAGEFRAMES;i++)
+		    lastFrameTimes[i]=.015;
 
-	QueryPerformanceFrequency(&timer_frequency);
+	    QueryPerformanceFrequency(&timer_frequency);
 
-	for(i=0;i<currentLevel.cogs.size();i++)
-		if(currentLevel.cogs[i])
-			currentLevel.cogs[i]->Message("startup", -1, 0, -1);
+	    for(i=0;i<currentLevel.cogs.size();i++)
+		    if(currentLevel.cogs[i])
+			    currentLevel.cogs[i]->Message("startup", -1, 0, -1);
 
-    Jk::Gob::close();
-}
+        Jk::Gob::close();
+    }
 
-void G_GameLoop()
-{
-	float time;
-	float average;
-	int i;
+    void GameLoop()
+    {
+	    float time;
+	    float average;
+	    int i;
 
-	LARGE_INTEGER frameBegin;
-	LARGE_INTEGER frameEnd;
-	LARGE_INTEGER timeElapsed;
-	if(!Render::OpenGLStarted) return;
-	
-	QueryPerformanceCounter(&frameBegin);
-	
-	average=0;
-	for(i=0;i<NUMAVERAGEFRAMES;i++)
-		average+=lastFrameTimes[i];
-	average/=(float)NUMAVERAGEFRAMES;
+	    LARGE_INTEGER frameBegin;
+	    LARGE_INTEGER frameEnd;
+	    LARGE_INTEGER timeElapsed;
+	    if(!Render::OpenGLStarted) return;
+    	
+	    QueryPerformanceCounter(&frameBegin);
+    	
+	    average=0;
+	    for(i=0;i<NUMAVERAGEFRAMES;i++)
+		    average+=lastFrameTimes[i];
+	    average/=(float)NUMAVERAGEFRAMES;
 
-	I_Process(average);
-	World::Thing::UpdateThings(average);
-    Sound::Update();
-	Render::Frame_Render(average);
-	
-	frames++;
-	if(GetTickCount()>fpsTimer+1000)
-	{
-		fps=frames;
-		frames=0;
-		fpsTimer=GetTickCount();
-		if(showFramerate) ShowFramerate(fps);
-	}
-		
-	QueryPerformanceCounter(&frameEnd);
-	
-	timeElapsed.QuadPart=frameEnd.QuadPart-frameBegin.QuadPart;
-	time=(float)timeElapsed.QuadPart/(float)timer_frequency.QuadPart;
-	
-	//if(average>time) Sleep((average-time)*1000.0);
-	lastFrameTimes[lastFrameTimeIndex]=time;
-	lastFrameTimeIndex++;
-	if(lastFrameTimeIndex==NUMAVERAGEFRAMES) lastFrameTimeIndex=0;
+	    I_Process(average);
+	    World::Thing::UpdateThings(average);
+        Sound::Update();
+	    Render::Frame_Render(average);
+    	
+	    frames++;
+	    if(GetTickCount()>fpsTimer+1000)
+	    {
+		    fps=frames;
+		    frames=0;
+		    fpsTimer=GetTickCount();
+		    if(showFramerate) ShowFramerate(fps);
+	    }
+    		
+	    QueryPerformanceCounter(&frameEnd);
+    	
+	    timeElapsed.QuadPart=frameEnd.QuadPart-frameBegin.QuadPart;
+	    time=(float)timeElapsed.QuadPart/(float)timer_frequency.QuadPart;
+    	
+	    //if(average>time) Sleep((average-time)*1000.0);
+	    lastFrameTimes[lastFrameTimeIndex]=time;
+	    lastFrameTimeIndex++;
+	    if(lastFrameTimeIndex==NUMAVERAGEFRAMES) lastFrameTimeIndex=0;
+    }
 }

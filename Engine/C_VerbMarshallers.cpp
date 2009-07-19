@@ -38,6 +38,6 @@ namespace Cog
 	    }
 
 	    wsprintf( buffer, "Call to undefined verb %s", node->lexData );
-	    CON_Out( buffer );
+        Console::Out( buffer );
     }
 }

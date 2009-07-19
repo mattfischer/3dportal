@@ -103,7 +103,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,LPSTR Cmdline,int nShow)
 
     hFPSWindow=CreateWindowEx(WS_EX_TOPMOST,"STATIC", "", WS_POPUP | WS_VISIBLE | SS_CENTER, Render::ScreenX/2-30, 2, 50, 18, NULL, NULL, hInst, NULL);
 
-	CON_Setup(hInst);
+    Console::Setup(hInst);
 	/*
 	RECT rect;
 	GetClientRect(hWnd, &rect);
@@ -112,7 +112,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,LPSTR Cmdline,int nShow)
 
 	if(!Render::OpenGL_Initialize(hWnd)) return 0;
     Sound::Initialize(hWnd);
-	G_Initialize();
+    Game::Initialize();
 
 	ShowCursor(FALSE);
 	SetCursorPos(Render::ScreenX/2, Render::ScreenY/2);
@@ -127,7 +127,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,LPSTR Cmdline,int nShow)
 			DispatchMessage(&msg);
 		}
 		
-		G_GameLoop();
+        Game::GameLoop();
 		//if(I_IsInputEnabled()) ShowCursor(FALSE);
 	}
 

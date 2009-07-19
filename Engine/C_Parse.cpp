@@ -67,7 +67,7 @@ namespace Cog
 		    case UNDEF:
 			    //cout << "Parse Error, line " << nextToken.line << endl;
 			    wsprintf( buffer, "Error in COG file %s, line %i", filename, nextToken.line );
-			    CON_Out( buffer );
+                Console::Out( buffer );
 			    return NULL;
 		    }
 	    } while( state != StateTable::Accept() );

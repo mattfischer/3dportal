@@ -95,7 +95,7 @@ void I_ProcessMouse(float time)
  		if(GetTickCount() > controlTimer + 500)
 		{
 			if(curWeapon != -1)
-				G_Items[curWeapon].cog->Message("fire", 0, 0, player->GetNum());
+                Game::Items[curWeapon].cog->Message("fire", 0, 0, player->GetNum());
 			controlTimer = GetTickCount();
 		}
 	}
@@ -211,7 +211,7 @@ void I_ProcessKeyboard( float time )
 	{
 		if( KEY_DOWN( VK_F12 ) )
 		{
-			CON_ToggleVisible();
+            Console::ToggleVisible();
 			controlTimer = GetTickCount();
 		}
 		if( KEY_DOWN( VK_F2 ) ) 
@@ -247,10 +247,10 @@ void I_ProcessKeyboard( float time )
                 {
                     if( activeBin != 0 )
                     {
-                        G_DeactivateBin( activeBin );
+                        Game::DeactivateBin( activeBin );
                     }
                     
-                    G_ActivateBin( bin );
+                    Game::ActivateBin( bin );
                     activeBin = bin;
 
                     controlTimer = GetTickCount();

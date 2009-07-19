@@ -7,13 +7,16 @@
 
 using std::string;
 
-void CON_Setup( HINSTANCE hInst );
-void CON_Shutdown();
+namespace Console
+{
+    void Setup( HINSTANCE hInst );
+    void Shutdown();
 
-void CON_Out( const string& message );
+    void Out( const string& message );
 
-void CON_Show();
-void CON_Hide();
-void CON_ToggleVisible();
+    void Show();
+    void Hide();
+    void ToggleVisible();
+}
 
 #endif

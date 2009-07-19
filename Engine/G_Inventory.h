@@ -6,19 +6,22 @@ namespace Cog
     struct Script;
 }
 
-struct G_Item
+namespace Game
 {
-	float value;
-	float min;
-	float max;
-	int flags;
-    Cog::Script *cog;
-};
+    struct Item
+    {
+	    float value;
+	    float min;
+	    float max;
+	    int flags;
+        Cog::Script *cog;
+    };
 
-void G_SetupInventory();
+    void SetupInventory();
 
-void G_ActivateBin(int bin);
-void G_DeactivateBin(int bin);
+    void ActivateBin(int bin);
+    void DeactivateBin(int bin);
 
-extern G_Item G_Items[200];
+    extern Item Items[200];
+}
 #endif
