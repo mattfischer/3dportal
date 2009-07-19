@@ -117,32 +117,32 @@ namespace World
 		    Clip(p0);
 	    }*/
 
-	    v1=Math::Vector(frustum.x0, frustum.y0, -1);
-	    v2=Math::Vector(frustum.x0, frustum.y1, -1);
+	    v1=Math::Vector(frustum.x0, 1, frustum.y0);
+	    v2=Math::Vector(frustum.x0, 1, frustum.y1);
     	
 	    p0.point=v0;
 	    p0.normal=v1%v2;
 	    p0.normal.Normalize();
 	    p0.normal=Render::Frame::rotationInverseMatrix*p0.normal;
     	
-	    v1=Math::Vector(frustum.x0, frustum.y1, -1);
-	    v2=Math::Vector(frustum.x1, frustum.y1, -1);
+	    v1=Math::Vector(frustum.x0, 1, frustum.y1);
+	    v2=Math::Vector(frustum.x1, 1, frustum.y1);
     	
 	    p1.point=v0;
 	    p1.normal=v1%v2;
 	    p1.normal.Normalize();
 	    p1.normal=Render::Frame::rotationInverseMatrix*p1.normal;
     	
-	    v1=Math::Vector(frustum.x1, frustum.y1, -1);
-	    v2=Math::Vector(frustum.x1, frustum.y0, -1);
+	    v1=Math::Vector(frustum.x1, 1, frustum.y1);
+	    v2=Math::Vector(frustum.x1, 1, frustum.y0);
     	
 	    p2.point=v0;
 	    p2.normal=v1%v2;
 	    p2.normal.Normalize();
 	    p2.normal=Render::Frame::rotationInverseMatrix*p2.normal;
     	
-	    v1=Math::Vector(frustum.x1, frustum.y0, -1);
-	    v2=Math::Vector(frustum.x0, frustum.y0, -1);
+	    v1=Math::Vector(frustum.x1, 1, frustum.y0);
+	    v2=Math::Vector(frustum.x0, 1, frustum.y0);
     	
 	    p3.point=v0;
 	    p3.normal=v1%v2;
@@ -157,8 +157,8 @@ namespace World
     	
 	    if(frustum.x00d>frustum.x0)
 	    {
-		    v1=Math::Vector(frustum.x00d, frustum.y0, -1);
-		    v2=Math::Vector(frustum.x0, frustum.y0+frustum.x00d-frustum.x0, -1);
+		    v1=Math::Vector(frustum.x00d, 1, frustum.y0);
+            v2=Math::Vector(frustum.x0, 1, (frustum.y0+frustum.x00d-frustum.x0));
     		
 		    p4.point=v0;
 		    p4.normal=v1%v2;
@@ -170,8 +170,8 @@ namespace World
 
 	    if(frustum.x01d>frustum.x0)
 	    {
-		    v1=Math::Vector(frustum.x0, frustum.y1-(frustum.x01d-frustum.x0), -1);
-		    v2=Math::Vector(frustum.x01d, frustum.y1, -1);
+            v1=Math::Vector(frustum.x0, 1, (frustum.y1-(frustum.x01d-frustum.x0)));
+            v2=Math::Vector(frustum.x01d, 1, frustum.y1);
     		
 		    p5.point=v0;
 		    p5.normal=v1%v2;
@@ -183,8 +183,8 @@ namespace World
 
 	    if(frustum.x11d<frustum.x1)
 	    {
-		    v1=Math::Vector(frustum.x11d, frustum.y1, -1);
-		    v2=Math::Vector(frustum.x1, frustum.y1-(frustum.x1-frustum.x11d), -1);
+            v1=Math::Vector(frustum.x11d, 1, frustum.y1);
+		    v2=Math::Vector(frustum.x1, 1, (frustum.y1-(frustum.x1-frustum.x11d)));
     		
 		    p6.point=v0;
 		    p6.normal=v1%v2;
@@ -196,8 +196,8 @@ namespace World
 
 	    if(frustum.x10d<frustum.x1)
 	    {
-		    v1=Math::Vector(frustum.x1, frustum.y0+frustum.x1-frustum.x10d, -1);
-		    v2=Math::Vector(frustum.x10d, frustum.y0, -1);
+            v1=Math::Vector(frustum.x1, 1, (frustum.y0+frustum.x1-frustum.x10d));
+            v2=Math::Vector(frustum.x10d, 1, frustum.y0);
     		
 		    p7.point=v0;
 		    p7.normal=v1%v2;
@@ -281,7 +281,7 @@ namespace World
 		    {
 			    glTexCoord2f((vertices[k].texture.u+offsetU)/texture->SizeX(), (vertices[k].texture.v+offsetV)/texture->SizeY());
 			    glColor3f(1.0, 1.0, 1.0);
-			    glVertex3f(vertices[k].position.x, vertices[k].position.z, -vertices[k].position.y);
+			    glVertex3f(vertices[k].position.x, vertices[k].position.y, vertices[k].position.z);
 		    }
 		    glEnd();
 	    }
@@ -292,7 +292,7 @@ namespace World
 		    {
 			    glTexCoord2f((vertices[k].texture.u+offsetU)/texture->SizeX(), (vertices[k].texture.v+offsetV)/texture->SizeY());
 			    glColor4f(vertices[k].intensity+light, vertices[k].intensity+light, vertices[k].intensity+light, 0.25);
-			    glVertex3f(vertices[k].position.x, vertices[k].position.z, -vertices[k].position.y);
+			    glVertex3f(vertices[k].position.x, vertices[k].position.y, vertices[k].position.z);
 		    }
 		    glEnd();
 	    }
@@ -303,7 +303,7 @@ namespace World
 		    {
 			    glTexCoord2f((vertices[k].texture.u+offsetU)/texture->SizeX(), (vertices[k].texture.v+offsetV)/texture->SizeY());
 			    glColor3f(vertices[k].intensity+light, vertices[k].intensity+light, vertices[k].intensity+light);
-			    glVertex3f(vertices[k].position.x, vertices[k].position.z, -vertices[k].position.y);
+			    glVertex3f(vertices[k].position.x, vertices[k].position.y, vertices[k].position.z);
 		    }
 		    glEnd();
 	    }

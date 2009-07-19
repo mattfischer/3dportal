@@ -37,9 +37,6 @@ namespace Render
         static Math::Matrix worldviewMatrix;
         static Math::Matrix worldviewInverseMatrix;
 
-        static Math::Matrix coordConversionMatrix;
-        static Math::Matrix coordConversionInverseMatrix;
-
         static Math::Matrix totalTransformationMatrix;
 
         static Frustum WindowFrustum;

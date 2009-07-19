@@ -53,7 +53,7 @@ namespace World
 				    if( newFrustum.x0 >= newFrustum.x1 || newFrustum.y0 >= newFrustum.y1 )
 					    continue;
 
-    				    surfaces[i]->GetAdjoin()->Draw( newFrustum, surfaces[i]->GetMirror() );
+    				surfaces[i]->GetAdjoin()->Draw( newFrustum, surfaces[i]->GetMirror() );
 			    }
 			    surfaces[i]->Draw( tint, extraLight );
 		    }

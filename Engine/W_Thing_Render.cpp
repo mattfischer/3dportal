@@ -23,46 +23,46 @@ namespace World
     	
         position=Render::Frame::worldviewMatrix*position;
 
-	    normal=Math::Vector(1, 0, frustum.x0);
+	    normal=Math::Vector(1, -frustum.x0, 0);
 	    normal.Normalize();
 	    if(normal*position<-radius) return false;
 
-	    normal=Math::Vector(-1, 0, -frustum.x1);
+	    normal=Math::Vector(-1, frustum.x1, 0);
 	    normal.Normalize();
 	    if(normal*position<-radius) return false;
 
-	    normal=Math::Vector(0, 1, frustum.y0);
+	    normal=Math::Vector(0, -frustum.y0, 1);
 	    normal.Normalize();
 	    if(normal*position<-radius) return false;
 
-	    normal=Math::Vector(0, -1, -frustum.y1);
+	    normal=Math::Vector(0, frustum.y1, -1);
 	    normal.Normalize();
 	    if(normal*position<-radius) return false;
 
 	    if(frustum.x00d>frustum.x0)
 	    {
-		    normal=Math::Vector(frustum.x00d, frustum.y0, -1)%Math::Vector(frustum.x0, frustum.y0+frustum.x00d-frustum.x0, -1);
+		    normal=Math::Vector(frustum.x00d, 1, frustum.y0)%Math::Vector(frustum.x0, 1, frustum.y0+frustum.x00d-frustum.x0);
 		    normal.Normalize();
 		    if(normal*position<-radius) return false;
 	    }
 
 	    if(frustum.x01d>frustum.x0)
 	    {
-		    normal=Math::Vector(frustum.x0, frustum.y1-(frustum.x01d-frustum.x0), -1)%Math::Vector(frustum.x01d, frustum.y1, -1);
+		    normal=Math::Vector(frustum.x0, 1, frustum.y1-(frustum.x01d-frustum.x0))%Math::Vector(frustum.x01d, 1, frustum.y1);
 		    normal.Normalize();
 		    if(normal*position<-radius) return false;
 	    }
 
 	    if(frustum.x11d<frustum.x1)
 	    {
-		    normal=Math::Vector(frustum.x11d, frustum.y1, -1)%Math::Vector(frustum.x1, frustum.y1-(frustum.x1-frustum.x11d), -1);
+		    normal=Math::Vector(frustum.x11d, 1, frustum.y1)%Math::Vector(frustum.x1, 1, frustum.y1-(frustum.x1-frustum.x11d));
 		    normal.Normalize();
 		    if(normal*position<-radius) return false;
 	    }
 
 	    if(frustum.x10d<frustum.x1)
 	    {
-		    normal=Math::Vector(frustum.x1, frustum.y0+frustum.x1-frustum.x10d, -1)%Math::Vector(frustum.x10d, frustum.y0, -1);
+		    normal=Math::Vector(frustum.x1, 1, frustum.y0+frustum.x1-frustum.x10d)%Math::Vector(frustum.x10d, 1, frustum.y0);
 		    normal.Normalize();
 		    if(normal*position<-radius) return false;
 	    }
@@ -85,22 +85,22 @@ namespace World
 	    compositeRotation = orient + rotation;
     	
 	    glPushMatrix();
-	    glTranslatef( position.x, position.z, -position.y );
+	    glTranslatef( position.x, position.y, position.z );
 
 	    glPushMatrix();
 
-	    glRotatef( player->GetRotation().y, 0, 1, 0 );
+	    glRotatef( player->GetRotation().y, 0, 0, 1 );
 	    glRotatef( player->GetRotation().x, 1, 0, 0 );
-	    glRotatef( player->GetRotation().z, 0, 0, 1 );
+	    glRotatef( player->GetRotation().z, 0, 1, 0 );
     	
 	    if( sprite )
 		    sprite->Draw( spriteTime * 15 );
 
 	    glPopMatrix();
 
-        glRotatef( compositeRotation.y, 0, 1, 0 );
+        glRotatef( compositeRotation.y, 0, 0, 1 );
 	    glRotatef( compositeRotation.x, 1, 0, 0 );
-	    glRotatef( compositeRotation.z, 0, 0, 1 );
+	    glRotatef( compositeRotation.z, 0, 1, 0 );
     		
 	    if( model )
 		    model->Draw( distance2, light, tint, &keyTrack );

@@ -68,31 +68,31 @@ namespace Render
         }
 
 	    mesh = &geoSets[g].meshes[node->mesh];
-	    glTranslatef( position.x, position.z, -( position.y ) );
+	    glTranslatef( position.x, position.y, position.z );
     	
-        glRotatef( rotation.y, 0, 1, 0 );
+        glRotatef( rotation.y, 0, 0, 1 );
         glRotatef( rotation.x, 1, 0, 0 );	    
-        glRotatef( rotation.z, 0, 0, -1 );
+        glRotatef( rotation.z, 0, 1, 0 );
 
 	    if( node->mesh != -1 )
 	    {
-		    glTranslatef( node->pivot.x, node->pivot.z, -node->pivot.y );
+		    glTranslatef( node->pivot.x, node->pivot.y, node->pivot.z );
     		
 		    for( i = 0 ; i < mesh->numFaces ; i++ )
 			    mesh->faces[i].poly.Draw( tint, light, mesh->faces[i].type&JK_FACE_TRANSLUCENT, !( mesh->faces[i].type & JK_FACE_TWO_SIDED ), 0, 0, 0 );
 
-		    glTranslatef( -node->pivot.x, -node->pivot.z, node->pivot.y );
+		    glTranslatef( -node->pivot.x, -node->pivot.y, -node->pivot.z );
 	    }
     	
 
 	    for( i = 0 ; i < node->numChildren ; i++ )
 		    DrawNode( &node->children[i], g, light, tint, keyTrack );
 
-        glRotatef( -( rotation.z ), 0, 0, -1 );
-        glRotatef( -( rotation.x ), 1, 0, 0 );
-        glRotatef( -( rotation.y ), 0, 1, 0 );
+        glRotatef( -rotation.z, 0, 1, 0 );
+        glRotatef( -rotation.x, 1, 0, 0 );
+        glRotatef( -rotation.y, 0, 0, 1 );
     	
-	    glTranslatef( -( position.x ), -( position.z ), position.y );
+	    glTranslatef( -position.x, -position.y, -position.z );
     }
 
     Model::Mesh *Model::GetMesh(int g, int m)

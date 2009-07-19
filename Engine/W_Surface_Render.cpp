@@ -71,14 +71,12 @@ namespace World
 		    for(k=0;k<poly2.NumVertices();k++)
 		    {
 			    x=(poly2[k].position.x+Render::Frame::SX)/(2*Render::Frame::SX);
-			    y=(-poly2[k].position.y+Render::Frame::SY)/(2*Render::Frame::SY);
+			    y=-(poly2[k].position.y+Render::Frame::SY)/(2*Render::Frame::SY);
     						
 			    poly2[k].texture.u=startXOffset+x*skySizeX;
 			    poly2[k].texture.v=startYOffset+y*skySizeY;
     			
-			    tempVector=poly2[k].position;
-			    poly2[k].position.z=tempVector.y;
-			    poly2[k].position.y=-tempVector.z;
+                //poly2[i].position.y *= -1;
 			    poly2[k].position=poly2[k].position*100;
     			
 		    }

@@ -29,25 +29,15 @@ namespace Render
     float Frame::SY=tan(FOV/2*M_PI/180)+.1;
 
     Math::Matrix Frame::perspectiveMatrix(1, 0 , 0, 0,
-						     0 , 1, 0, 0,
-						     0 , 0 , 1, 0,
-						     0 , 0 , -1, 0);
+						     0 , 0, 1, 0,
+						     0 , -1 , 0, 0,
+						     0 , 1 , 0, 0);
     Math::Matrix Frame::rotationMatrix;
     Math::Matrix Frame::rotationInverseMatrix;
 
     Math::Matrix Frame::worldviewMatrix;
     Math::Matrix Frame::worldviewInverseMatrix;
 
-    Math::Matrix Frame::coordConversionMatrix( 1 , 0 , 0, 0,
-							      0 , 0 , 1, 0,
-							      0 , -1, 0, 0,
-							      0 , 0 , 0, 1
-							     );
-    Math::Matrix Frame::coordConversionInverseMatrix( 1 , 0 , 0, 0,
-									     0 , 0 ,-1, 0,
-									     0 , 1 , 0, 0,
-									     0 , 0 , 0, 1
-									    );
     Math::Matrix Frame::totalTransformationMatrix;
 
     Frustum Frame::WindowFrustum;
@@ -69,11 +59,11 @@ namespace Render
         Math::Matrix mi3 = Util::Matrix::RotateX(rotation.x);
         Math::Matrix mi4 = Util::Matrix::RotateY(-rotation.z);
 
-	    worldviewMatrix=coordConversionMatrix*m4*m3*m2*m;
-	    worldviewInverseMatrix=mi*mi2*mi3*mi4*coordConversionInverseMatrix;
+	    worldviewMatrix=m4*m3*m2*m;
+	    worldviewInverseMatrix=mi*mi2*mi3*mi4;
 	    totalTransformationMatrix=perspectiveMatrix*worldviewMatrix;
-	    rotationMatrix=coordConversionMatrix*m4*m3*m2;
-	    rotationInverseMatrix=mi2*mi3*mi4*coordConversionInverseMatrix;
+	    rotationMatrix=m4*m3*m2;
+	    rotationInverseMatrix=mi2*mi3*mi4;
     }
 
     void Frame::Render(float time)
@@ -84,15 +74,20 @@ namespace Render
 	    rotation=player->GetCompositeRotation();
 
 	    glMatrixMode(GL_MODELVIEW);
-	    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	    glClear(GL_DEPTH_BUFFER_BIT);
 	    glLoadIdentity();
+        GLfloat m[16] = {1, 0, 0, 0, 
+                         0, 0, -1, 0,
+                         0, 1, 0, 0,
+                         0, 0, 0, 1};
+        glMultMatrixf(m);
     	
-	    glRotatef(-rotation.z,0,0,1);
-	    glRotatef(-rotation.x,1,0,0);
-	    glRotatef(-rotation.y,0,1,0);
+        glRotatef(-rotation.z,0,-1,0);
+        glRotatef(-rotation.x,1,0,0);
+        glRotatef(-rotation.y,0,0,1);
     	
-	    glTranslatef(-position.x, -position.z, position.y);
+	    glTranslatef(-position.x, -position.y, -position.z);
 	    ConstructMatricies();
 
 	    WindowFrustum.x0=-SX;
