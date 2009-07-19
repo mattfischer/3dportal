@@ -1,8 +1,6 @@
 #ifndef R_VERTEX_H
 #define R_VERTEX_H
 
-#include "Global.h"
-
 #include "M_Vector.h"
 
 namespace Render

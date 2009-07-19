@@ -1,8 +1,6 @@
 #ifndef R_THING_H
 #define R_THING_H
 
-#include "Global.h"
-
 #include "M_Vector.h"
 #include "W_Poly.h"
 

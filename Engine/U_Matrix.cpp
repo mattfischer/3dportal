@@ -1,5 +1,6 @@
 #include "U_Matrix.h"
 
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 namespace Util
@@ -35,8 +36,8 @@ namespace Util
 
     Math::Matrix Matrix::RotateX(float angle)
     {
-        float c = cos( angle * 3.14 / 180 );
-	    float s = sin( angle * 3.14 / 180 );
+        float c = cos( angle * M_PI / 180 );
+	    float s = sin( angle * M_PI / 180 );
 
         return Math::Matrix ( 1, 0,  0, 0,
 			              0, c, -s, 0,
@@ -46,8 +47,8 @@ namespace Util
 
     Math::Matrix Matrix::RotateY(float angle)
     {
-        float c = cos( angle * 3.14 / 180 );
-	    float s = sin( angle * 3.14 / 180 );
+        float c = cos( angle * M_PI / 180 );
+	    float s = sin( angle * M_PI / 180 );
 
         return Math::Matrix (  c, 0, s, 0,
                            0, 1, 0, 0,
@@ -57,8 +58,8 @@ namespace Util
 
     Math::Matrix Matrix::RotateZ(float angle)
     {
-        float c = cos( angle * 3.14 / 180 );
-	    float s = sin( angle * 3.14 / 180 );
+        float c = cos( angle * M_PI / 180 );
+	    float s = sin( angle * M_PI / 180 );
 
         return Math::Matrix ( c, -s, 0, 0,
 			              s,  c, 0, 0,

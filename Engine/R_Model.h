@@ -1,8 +1,6 @@
 #ifndef R_MODEL_H
 #define R_MODEL_H
 
-#include "Global.h"
-
 #include "M_Vector.h"
 #include "R_Vertex.h"
 #include "W_Poly.h"

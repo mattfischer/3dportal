@@ -1,8 +1,6 @@
 #ifndef W_SURFACE_H
 #define W_SURFACE_H
 
-#include "Global.h"
-
 #include "W_Poly.h"
 
 #include <string>

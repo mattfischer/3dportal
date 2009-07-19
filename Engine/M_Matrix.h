@@ -1,8 +1,6 @@
 #ifndef M_MATRIX_H
 #define M_MATRIX_H
 
-#include "Global.h"
-
 #include "M_Vector.h"
 
 namespace Math

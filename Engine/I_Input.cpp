@@ -13,6 +13,8 @@
 #include "JK_Template.h"
 
 #include <windows.h>
+
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include <Dinput.h>
 
@@ -154,8 +156,8 @@ namespace Input
 	    position = player->GetPosition();
 	    rotation = player->GetCompositeRotation();
 
-	    angleSin = sin( rotation.y * 3.14 / 180 );
-	    angleCos = cos( rotation.y * 3.14 / 180 );
+	    angleSin = sin( rotation.y * M_PI / 180 );
+	    angleCos = cos( rotation.y * M_PI / 180 );
 
 	    thrust = Math::Vector( 0, 0, 0 );
 

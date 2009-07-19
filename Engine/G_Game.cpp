@@ -3,8 +3,6 @@
 #include <GL/glu.h>
 #include <math.h>
 
-#include "Global.h"
-
 #include "G_Game.h"
 #include "G_Inventory.h"
 

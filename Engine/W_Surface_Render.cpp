@@ -10,6 +10,8 @@
 
 #include <windows.h>
 #include <gl/gl.h>
+
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 extern shared_ptr<World::Thing> player;
@@ -61,7 +63,7 @@ namespace World
 		    glPushMatrix();
 		    glLoadIdentity();
     			
-		    skySizeX=2*currentLevel.horizonDistance*cos(FOV*3.14/360);
+		    skySizeX=2*currentLevel.horizonDistance*cos(FOV*M_PI/360);
 		    skySizeY=skySizeX*Render::SY/Render::SX;
 		    startXOffset=-(rotation.y*currentLevel.numPixelsPerRev)/360-currentLevel.horizonOffsetX;
 		    startYOffset=polygon.GetTexture()->SizeY()-skySizeY-(rotation.x*currentLevel.numPixelsPerRev)/360-currentLevel.horizonOffsetY;

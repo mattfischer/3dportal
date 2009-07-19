@@ -15,6 +15,7 @@
 
 #include "U_Matrix.h"
 
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 extern bool doThingCollisions;
@@ -69,9 +70,6 @@ namespace World
 	    if( !( thingFlags & JK_THING_CAN_STAND_ON ) ) return false;
 	    if( model == NULL ) return false;
 
-	    xcos = cos( rotation.y * 3.14 / 180 );
-	    xsin = sin( rotation.y * 3.14 / 180 );
-    	
         Math::Matrix rotatex = Util::Matrix::RotateZ(rotation.y);
         Math::Matrix translate = Util::Matrix::Translate(position);
 	    Math::Matrix transform = translate * rotatex;
@@ -123,16 +121,12 @@ namespace World
 	    int i;
 	    Math::Vector normal;
 	    Math::Vector offset;
-	    float xcos, xsin;
 	    Math::Vector floorPos;
     	
 	    if( !doThingCollisions ) return;
 	    if( collide != JK_COLLIDE_FACE ) return;
 	    if( thing->GetCollide() != JK_COLLIDE_SPHERE ) return;
 	    if( model == NULL ) return;
-
-	    xcos = cos( rotation.y * 3.14 / 180 );
-	    xsin = sin( rotation.y * 3.14 / 180 );
 
         Math::Matrix rotatex = Util::Matrix::RotateZ(rotation.y);
 	    Math::Matrix translate = Util::Matrix::Translate(position);
@@ -284,15 +278,8 @@ namespace World
     void Thing::Activate()
     {
 	    Math::Vector pointVector;
-	    float xcos, xsin, ycos, ysin;
 	    Surface *surface;
 	    char buffer[100];
-
-	    xcos=cos(rotation.y*3.14/180);
-	    xsin=sin(rotation.y*3.14/180);
-
-	    ycos=cos(rotation.x*3.14/180);
-	    ysin=sin(rotation.x*3.14/180);
 
         Math::Matrix rotatex = Util::Matrix::RotateZ(rotation.y);
         Math::Matrix rotatey = Util::Matrix::RotateX(rotation.x);
@@ -309,11 +296,7 @@ namespace World
 	    int i;
 	    Math::Vector normal;
 	    Math::Vector offset;
-	    float xcos, xsin;
 	    Math::Vector floorPos;
-
-	    xcos=cos(rotation.y*3.14/180);
-	    xsin=sin(rotation.y*3.14/180);
 
         Math::Matrix rotatex = Util::Matrix::RotateZ(rotation.y);
         Math::Matrix translate = Util::Matrix::Translate(position);
@@ -475,8 +458,8 @@ namespace World
 	    if(type==PLAYER)
 	    {
 		    float xcos, xsin;
-		    xcos=cos((rotation.y+orient.y)*3.14/180);
-		    xsin=sin((rotation.y+orient.y)*3.14/180);
+		    xcos=cos((rotation.y+orient.y)*M_PI/180);
+		    xsin=sin((rotation.y+orient.y)*M_PI/180);
 		    Math::Vector vector(xcos, xsin, 0);
 		    rotation.z=vector*velocity*-3;
 	    }

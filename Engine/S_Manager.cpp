@@ -10,6 +10,7 @@
 
 #include <windows.h>
 #include <dsound.h>
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 #include <vector>
@@ -79,7 +80,7 @@ namespace Sound
 
 			    items[i]->track->SetVolume( volume * items[i]->volume);
 
-			    direction = Math::Vector( cos( player->GetCompositeRotation().y * 3.14 / 180 ) , sin( player->GetCompositeRotation().y * 3.14 / 180 ), 0 );
+			    direction = Math::Vector( cos( player->GetCompositeRotation().y * M_PI / 180 ) , sin( player->GetCompositeRotation().y * M_PI / 180 ), 0 );
 			    distance.Normalize();
 			    items[i]->track->SetPan( distance * direction * .8 * ( 1 - volume ) );
     			

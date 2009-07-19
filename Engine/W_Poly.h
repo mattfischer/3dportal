@@ -1,8 +1,6 @@
 #ifndef W_POLY_H
 #define W_POLY_H
 
-#include "Global.h"
-
 #include "M_Vector.h"
 #include "R_Vertex.h"
 #include "R_Frame.h"
@@ -19,7 +17,7 @@ namespace World
     public:
 	    // Poly.cpp
 
-	    Poly() { numVerts=0; allocatedVerts=0; vertices=NULL; }
+	    Poly() { numVerts=0; allocatedVerts=0; vertices=0; }
 	    Poly( int n, int a = 0 );	
 	    ~Poly();
 	    Poly( Poly &p );

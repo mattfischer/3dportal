@@ -2,8 +2,6 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-#include "Global.h"
-
 #include "R_OpenGL.h"
 #include "R_Frame.h"
 

@@ -1,8 +1,6 @@
 #ifndef M_VECTOR_H
 #define M_VECTOR_H
 
-#include "Global.h"
-
 namespace Math
 {
     class Vector {

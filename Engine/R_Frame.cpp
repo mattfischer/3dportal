@@ -1,6 +1,8 @@
 #include <windows.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
+
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 #include "R_Model.h"
@@ -23,8 +25,8 @@ namespace Render
     int ScreenX=1280;
     int ScreenY=800;
 
-    float SX=tan(FOV/2*3.14159265359/180)*ScreenX/ScreenY+.1;
-    float SY=tan(FOV/2*3.14159265359/180)+.1;
+    float SX=tan(FOV/2*M_PI/180)*ScreenX/ScreenY+.1;
+    float SY=tan(FOV/2*M_PI/180)+.1;
 
     Math::Matrix perspectiveMatrix(1, 0 , 0, 0,
 						     0 , 1, 0, 0,
@@ -61,12 +63,12 @@ namespace Render
 	    position=player->GetEyePosition();
 	    rotation=player->GetCompositeRotation();
 
-	    xcos=cos(rotation.y*PI/180);
-	    xsin=sin(rotation.y*PI/180);
-	    ycos=cos(rotation.x*PI/180);
-	    ysin=sin(rotation.x*PI/180);
-	    zcos=cos(rotation.z*PI/180);
-	    zsin=sin(rotation.z*PI/180);
+	    xcos=cos(rotation.y*M_PI/180);
+	    xsin=sin(rotation.y*M_PI/180);
+	    ycos=cos(rotation.x*M_PI/180);
+	    ysin=sin(rotation.x*M_PI/180);
+	    zcos=cos(rotation.z*M_PI/180);
+	    zsin=sin(rotation.z*M_PI/180);
 
         Math::Matrix m = Util::Matrix::Translate(-position);
 	    Math::Matrix m2 = Util::Matrix::RotateZ(-rotation.y);

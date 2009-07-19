@@ -453,10 +453,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Global.h"
-				>
-			</File>
-			<File
 				RelativePath=".\I_Input.h"
 				>
 			</File>

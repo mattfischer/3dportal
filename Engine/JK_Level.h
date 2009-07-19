@@ -1,8 +1,6 @@
 #ifndef JK_LEVEL_H
 #define JK_LEVEL_H
 
-#include "Global.h"
-
 #include "W_Sector.h"
 
 #include "U_VectorMap.h"

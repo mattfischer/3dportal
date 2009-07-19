@@ -1,8 +1,6 @@
 #ifndef JK_PARSE_H
 #define JK_PARSE_H
 
-#include "Global.h"
-
 #include <string>
 
 using std::string;

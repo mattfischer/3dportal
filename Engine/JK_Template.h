@@ -1,8 +1,6 @@
 #ifndef JK_TEMPLATE_H
 #define JK_TEMPLATE_H
 
-#include "Global.h"
-
 #include "M_Vector.h"
 
 #include <string>

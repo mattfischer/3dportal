@@ -3,6 +3,7 @@
 #include "M_Vector.h"
 
 #include <assert.h>
+#include <string.h>
 
 namespace Cog
 {
