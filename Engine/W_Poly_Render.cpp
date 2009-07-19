@@ -108,7 +108,7 @@ namespace World
 	    Math::Plane p0, p1, p2, p3, p4, p5, p6, p7;
 	    int i;
 
-	    v0=Render::worldviewInverseMatrix*Math::Vector(0,0,0);
+	    v0=Render::Frame::worldviewInverseMatrix*Math::Vector(0,0,0);
     /*
 	    for(i=0;i<frustum.numPlanes;i++)
 	    {
@@ -123,7 +123,7 @@ namespace World
 	    p0.point=v0;
 	    p0.normal=v1%v2;
 	    p0.normal.Normalize();
-	    p0.normal=Render::rotationInverseMatrix*p0.normal;
+	    p0.normal=Render::Frame::rotationInverseMatrix*p0.normal;
     	
 	    v1=Math::Vector(frustum.x0, frustum.y1, -1);
 	    v2=Math::Vector(frustum.x1, frustum.y1, -1);
@@ -131,7 +131,7 @@ namespace World
 	    p1.point=v0;
 	    p1.normal=v1%v2;
 	    p1.normal.Normalize();
-	    p1.normal=Render::rotationInverseMatrix*p1.normal;
+	    p1.normal=Render::Frame::rotationInverseMatrix*p1.normal;
     	
 	    v1=Math::Vector(frustum.x1, frustum.y1, -1);
 	    v2=Math::Vector(frustum.x1, frustum.y0, -1);
@@ -139,7 +139,7 @@ namespace World
 	    p2.point=v0;
 	    p2.normal=v1%v2;
 	    p2.normal.Normalize();
-	    p2.normal=Render::rotationInverseMatrix*p2.normal;
+	    p2.normal=Render::Frame::rotationInverseMatrix*p2.normal;
     	
 	    v1=Math::Vector(frustum.x1, frustum.y0, -1);
 	    v2=Math::Vector(frustum.x0, frustum.y0, -1);
@@ -147,7 +147,7 @@ namespace World
 	    p3.point=v0;
 	    p3.normal=v1%v2;
 	    p3.normal.Normalize();
-	    p3.normal=Render::rotationInverseMatrix*p3.normal;
+	    p3.normal=Render::Frame::rotationInverseMatrix*p3.normal;
     	
 	    Clip(p0);
 	    Clip(p1);
@@ -163,7 +163,7 @@ namespace World
 		    p4.point=v0;
 		    p4.normal=v1%v2;
 		    p4.normal.Normalize();
-		    p4.normal=Render::rotationInverseMatrix*p4.normal;
+		    p4.normal=Render::Frame::rotationInverseMatrix*p4.normal;
 
 		    Clip(p4);
 	    }
@@ -176,7 +176,7 @@ namespace World
 		    p5.point=v0;
 		    p5.normal=v1%v2;
 		    p5.normal.Normalize();
-		    p5.normal=Render::rotationInverseMatrix*p5.normal;
+		    p5.normal=Render::Frame::rotationInverseMatrix*p5.normal;
 
 		    Clip(p5);
 	    }
@@ -189,7 +189,7 @@ namespace World
 		    p6.point=v0;
 		    p6.normal=v1%v2;
 		    p6.normal.Normalize();
-		    p6.normal=Render::rotationInverseMatrix*p6.normal;
+		    p6.normal=Render::Frame::rotationInverseMatrix*p6.normal;
 
 		    Clip(p6);
 	    }
@@ -202,7 +202,7 @@ namespace World
 		    p7.point=v0;
 		    p7.normal=v1%v2;
 		    p7.normal.Normalize();
-		    p7.normal=Render::rotationInverseMatrix*p7.normal;
+		    p7.normal=Render::Frame::rotationInverseMatrix*p7.normal;
 
 		    Clip(p7);
 	    }
@@ -214,7 +214,7 @@ namespace World
 	    Render::Frustum frustum;
 	    int i;
     	
-	    newPoly.Transform(Render::totalTransformationMatrix);
+	    newPoly.Transform(Render::Frame::totalTransformationMatrix);
     	
 	    frustum.x0=frustum.x1=newPoly[0].position.x;
 	    frustum.y0=frustum.y1=newPoly[0].position.y;

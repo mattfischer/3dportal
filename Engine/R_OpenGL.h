@@ -5,12 +5,14 @@
 
 namespace Render
 {
-    int OpenGL_Initialize( HWND hWnd );
-    void OpenGL_Shutdown( HWND hWnd );
-    void OpenGL_ViewportSize( int x, int y );
-
-    extern int OpenGLStarted;
-    extern HDC hDC;
+    class OpenGl
+    {
+    public:
+        static bool Initialize( HWND hWnd );
+        static void Shutdown( HWND hWnd );
+        static bool Started();
+        static void SwapBuffers();
+    };
 }
 
 #endif

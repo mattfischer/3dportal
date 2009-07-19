@@ -22,53 +22,42 @@ namespace Render
     Model *povModel = NULL;
     Jk::Key::Track povKeyTrack;
 
-    int ScreenX=1280;
-    int ScreenY=800;
+    int Frame::ScreenX=1280;
+    int Frame::ScreenY=800;
 
-    float SX=tan(FOV/2*M_PI/180)*ScreenX/ScreenY+.1;
-    float SY=tan(FOV/2*M_PI/180)+.1;
+    float Frame::SX=tan(FOV/2*M_PI/180)*ScreenX/ScreenY+.1;
+    float Frame::SY=tan(FOV/2*M_PI/180)+.1;
 
-    Math::Matrix perspectiveMatrix(1, 0 , 0, 0,
+    Math::Matrix Frame::perspectiveMatrix(1, 0 , 0, 0,
 						     0 , 1, 0, 0,
 						     0 , 0 , 1, 0,
 						     0 , 0 , -1, 0);
-    Math::Matrix rotationMatrix;
-    Math::Matrix rotationInverseMatrix;
+    Math::Matrix Frame::rotationMatrix;
+    Math::Matrix Frame::rotationInverseMatrix;
 
-    Math::Matrix worldviewMatrix;
-    Math::Matrix worldviewInverseMatrix;
+    Math::Matrix Frame::worldviewMatrix;
+    Math::Matrix Frame::worldviewInverseMatrix;
 
-    Math::Matrix coordConversionMatrix( 1 , 0 , 0, 0,
+    Math::Matrix Frame::coordConversionMatrix( 1 , 0 , 0, 0,
 							      0 , 0 , 1, 0,
 							      0 , -1, 0, 0,
 							      0 , 0 , 0, 1
 							     );
-    Math::Matrix coordConversionInverseMatrix( 1 , 0 , 0, 0,
+    Math::Matrix Frame::coordConversionInverseMatrix( 1 , 0 , 0, 0,
 									     0 , 0 ,-1, 0,
 									     0 , 1 , 0, 0,
 									     0 , 0 , 0, 1
 									    );
-    Math::Matrix totalTransformationMatrix;
+    Math::Matrix Frame::totalTransformationMatrix;
 
-    Frustum WindowFrustum;
+    Frustum Frame::WindowFrustum;
 
-    void Frame_ConstructMatricies()
+    void Frame::ConstructMatricies()
     {
-	    float xcos, xsin;
-	    float ycos, ysin;
-	    float zcos, zsin;
-
 	    Math::Vector position, rotation;
 
 	    position=player->GetEyePosition();
 	    rotation=player->GetCompositeRotation();
-
-	    xcos=cos(rotation.y*M_PI/180);
-	    xsin=sin(rotation.y*M_PI/180);
-	    ycos=cos(rotation.x*M_PI/180);
-	    ysin=sin(rotation.x*M_PI/180);
-	    zcos=cos(rotation.z*M_PI/180);
-	    zsin=sin(rotation.z*M_PI/180);
 
         Math::Matrix m = Util::Matrix::Translate(-position);
 	    Math::Matrix m2 = Util::Matrix::RotateZ(-rotation.y);
@@ -87,7 +76,7 @@ namespace Render
 	    rotationInverseMatrix=mi2*mi3*mi4*coordConversionInverseMatrix;
     }
 
-    void Frame_Render(float time)
+    void Frame::Render(float time)
     {
 	    Math::Vector position, rotation;
         
@@ -104,7 +93,7 @@ namespace Render
 	    glRotatef(-rotation.y,0,1,0);
     	
 	    glTranslatef(-position.x, -position.z, position.y);
-	    Frame_ConstructMatricies();
+	    ConstructMatricies();
 
 	    WindowFrustum.x0=-SX;
 	    WindowFrustum.x1=SX;
@@ -129,8 +118,28 @@ namespace Render
 		    povModel->Draw( 0, 1, Math::Vector( 0, 0, 0 ), &povKeyTrack );
 	    }
 
-	    SwapBuffers(hDC);
+        OpenGl::SwapBuffers();
 
 	    globalFlag++;
+    }
+    
+    void Frame::SetPovModel(Model *model)
+    {
+        povModel = model;
+    }
+
+    Model *Frame::PovModel()
+    {
+        return povModel;
+    }
+
+    void Frame::PlayPovKey(Jk::Key *key, int flags)
+    {
+        povKeyTrack = Jk::Key::Track(key, 0, flags);
+    }
+
+    Jk::Key::Track *Frame::PovKey()
+    {
+        return &povKeyTrack;
     }
 }

@@ -21,7 +21,7 @@ namespace World
     {
 	    Math::Vector normal;
     	
-	    position=Render::worldviewMatrix*position;
+        position=Render::Frame::worldviewMatrix*position;
 
 	    normal=Math::Vector(1, 0, frustum.x0);
 	    normal.Normalize();

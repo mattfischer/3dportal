@@ -1,23 +1,18 @@
 #include "C_Verb.h"
 #include "R_Model.h"
 #include "JK_Level.h"
-
-namespace Render
-{
-    extern Render::Model* povModel;
-    extern Jk::Key::Track povKeyTrack;
-}
+#include "R_Frame.h"
 
 namespace Cog
 {
     Type_Void jkSetPovModel( Type_Thing thing_num, Type_Model model_num )
     {
-	    Render::povModel = currentLevel.models[model_num];
+        Render::Frame::SetPovModel(currentLevel.models[model_num]);
     }
 
     Type_Int jkPlayPovKey( Type_Thing thing_num, Type_Keyframe key, Type_Int param2, Type_Int flags )
     {
-        Render::povKeyTrack = Jk::Key::Track( currentLevel.keyframes[key], 0, flags );
+        Render::Frame::PlayPovKey( currentLevel.keyframes[key], flags );
 
 	    return key;
     }

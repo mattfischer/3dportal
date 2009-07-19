@@ -90,7 +90,7 @@ namespace Game
 	    LARGE_INTEGER frameBegin;
 	    LARGE_INTEGER frameEnd;
 	    LARGE_INTEGER timeElapsed;
-	    if(!Render::OpenGLStarted) return;
+        if(!Render::OpenGl::Started()) return;
     	
 	    QueryPerformanceCounter(&frameBegin);
     	
@@ -102,7 +102,7 @@ namespace Game
         Input::Process(average);
 	    World::Thing::UpdateThings(average);
         Sound::Update();
-	    Render::Frame_Render(average);
+        Render::Frame::Render(average);
     	
 	    frames++;
 	    if(GetTickCount()>fpsTimer+1000)

@@ -65,7 +65,7 @@ namespace Input
 	    else
 	    {
 		    ShowCursor(false);
-		    SetCursorPos(Render::ScreenX/2, Render::ScreenY/2);
+		    SetCursorPos(Render::Frame::ScreenX/2, Render::Frame::ScreenY/2);
 	    }
     }
 
@@ -139,7 +139,7 @@ namespace Input
 	    if(rotation.y<0) rotation.y+=360;
 
 	    player->SetRotation(rotation);
-	    SetCursorPos(Render::ScreenX/2, Render::ScreenY/2);
+	    SetCursorPos(Render::Frame::ScreenX/2, Render::Frame::ScreenY/2);
     }
 
     void ProcessKeyboard( float time )

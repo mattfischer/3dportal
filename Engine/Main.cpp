@@ -23,19 +23,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg)
 	{
-		/*
-	case WM_KEYDOWN:
-		if(wParam==VK_ESCAPE)
-			I_EnableInput(false);
-		return 0;
-	case WM_LBUTTONDOWN:
-		I_EnableInput(true);
-		return 0;
-	case WM_SIZE:
-		R_OpenGL_ViewportSize(LOWORD(lParam), HIWORD(lParam));
-		return 0;*/
 	case WM_DESTROY:
-		Render::OpenGL_Shutdown(hWnd);
+        Render::OpenGl::Shutdown(hWnd);
 		PostQuitMessage(0);
 		return 0;
 	}
@@ -97,9 +86,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,LPSTR Cmdline,int nShow)
 	srand(GetTickCount());
 	hWnd=CreateWindowEx(0,"OpenGL","OpenGL Console",
 		WS_POPUP | WS_VISIBLE,
-		0,0,Render::ScreenX,Render::ScreenY,NULL,(HMENU)NULL,hInst,NULL);
+		0,0,Render::Frame::ScreenX,Render::Frame::ScreenY,NULL,(HMENU)NULL,hInst,NULL);
 
-    hFPSWindow=CreateWindowEx(WS_EX_TOPMOST,"STATIC", "", WS_POPUP | WS_VISIBLE | SS_CENTER, Render::ScreenX/2-30, 2, 50, 18, NULL, NULL, hInst, NULL);
+    hFPSWindow=CreateWindowEx(WS_EX_TOPMOST,"STATIC", "", WS_POPUP | WS_VISIBLE | SS_CENTER, Render::Frame::ScreenX/2-30, 2, 50, 18, NULL, NULL, hInst, NULL);
 
     Console::Setup(hInst);
 	/*
@@ -108,12 +97,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,LPSTR Cmdline,int nShow)
 	ScreenX=rect.right-rect.left;
 	ScreenY=rect.bottom-rect.top;*/
 
-	if(!Render::OpenGL_Initialize(hWnd)) return 0;
+    if(!Render::OpenGl::Initialize(hWnd)) return 0;
     Sound::Initialize(hWnd);
     Game::Initialize();
 
 	ShowCursor(FALSE);
-	SetCursorPos(Render::ScreenX/2, Render::ScreenY/2);
+	SetCursorPos(Render::Frame::ScreenX/2, Render::Frame::ScreenY/2);
     Input::Setup(hWnd, hInst);
 
 	while(1)

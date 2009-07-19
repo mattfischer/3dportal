@@ -57,21 +57,21 @@ namespace World
 	    else if(flags&JK_SURFACE_HORIZON_SKY)
 	    {
 		    Poly poly2(polygon);
-            poly2.Clip(Render::WindowFrustum);
-		    poly2.Transform(Render::totalTransformationMatrix);
+            poly2.Clip(Render::Frame::WindowFrustum);
+            poly2.Transform(Render::Frame::totalTransformationMatrix);
 
 		    glPushMatrix();
 		    glLoadIdentity();
     			
 		    skySizeX=2*currentLevel.horizonDistance*cos(FOV*M_PI/360);
-		    skySizeY=skySizeX*Render::SY/Render::SX;
+		    skySizeY=skySizeX*Render::Frame::SY/Render::Frame::SX;
 		    startXOffset=-(rotation.y*currentLevel.numPixelsPerRev)/360-currentLevel.horizonOffsetX;
 		    startYOffset=polygon.GetTexture()->SizeY()-skySizeY-(rotation.x*currentLevel.numPixelsPerRev)/360-currentLevel.horizonOffsetY;
     		
 		    for(k=0;k<poly2.NumVertices();k++)
 		    {
-			    x=(poly2[k].position.x+Render::SX)/(2*Render::SX);
-			    y=(-poly2[k].position.y+Render::SY)/(2*Render::SY);
+			    x=(poly2[k].position.x+Render::Frame::SX)/(2*Render::Frame::SX);
+			    y=(-poly2[k].position.y+Render::Frame::SY)/(2*Render::Frame::SY);
     						
 			    poly2[k].texture.u=startXOffset+x*skySizeX;
 			    poly2[k].texture.v=startYOffset+y*skySizeY;

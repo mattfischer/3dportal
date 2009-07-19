@@ -4,10 +4,14 @@
 #include "M_Matrix.h"
 #include "M_Vector.h"
 
+#include "JK_Key.h"
+
 #define FOV 71
 
 namespace Render
 {
+    class Model;
+
     struct Frustum {
 	    double x0, x1;
 	    double y0, y1;
@@ -19,25 +23,38 @@ namespace Render
 	    int numPlanes;
     };
 
-    extern int ScreenX, ScreenY;
+    class Frame
+    {
+    public:
+        static int ScreenX, ScreenY;
 
-    extern float SX, SY;
+        static float SX, SY;
 
-    extern Math::Matrix perspectiveMatrix;
-    extern Math::Matrix rotationMatrix;
-    extern Math::Matrix rotationInverseMatrix;
+        static Math::Matrix perspectiveMatrix;
+        static Math::Matrix rotationMatrix;
+        static Math::Matrix rotationInverseMatrix;
 
-    extern Math::Matrix worldviewMatrix;
-    extern Math::Matrix worldviewInverseMatrix;
+        static Math::Matrix worldviewMatrix;
+        static Math::Matrix worldviewInverseMatrix;
 
-    extern Math::Matrix coordConversionMatrix;
-    extern Math::Matrix coordConversionInverseMatrix;
+        static Math::Matrix coordConversionMatrix;
+        static Math::Matrix coordConversionInverseMatrix;
 
-    extern Math::Matrix totalTransformationMatrix;
+        static Math::Matrix totalTransformationMatrix;
 
-    extern Frustum WindowFrustum;
+        static Frustum WindowFrustum;
 
-    void Frame_Render(float time);
+        static void Render(float time);
+
+        static void SetPovModel(Model *model);
+        static Model *PovModel();
+
+        static void PlayPovKey(Jk::Key *key, int flags);
+        static Jk::Key::Track *PovKey();
+
+    private:
+        static void ConstructMatricies();
+    };
 }
 
 extern int globalFlag;

@@ -8,11 +8,11 @@
 namespace Render
 {
     HDC hDC;
-    int OpenGLStarted=0;
+    bool started=false;
 
     HGLRC hRC;
 
-    int OpenGL_Initialize(HWND hWnd)
+    bool OpenGl::Initialize(HWND hWnd)
     {
 	    int pixform;
 
@@ -43,8 +43,8 @@ namespace Render
 
 	    dm.dmSize=sizeof(DEVMODE);
 	    dm.dmFields=DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL;
-	    dm.dmPelsWidth=ScreenX;
-	    dm.dmPelsHeight=ScreenY;
+	    dm.dmPelsWidth=Frame::ScreenX;
+	    dm.dmPelsHeight=Frame::ScreenY;
 	    dm.dmBitsPerPel=16;
 	    ChangeDisplaySettings(&dm,CDS_FULLSCREEN);
 
@@ -53,15 +53,15 @@ namespace Render
 	    if(!SetPixelFormat(hDC,pixform,&pfd)) 
 	    {
 		    MessageBox(NULL,"InitializeOpenGL(): Could not set pixel format","Info",MB_OK);
-		    return 0;
+		    return false;
 	    }
 
 	    hRC=wglCreateContext(hDC);
 	    wglMakeCurrent(hDC,hRC);
-	    glViewport(0,0,ScreenX,ScreenY);
+	    glViewport(0,0,Frame::ScreenX,Frame::ScreenY);
 	    glMatrixMode(GL_PROJECTION);
 	    glLoadIdentity();
-	    gluPerspective(FOV,(GLfloat)ScreenX/(GLfloat)ScreenY,0.03f,400.f);
+	    gluPerspective(FOV,(GLfloat)Frame::ScreenX/(GLfloat)Frame::ScreenY,0.03f,400.f);
 	    glMatrixMode(GL_MODELVIEW);
 	    glLoadIdentity();
 
@@ -82,23 +82,26 @@ namespace Render
 	    glCullFace(GL_BACK);
     	
     	
-	    OpenGLStarted=1;
-	    return 1;
+	    started=true;
+	    return true;
     }
 
-    void OpenGL_Shutdown(HWND hWnd)
+    void OpenGl::Shutdown(HWND hWnd)
     {
-	    OpenGLStarted=0;
+	    started=false;
 	    ChangeDisplaySettings(NULL,0);
 	    wglMakeCurrent(NULL,NULL);
 	    wglDeleteContext(hRC);
 	    ReleaseDC(hWnd,hDC);
     }
 
-    void OpenGL_ViewportSize(int x, int y)
+    bool OpenGl::Started()
     {
-    /*	ScreenX=x;
-	    ScreenY=y;
-	    glViewport(0,0,ScreenX,ScreenY);*/
+        return started;
+    }
+
+    void OpenGl::SwapBuffers()
+    {
+        ::SwapBuffers(hDC);
     }
 }
