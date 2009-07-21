@@ -7,7 +7,11 @@
 
 #include "U_Lowercase.h"
 
+#include <vector>
+
 extern char **textureFilenames;
+
+using std::vector;
 
 namespace Render
 {

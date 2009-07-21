@@ -1,8 +1,6 @@
 #ifndef JK_LEVEL_H
 #define JK_LEVEL_H
 
-#include "W_Sector.h"
-
 #include "U_VectorMap.h"
 
 #include <string>
@@ -49,6 +47,8 @@ namespace Jk
     class Key;
     class Template;
     struct Level {
+        void Load( const string &name );
+
 	    int playerNum;
 
         Util::VectorMap<Render::Texture*> textures;

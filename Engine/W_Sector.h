@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "JK_Level.h"
+
 #include <boost/shared_ptr.hpp>
 
 using boost::shared_ptr;
@@ -25,14 +27,12 @@ namespace Sound
     class Buffer;
 }
 
-void JK_Level_Load( const string& name );
-
 namespace World
 {
     class Thing;
     class Surface;
     class Sector {
-        friend void ::JK_Level_Load( const string& name );
+        friend void Jk::Level::Load( const string& name );
 
     public:
 	    // Sector.cpp

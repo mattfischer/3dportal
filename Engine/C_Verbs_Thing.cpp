@@ -2,6 +2,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include "W_Thing.h"
+#include "W_Sector.h"
 #include "JK_Level.h"
 
 using boost::shared_ptr;

@@ -103,7 +103,9 @@ namespace Render
 	    if( povModel )
 	    {
 		    glLoadIdentity();
-		    glTranslatef( 0, -.04, -.02 );
+            glMultMatrixf(m);
+
+		    glTranslatef( 0, .02, -.04 );
     		
             if( povKeyTrack.key )
             {

@@ -43,6 +43,7 @@ void ShowFramerate(int framerate);
 extern bool updateThings;
 
 extern char levelName[];
+Jk::Level currentLevel;
 
 namespace Game
 {
@@ -60,7 +61,8 @@ namespace Game
     	
         Cog::Script::Setup();
     	
-	    JK_Level_Load( string( levelName ) );
+        currentLevel.Load( string( levelName ) );
+
 	    for( i = 0 ; i < currentLevel.textures.size() ; i++ )
 		    currentLevel.textures[i]->Register( currentLevel.colormaps );
 

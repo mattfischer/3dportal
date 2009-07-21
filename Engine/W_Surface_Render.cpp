@@ -76,7 +76,6 @@ namespace World
 			    poly2[k].texture.u=startXOffset+x*skySizeX;
 			    poly2[k].texture.v=startYOffset+y*skySizeY;
     			
-                //poly2[i].position.y *= -1;
 			    poly2[k].position=poly2[k].position*100;
     			
 		    }

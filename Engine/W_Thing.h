@@ -9,6 +9,7 @@
 #include "JK_Template.h"
 #include "JK_Key.h"
 #include "JK_AnimClass.h"
+#include "JK_Level.h"
 
 #include <vector>
 #include <string>
@@ -34,8 +35,6 @@ namespace Cog
     class Script;
 }
 
-void JK_Level_Load( const string& name );
-
 namespace World
 {
     class Sector;
@@ -50,7 +49,7 @@ namespace World
     {
 	    enum MoveType {MOVE_NONE, MOVE_PATH, MOVE_PHYSICS};
     	
-        friend void ::JK_Level_Load( const string& name );
+        friend void Jk::Level::Load( const string& name );
     public:
 	    enum Type { ACTOR, WEAPON, ITEM, EXPLOSION, COG, GHOST, CORPSE, PLAYER, PARTICLE};
 

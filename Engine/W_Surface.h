@@ -3,6 +3,8 @@
 
 #include "W_Poly.h"
 
+#include "JK_Level.h"
+
 #include <string>
 #include <vector>
 #include <boost/shared_ptr.hpp>
@@ -16,15 +18,13 @@ namespace Cog
     class Script;
 }
 
-void JK_Level_Load( const string& name );
-
 namespace World
 {
     class Thing;
     class Sector;
 
     class Surface {
-        friend void ::JK_Level_Load( const string& name);
+        friend void Jk::Level::Load( const string& name );
 
     public:
 	    Surface();
