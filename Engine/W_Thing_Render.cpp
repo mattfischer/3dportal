@@ -11,8 +11,6 @@
 
 #include "JK_Level.h"
 
-extern shared_ptr<World::Thing> player;
-
 extern bool drawThings;
 
 namespace World
@@ -76,11 +74,11 @@ namespace World
 	    Math::Vector compositeRotation;
 
 	    if( flagValue == globalFlag ) return;
-	    if( player.get() == this) return;
+	    if( currentLevel.player.get() == this) return;
 
 	    if( model && !SphereInFrustum( position, model->GetRadius(), frustum ) ) return;
 
-	    distance2 = ( player->GetPosition() - position ).Magnitude2();
+	    distance2 = ( currentLevel.player->GetPosition() - position ).Magnitude2();
 
 	    compositeRotation = orient + rotation;
     	
@@ -89,9 +87,9 @@ namespace World
 
 	    glPushMatrix();
 
-	    glRotatef( player->GetRotation().y, 0, 0, 1 );
-	    glRotatef( player->GetRotation().x, 1, 0, 0 );
-	    glRotatef( player->GetRotation().z, 0, 1, 0 );
+	    glRotatef( currentLevel.player->GetRotation().y, 0, 0, 1 );
+	    glRotatef( currentLevel.player->GetRotation().x, 1, 0, 0 );
+	    glRotatef( currentLevel.player->GetRotation().z, 0, 1, 0 );
     	
 	    if( sprite )
 		    sprite->Draw( spriteTime * 15 );

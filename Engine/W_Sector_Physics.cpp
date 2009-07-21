@@ -11,8 +11,6 @@
 
 #include "S_Manager.h"
 
-extern shared_ptr<World::Thing> player;
-
 namespace World
 {
     bool Sector::UpdateThingSector( Thing* thing, Math::Vector oldPosition )

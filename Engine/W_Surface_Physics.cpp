@@ -8,7 +8,6 @@
 #include "JK_Flags.h"
 
 extern bool doThingCollisions;
-extern shared_ptr<World::Thing> player;
 
 namespace World
 {
@@ -36,7 +35,7 @@ namespace World
 		    }
 		    else 
 		    {
-			    SendCogMessages( "activated", player->GetNum() );
+			    SendCogMessages( "activated", currentLevel.player->GetNum() );
 			    return true;
 		    }
 	    }

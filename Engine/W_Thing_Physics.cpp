@@ -21,8 +21,6 @@
 extern bool doThingCollisions;
 extern bool updateThings;
 
-extern shared_ptr<World::Thing> player;
-
 namespace World
 {
     void Thing::ApplyThrust(Math::Vector thrust)
@@ -327,7 +325,7 @@ namespace World
 			    newPos=position+point*t;
 			    if(poly.VectorIn(newPos))
 			    {
-				    SendCogMessages("activated", player->GetNum());
+				    SendCogMessages("activated", currentLevel.player->GetNum());
 				    return true;
 			    }
 		    }
@@ -511,14 +509,14 @@ namespace World
 	    for( i = 0 ; i < currentLevel.things.size() ; i++ )
 	    {
 		    thing = currentLevel.things[i];
-		    if( thing && thing->IsPhysicsMove() && ( thing==player || thing->GetFlagValue()==globalFlag-1 || i%currentLevel.things.size() == globalFlag%currentLevel.things.size() ) )
+		    if( thing && thing->IsPhysicsMove() && ( thing==currentLevel.player || thing->GetFlagValue()==globalFlag-1 || i%currentLevel.things.size() == globalFlag%currentLevel.things.size() ) )
 			    thing->UpdateForces( time );
 	    }
 
 	    for( i = 0 ;  i < currentLevel.things.size() ; i++ )
 	    {
 		    thing = currentLevel.things[i];
-		    if( thing && ( thing==player || thing->GetFlagValue()==globalFlag-1 || i%currentLevel.things.size() == globalFlag%currentLevel.things.size() ) )
+		    if( thing && ( thing==currentLevel.player || thing->GetFlagValue()==globalFlag-1 || i%currentLevel.things.size() == globalFlag%currentLevel.things.size() ) )
 			    thing->UpdateFinalize( time );
 	    }
     }

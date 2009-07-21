@@ -70,12 +70,12 @@ namespace Cog
 
     Type_Thing GetLocalPlayerThing()
     {
-	    return currentLevel.playerNum;
+	    return currentLevel.player->GetNum();
     }
 
     Type_Thing jkGetLocalPlayer()
     {
-	    return currentLevel.playerNum;
+	    return currentLevel.player->GetNum();
     }
 
     Type_Void JumpToFrame( Type_Thing thing_num, Type_Int frame, Type_Sector sector_num )

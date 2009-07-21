@@ -14,8 +14,6 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-extern shared_ptr<World::Thing> player;
-
 namespace World
 {
     void Surface::Draw(Math::Vector tint, float light)
@@ -31,8 +29,8 @@ namespace World
 	    if(geo==JK_GEO_NO_DRAW) return;
         if(flag == globalFlag) return;
 
-	    position=player->GetEyePosition();
-	    rotation=player->GetCompositeRotation();
+	    position=currentLevel.player->GetEyePosition();
+	    rotation=currentLevel.player->GetCompositeRotation();
 
         glEnable(GL_CULL_FACE);
 

@@ -21,8 +21,6 @@
 
 #include "U_Lowercase.h"
 
-extern shared_ptr<World::Thing> player;
-
 namespace Jk
 {
     struct Adjoin {
@@ -677,7 +675,6 @@ namespace Jk
 		    if( text == "walkplayer" && !foundWalkplayer )
 		    {		
 			    player = things[i];
-			    playerNum = i;
 			    foundWalkplayer = true;
 		    }
     		

@@ -49,8 +49,6 @@ namespace Jk
     struct Level {
         void Load( const string &name );
 
-	    int playerNum;
-
         Util::VectorMap<Render::Texture*> textures;
         Util::VectorMap<Jk::Colormap*> colormaps;
         Util::VectorMap<Cog::Script*> cogScripts;
@@ -79,6 +77,8 @@ namespace Jk
 	    float horizonOffsetY;
     	
 	    float LODDistances[4];
+
+        boost::shared_ptr<World::Thing> player;
     };
 }
 

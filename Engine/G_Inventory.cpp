@@ -3,6 +3,7 @@
 #include "JK_GOB.h"
 #include "JK_Level.h"
 #include "C_Script.h"
+#include "W_Thing.h"
 
 namespace Game
 {
@@ -48,7 +49,7 @@ namespace Game
     {
         if( Items[bin].cog )
         {
-            Items[bin].cog->Message( "selected", -1, 0, currentLevel.playerNum );
+            Items[bin].cog->Message( "selected", -1, 0, currentLevel.player->GetNum() );
         }
     }
 
@@ -56,7 +57,7 @@ namespace Game
     {
         if( Items[bin].cog )
         {
-            Items[bin].cog->Message( "deselected", -1, 0, currentLevel.playerNum );
+            Items[bin].cog->Message( "deselected", -1, 0, currentLevel.player->GetNum() );
         }
     }
 }

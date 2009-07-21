@@ -11,12 +11,8 @@
 #include <gl/gl.h>
 #include <gl/glu.h>
 
-extern shared_ptr<World::Thing> player;
-
 extern bool updateThings;
 extern bool drawThings;
-
-bool SphereInFrustum( Math::Vector position, float radius, Render::Frustum frustum );
 
 namespace World
 {
@@ -37,7 +33,7 @@ namespace World
 		    if( ignore != NULL && surfaces[i] == ignore ) continue;
     	
 		    plane = surfaces[i]->GetPoly().GetPlane();
-		    if( (plane.point - player->GetEyePosition() ) * plane.normal > 0) continue;
+		    if( (plane.point - currentLevel.player->GetEyePosition() ) * plane.normal > 0) continue;
 
 		    if( surfaces[i]->Adjoined() )
 		    {

@@ -22,9 +22,6 @@
 
 #include "S_Manager.h"
 
-shared_ptr<World::Thing> player;
-extern Render::Model *povModel;
-
 #define NUMAVERAGEFRAMES 1
 float lastFrameTimes[NUMAVERAGEFRAMES];
 int lastFrameTimeIndex=0;

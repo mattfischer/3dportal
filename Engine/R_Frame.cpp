@@ -14,7 +14,6 @@
 
 #include "U_Matrix.h"
 
-extern shared_ptr<World::Thing> player;
 int globalFlag=0;
 
 namespace Render
@@ -46,8 +45,8 @@ namespace Render
     {
 	    Math::Vector position, rotation;
 
-	    position=player->GetEyePosition();
-	    rotation=player->GetCompositeRotation();
+	    position=currentLevel.player->GetEyePosition();
+	    rotation=currentLevel.player->GetCompositeRotation();
 
         Math::Matrix m = Util::Matrix::Translate(-position);
 	    Math::Matrix m2 = Util::Matrix::RotateZ(-rotation.y);
@@ -70,8 +69,8 @@ namespace Render
     {
 	    Math::Vector position, rotation;
         
-	    position=player->GetEyePosition();
-	    rotation=player->GetCompositeRotation();
+	    position=currentLevel.player->GetEyePosition();
+	    rotation=currentLevel.player->GetCompositeRotation();
 
 	    glMatrixMode(GL_MODELVIEW);
 	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -98,7 +97,7 @@ namespace Render
 	    WindowFrustum.x00d=WindowFrustum.x01d=WindowFrustum.x0;
 	    WindowFrustum.x10d=WindowFrustum.x11d=WindowFrustum.x1;
     	
-	    player->GetSector()->Draw(WindowFrustum,NULL);
+	    currentLevel.player->GetSector()->Draw(WindowFrustum,NULL);
 
 	    if( povModel )
 	    {

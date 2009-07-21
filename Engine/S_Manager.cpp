@@ -17,8 +17,6 @@
 
 #include <boost/weak_ptr.hpp>
 
-extern shared_ptr<World::Thing> player;
-
 namespace Sound
 {
     enum PlayType { PLAY_LOCAL, PLAY_THING, PLAY_POS };
@@ -64,7 +62,7 @@ namespace Sound
 	    unsigned int i;
 
 	    EnterCriticalSection( &critSec );
-	    player->GetSector()->PlaySectorSound();
+	    currentLevel.player->GetSector()->PlaySectorSound();
 
 	    for( i = 0 ; i < items.size() ; i++ )
 	    {
@@ -72,7 +70,7 @@ namespace Sound
 		    {
 		    case PLAY_THING:
 		    case PLAY_POS:
-			    distance = items[i]->position - player->GetPosition();
+			    distance = items[i]->position - currentLevel.player->GetPosition();
 			    magnitude = distance.Magnitude();
 			    if( magnitude < items[i]->minDist ) volume = 1;
 			    else if( magnitude > items[i]->maxDist ) volume = 0;
@@ -80,7 +78,7 @@ namespace Sound
 
 			    items[i]->track->SetVolume( volume * items[i]->volume);
 
-			    direction = Math::Vector( cos( player->GetCompositeRotation().y * M_PI / 180 ) , sin( player->GetCompositeRotation().y * M_PI / 180 ), 0 );
+			    direction = Math::Vector( cos( currentLevel.player->GetCompositeRotation().y * M_PI / 180 ) , sin( currentLevel.player->GetCompositeRotation().y * M_PI / 180 ), 0 );
 			    distance.Normalize();
 			    items[i]->track->SetPan( distance * direction * .8 * ( 1 - volume ) );
     			

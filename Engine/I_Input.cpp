@@ -18,8 +18,6 @@
 #include <math.h>
 #include <Dinput.h>
 
-extern shared_ptr<World::Thing> player;
-
 #define KEY_DOWN(i) ((GetAsyncKeyState(i) & 0x8000) ? 1 : 0)
 #define KEY_UP(i) ((GetAsyncKeyState(i) & 0x8000) ? 0 : 1)
 
@@ -92,14 +90,14 @@ namespace Input
 
 	    if(KEY_DOWN(VK_RBUTTON)) //thrust+=Math::Vector(0, 0, 6);
 		    //position.z+=stepsize*time;
-		    player->Jump();
+		    currentLevel.player->Jump();
 
 	    if(KEY_DOWN(VK_LBUTTON))
 	    {
  		    if(GetTickCount() > controlTimer + 500)
 		    {
 			    if(curWeapon != -1)
-                    Game::Items[curWeapon].cog->Message("fire", 0, 0, player->GetNum());
+                    Game::Items[curWeapon].cog->Message("fire", 0, 0, currentLevel.player->GetNum());
 			    controlTimer = GetTickCount();
 		    }
 	    }
@@ -109,7 +107,7 @@ namespace Input
            
     //	GetCursorPos(&cursorPoint);
 
-	    rotation=player->GetRotation();
+	    rotation=currentLevel.player->GetRotation();
 
 	    x=-diMouseState.lY*mouseAnglesize*time;
 	    y=-diMouseState.lX*mouseAnglesize*time;
@@ -138,7 +136,7 @@ namespace Input
 	    if(rotation.y>360) rotation.y-=360;
 	    if(rotation.y<0) rotation.y+=360;
 
-	    player->SetRotation(rotation);
+	    currentLevel.player->SetRotation(rotation);
 	    SetCursorPos(Render::Frame::ScreenX/2, Render::Frame::ScreenY/2);
     }
 
@@ -153,8 +151,8 @@ namespace Input
 	    static bool activateDown = false;
 	    int i;
 
-	    position = player->GetPosition();
-	    rotation = player->GetCompositeRotation();
+	    position = currentLevel.player->GetPosition();
+	    rotation = currentLevel.player->GetCompositeRotation();
 
 	    angleSin = sin( rotation.y * M_PI / 180 );
 	    angleCos = cos( rotation.y * M_PI / 180 );
@@ -164,7 +162,7 @@ namespace Input
 	    if( KEY_DOWN( VK_RIGHT ) ) 
 	    {
 		    thrust += Math::Vector( angleCos, angleSin, 0 );
-		    thrust = thrust * player->GetMaxThrust() * .75;
+		    thrust = thrust * currentLevel.player->GetMaxThrust() * .75;
 		    //position.x+=cos(rotation.y*3.14/180)*stepsize*time;
 		    //position.y+=sin(rotation.y*3.14/180)*stepsize*time;
 	    }
@@ -172,7 +170,7 @@ namespace Input
 	    if( KEY_DOWN( VK_LEFT ) )
 	    { 
 		    thrust += Math::Vector( -angleCos, -angleSin, 0 ); 
-		    thrust = thrust * player->GetMaxThrust() * .75;
+		    thrust = thrust * currentLevel.player->GetMaxThrust() * .75;
 		    //position.x-=cos(rotation.y*3.14/180)*stepsize*time;
 		    //position.y-=sin(rotation.y*3.14/180)*stepsize*time;
 	    }
@@ -180,7 +178,7 @@ namespace Input
 	    if( KEY_DOWN( VK_UP ) )
 	    {
 		    thrust += Math::Vector( -angleSin, angleCos, 0 );
-		    thrust = thrust * player->GetMaxThrust();
+		    thrust = thrust * currentLevel.player->GetMaxThrust();
 		    //position.x-=sin(rotation.y*3.14/180)*stepsize*time;
 		    //position.y+=cos(rotation.y*3.14/180)*stepsize*time;
 	    }
@@ -188,13 +186,13 @@ namespace Input
 	    if( KEY_DOWN( VK_DOWN ) )
 	    {
 		    thrust += Math::Vector( angleSin, -angleCos, 0 );
-		    thrust = thrust * player->GetMaxThrust() * .5;
+		    thrust = thrust * currentLevel.player->GetMaxThrust() * .5;
 		    //position.x+=sin(rotation.y*3.14/180)*stepsize*time;
 		    //position.y-=cos(rotation.y*3.14/180)*stepsize*time;
 	    }
     	
-	    if( KEY_DOWN( 'C' ) ) player->SetCrouched( true );
-	    else			      player->SetCrouched( false );
+	    if( KEY_DOWN( 'C' ) ) currentLevel.player->SetCrouched( true );
+	    else			      currentLevel.player->SetCrouched( false );
 
 	    if( KEY_DOWN( 'T' ) ) doThingCollisions = false;
 	    else			      doThingCollisions = true;
@@ -221,9 +219,9 @@ namespace Input
 		    if( KEY_DOWN( VK_F2 ) ) 
 		    {
 			    for( i = 1 ; i < currentLevel.things.size() ; i++ )
-				    if( currentLevel.things[( i + player->GetNum() ) % currentLevel.things.size()]->GetTemplate()->GetName() == "walkplayer" )
+				    if( currentLevel.things[( i + currentLevel.player->GetNum() ) % currentLevel.things.size()]->GetTemplate()->GetName() == "walkplayer" )
 				    {
-					    player = currentLevel.things[( i+player->GetNum() ) % currentLevel.things.size()];
+					    currentLevel.player = currentLevel.things[( i+currentLevel.player->GetNum() ) % currentLevel.things.size()];
 					    break;
 				    }
 			    controlTimer = GetTickCount();
@@ -231,9 +229,9 @@ namespace Input
 		    if( KEY_DOWN( VK_F1 ) ) 
 		    {
 			    for( i = currentLevel.things.size() - 2 ; i >=0 ; i-- )
-				    if( currentLevel.things[( i + player->GetNum() ) % currentLevel.things.size()]->GetTemplate()->GetName() == "walkplayer" )
+				    if( currentLevel.things[( i + currentLevel.player->GetNum() ) % currentLevel.things.size()]->GetTemplate()->GetName() == "walkplayer" )
 				    {
-					    player = currentLevel.things[( i + player->GetNum() ) % currentLevel.things.size()];
+					    currentLevel.player = currentLevel.things[( i + currentLevel.player->GetNum() ) % currentLevel.things.size()];
 					    break;
 				    }
 			    controlTimer = GetTickCount();
@@ -268,7 +266,7 @@ namespace Input
 		    if( !activateDown )
 		    {
 			    activateDown = true;
-			    player->Activate();
+			    currentLevel.player->Activate();
 		    }
 	    }
 	    if( KEY_UP( VK_SPACE ) ) activateDown = false;
@@ -284,7 +282,7 @@ namespace Input
 		    player->ApplyThrust(thrust);
 	    }*/
     	
-	    player->ApplyThrust( thrust );
+	    currentLevel.player->ApplyThrust( thrust );
 
 	    /*if(KEY_DOWN('Q')) glEnable(GL_TEXTURE_2D);
 	    if(KEY_DOWN('W')) glDisable(GL_TEXTURE_2D);

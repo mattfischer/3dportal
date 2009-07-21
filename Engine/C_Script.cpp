@@ -27,8 +27,6 @@
 
 #include "U_Lowercase.h"
 
-extern shared_ptr<World::Thing> player;
-
 namespace Cog
 {
     #ifndef SAFECOGSINTERNAL
@@ -454,7 +452,7 @@ namespace Cog
 
 	    if( !safe ) return;
     	
-	    if( source != -1 && source != player->GetNum() ) return;
+	    if( source != -1 && source != currentLevel.player->GetNum() ) return;
 
 	    if( message == "activated" ) activatedHack = true;
 	    else activatedHack = false;
