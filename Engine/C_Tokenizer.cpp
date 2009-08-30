@@ -1,8 +1,19 @@
 #include <string>
 
 #include "M_Vector.h"
-
+#include "U_Lowercase.h"
 #include "C_Tokenizer.h"
+
+extern "C" {
+    int yylex();
+    void yy_scan_string ( const char *str );
+    char *stringval;
+    int intval;
+    float floatval;
+    float vecx;
+    float vecy;
+    float vecz;
+}
 
 namespace Cog
 {
@@ -15,7 +26,7 @@ namespace Cog
 	    p = 0;
 	    eof = false;
 	    lineNum = 1;
-	    data = source;
+        data = Util::Lowercase(source);
 
 	    for( i = 0 ; i < numTerminals ; i++ )
 	    {
@@ -28,6 +39,8 @@ namespace Cog
 		    if( terminals[i].name == "<vector>" )  vectorIndex = terminals[i].index;
 		    if( terminals[i].name == "<string>" )  stringIndex = terminals[i].index;
 	    }
+
+        yy_scan_string( data.c_str() );
     }
 
     Token Tokenizer::NextToken(bool stringHack, bool stringHack2)
@@ -43,9 +56,9 @@ namespace Cog
 	    bool notNumber;
 	    char buffer[100];
 	    Math::Vector newVector;
-
-	    if(lineNum==490)
-		    repeat=true;
+     
+        int token = yylex();
+        Token lexToken;
 
 	    repeat=true;
 	    while(repeat)
@@ -218,6 +231,67 @@ namespace Cog
 	    }
     	
 	    newToken.line=lineNum;
+
+        switch(token)
+        {
+        case 0:
+            lexToken.type=hexIndex;
+		    lexToken.lexData=new int;
+		    *(int*)lexToken.lexData=intval;
+            break;
+
+        case 1:
+            lexToken.type=vectorIndex;
+		    lexToken.lexData=new Math::Vector(vecx, vecy, vecz);
+            break;
+
+        case 2:
+            lexToken.type=stringIndex;
+			lexToken.lexData=new char[strlen(stringval) - 1];
+			strcpy((char*)lexToken.lexData, stringval+1);
+            ((char*)lexToken.lexData)[strlen((char*)lexToken.lexData)] = '\0';
+            break;
+
+        case 3:
+            lexToken.type=floatIndex;
+		    lexToken.lexData=(void*)new float;
+		    *((float*)lexToken.lexData)=floatval;
+            break;
+
+        case 4:
+            lexToken.type=intIndex;
+		    lexToken.lexData=(void*)new int;
+		    *((int*)lexToken.lexData)=intval;
+            break;
+
+        case 5:
+        case 6:
+            for(j=0;j<numTerminals;j++)
+		    {
+                if(terminals[j].name == stringval)
+			    {
+				    lexToken.type=terminals[j].index;
+                    break;
+			    }
+		    }
+            break;
+
+        case 7:
+		    lexToken.type=idIndex;
+		    lexToken.lexData=new char[strlen(stringval)+1];
+		    strcpy((char*)lexToken.lexData, stringval);
+            break;
+        }
+
+        if(newToken.type != lexToken.type ||
+           newToken.type == hexIndex && *(int*)newToken.lexData != *(int*)lexToken.lexData ||
+           newToken.type == intIndex && *(int*)newToken.lexData != *(int*)lexToken.lexData ||
+           newToken.type == floatIndex && *(float*)newToken.lexData != *(float*)lexToken.lexData ||
+           newToken.type == stringIndex && (strcmp((char*)newToken.lexData, (char*)lexToken.lexData) != 0) ||
+           newToken.type == idIndex && (strcmp((char*)newToken.lexData, (char*)lexToken.lexData) != 0))
+        {
+            int error = 0;
+        }
 
 	    return newToken;
     }

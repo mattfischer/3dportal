@@ -12,6 +12,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<ToolFile
+			RelativePath="..\flex.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -25,6 +28,9 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Flex"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -92,6 +98,9 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Flex"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -235,6 +244,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\cog.l"
+				>
+			</File>
+			<File
 				RelativePath=".\G_Console.cpp"
 				>
 			</File>
@@ -280,6 +293,10 @@
 			</File>
 			<File
 				RelativePath=".\JK_Template.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\lex.yy.c"
 				>
 			</File>
 			<File
