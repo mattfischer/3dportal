@@ -11,6 +11,7 @@ char *stringval;
 float vecx;
 float vecy;
 float vecz;
+int linenum;
 
 void parseVector(char *, float*, float*, float*);
 %}
@@ -22,9 +23,11 @@ NUMBER ({FLOAT}|{INT})
 VECTOR \'-?{NUMBER}\ -?{NUMBER}\ -?{NUMBER}\'
 STRING \"[^\"]*\"
 %%
-#.*\r\n 
-\/\/.*\r\n
+#.* 
+\/\/.*
 [[:blank:]] 
+
+\r\n linenum++;
 
 {HEX} intval = parseHex(yytext); return 0;
 {VECTOR} parseVector(yytext, &vecx, &vecy, &vecz); return 1;
@@ -46,7 +49,7 @@ end BEGIN(INITIAL); stringval = yytext; return 6;
 
 [[:alnum:]_\.]+ stringval = yytext; return 7;
 
-<<EOF>> return 7;
+<<EOF>> return 8;
 
 %%
 

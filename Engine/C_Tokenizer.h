@@ -38,7 +38,6 @@ namespace Cog
 	    int endIndex;
 	    int floatIndex;
 	    int intIndex;
-	    int messageIndex;
 	    int hexIndex;
 	    int vectorIndex;
 	    int stringIndex;
