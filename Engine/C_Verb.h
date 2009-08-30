@@ -78,6 +78,7 @@ namespace Cog
     Type_Thing CreateThing( Type_Template template_num, Type_Thing position_num );
     Type_Void CaptureThing( Type_Thing thing_num, Script* script );
     Type_Vector GetThingLVec( Type_Thing thing_num );
+    Type_Cog GetThingClassCog( Type_Thing thing_num );
 
     /* -------- C_Verbs_Weapon.cpp -------- */
     Type_Int GetAutoReload();

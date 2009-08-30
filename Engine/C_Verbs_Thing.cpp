@@ -138,4 +138,9 @@ namespace Cog
 
 	    return vec;
     }
+
+    Type_Cog GetThingClassCog( Type_Thing thing_num )
+    {
+        return 0; // ****
+    }
 }
