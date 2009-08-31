@@ -14,7 +14,7 @@ namespace Cog
 	    int i;
 	    char buffer[100];
 
-	    if( !strcmp( (char*)node->lexData, "sendmessage" ) ) return; // ****
+	    if( !strcmp( node->lexData.stringVal, "sendmessage" ) ) return; // ****
     			
 	    for( i = node->numChildren - 1 ; i >= 0 ; i-- )
 		    ExecuteExpression( node->children[i], c );

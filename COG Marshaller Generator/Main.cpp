@@ -96,7 +96,7 @@ void OutputMarshallers( const std::string& filename, vector<FunctionInfo>& funct
 		functionName = functions[i].name;
 		transform( functionName.begin(), functionName.end(), functionName.begin(), tolower );
 
-		outputFile << "if( !strcmp( (char*)node->lexData, \"" << functionName << "\" ) )" << endl;
+		outputFile << "if( !strcmp( node->lexData.stringVal, \"" << functionName << "\" ) )" << endl;
 		outputFile << "{" << endl;
 		for( j=0; j<functions[i].parameterTypes.size(); j++ )
 		{

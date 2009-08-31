@@ -47,38 +47,34 @@ namespace Cog
         int token = yylex();
 
 	    newToken.line=lineNum;
-        newToken.lexData = NULL;
 
         switch(token)
         {
         case 0:
             newToken.type=hexIndex;
-		    newToken.lexData=new int;
-		    *(int*)newToken.lexData=intval;
+		    newToken.lexData.intVal=intval;
             break;
 
         case 1:
             newToken.type=vectorIndex;
-		    newToken.lexData=new Math::Vector(vecx, vecy, vecz);
+		    newToken.lexData.vectorVal = new Math::Vector(vecx, vecy, vecz);
             break;
 
         case 2:
             newToken.type=stringIndex;
-			newToken.lexData=new char[strlen(stringval) - 1];
-			strcpy((char*)newToken.lexData, stringval+1);
-            ((char*)newToken.lexData)[strlen((char*)newToken.lexData)] = '\0';
+			newToken.lexData.stringVal=new char[strlen(stringval) - 1];
+			strcpy(newToken.lexData.stringVal, stringval+1);
+            newToken.lexData.stringVal[strlen(newToken.lexData.stringVal)] = '\0';
             break;
 
         case 3:
             newToken.type=floatIndex;
-		    newToken.lexData=(void*)new float;
-		    *((float*)newToken.lexData)=floatval;
+		    newToken.lexData.floatVal=floatval;
             break;
 
         case 4:
             newToken.type=intIndex;
-		    newToken.lexData=(void*)new int;
-		    *((int*)newToken.lexData)=intval;
+		    newToken.lexData.intVal=intval;
             break;
 
         case 5:
@@ -95,8 +91,8 @@ namespace Cog
 
         case 7:
 		    newToken.type=idIndex;
-		    newToken.lexData=new char[strlen(stringval)+1];
-		    strcpy((char*)newToken.lexData, stringval);
+		    newToken.lexData.stringVal=new char[strlen(stringval)+1];
+		    strcpy(newToken.lexData.stringVal, stringval);
             break;
 
         case 8:

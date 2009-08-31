@@ -40,13 +40,13 @@ newToken.astnode->lexData=input[0].lexData;
 
 %Name: flags
 newToken.astnode=NewNode(NODE_NAME, 0);
-newToken.astnode->lexData=new char[6];
-strcpy((char*)newToken.astnode->lexData, "flags");
+newToken.astnode->lexData.stringVal=new char[6];
+strcpy(newToken.astnode->lexData.stringVal, "flags");
 
 %Name: flags = Literal
 newToken.astnode=NewNode(NODE_NAME_INIT, 1, input[2].astnode);
-newToken.astnode->lexData=new char[6];
-strcpy((char*)newToken.astnode->lexData, "flags");
+newToken.astnode->lexData.stringVal=new char[6];
+strcpy(newToken.astnode->lexData.stringVal, "flags");
 
 
 %SymbolUseList: SymbolUse
@@ -114,8 +114,8 @@ newToken.astnode->lexData=input[0].lexData;
 
 %Statement: flags = Expression ;
 newToken.astnode=NewNode(NODE_STATEMENT_ASSIGN, 1, input[2].astnode);
-newToken.astnode->lexData=new char[6];
-strcpy((char*)newToken.astnode->lexData, "flags");
+newToken.astnode->lexData.stringVal=new char[6];
+strcpy(newToken.astnode->lexData.stringVal, "flags");
 
 %Statement: { }
 newToken.astnode=NewNode(NODE_STATEMENT_EMPTY, 0);
@@ -280,8 +280,8 @@ newToken.astnode->lexData=input[0].lexData;
 
 %Literal: flags
 newToken.astnode=NewNode(NODE_ID, 0);
-newToken.astnode->lexData=new char[6];
-strcpy((char*)newToken.astnode->lexData, "flags");
+newToken.astnode->lexData.stringVal=new char[6];
+strcpy(newToken.astnode->lexData.stringVal, "flags");
 
 %Literal: <int>
 newToken.astnode=NewNode(NODE_INT, 0);

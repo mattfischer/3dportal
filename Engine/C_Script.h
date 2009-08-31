@@ -3,6 +3,7 @@
 
 #include "C_AST.h"
 #include "C_Stack.h"
+#include "M_Vector.h"
 
 #include <windows.h>
 
@@ -31,7 +32,11 @@ namespace Cog
     {
 	    SymbolType type;
 	    string name;
-	    void *data;
+        union {
+            int intVal;
+            float floatVal;
+            Math::Vector *vectorVal;
+        } data;
 	    bool local;
 	    bool noLink;
 	    int mask;

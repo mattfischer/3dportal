@@ -36,7 +36,7 @@ namespace Cog
 	    found = false;
 
 	    for( i = 0 ; i < ( (Script*)object )->symbols.size() ; i++ )
-		    if( ( (Script*)object )->symbols[i].type == c.senderType && *(int*)( (Script*)object )->symbols[i].data == c.sender )
+		    if( ( (Script*)object )->symbols[i].type == c.senderType && ( (Script*)object )->symbols[i].data.intVal == c.sender )
 		    {
 			    c.senderId = ( (Script*)object )->symbols[i].linkId;
 			    found = true;
@@ -71,7 +71,7 @@ namespace Cog
 
 	    case NODE_STATEMENT_CALL: 
 		    for( i = 0 ; i < messages.size() ; i++ )
-			    if( messages[i].name == (char*)node->lexData )
+			    if( messages[i].name == node->lexData.stringVal )
 				    ExecuteStatements( messages[i].statementStart, c );
 		    return false;
 
@@ -141,10 +141,10 @@ namespace Cog
 	    case NODE_EXPRESSION_ASSIGN:
 		    ExecuteExpression( node->children[0], c );
 		    for( i = 0 ; i < symbols.size() ; i++ )
-			    if( !strcmpi( symbols[i].name.c_str(), (char*)node->lexData ) )
+			    if( !strcmpi( symbols[i].name.c_str(), node->lexData.stringVal ) )
 			    {
 				    Cast( node->children[0]->type, symbols[i].type, c );
-				    c.stack.Pop( symbols[i].data, TypeSize( symbols[i].type ) );
+				    c.stack.Pop( &symbols[i].data, TypeSize( symbols[i].type ) );
 				    break;
 			    }
 		    break;
@@ -154,10 +154,10 @@ namespace Cog
 		    ExecuteExpression( node->children[0], c );
 		    index = c.stack.PopInt();
 		    for( i = 0 ; i < symbols.size() ; i++ )
-			    if( symbols[i].name == (char*)node->lexData )
+			    if( symbols[i].name == node->lexData.stringVal )
 			    {
 				    Cast( node->children[0]->type, symbols[i+index].type, c );
-				    c.stack.Pop( symbols[i].data, TypeSize( symbols[i+index].type ) );
+				    c.stack.Pop( &symbols[i].data, TypeSize( symbols[i+index].type ) );
 				    break;
 			    }
 		    break;
@@ -320,10 +320,10 @@ namespace Cog
 		    index = c.stack.PopInt();
 
 		    for( i = 0 ; i < symbols.size() ; i++ )
-			    if( symbols[i].name == (char*)node->lexData )
+			    if( symbols[i].name == node->lexData.stringVal )
 			    {
 				    node->type = symbols[i+index].type;
-				    c.stack.Push( symbols[i+index].data, TypeSize( symbols[i+index].type ) );
+				    c.stack.Push( &symbols[i+index].data, TypeSize( symbols[i+index].type ) );
 				    break;
 			    }
 		    break;
@@ -366,29 +366,29 @@ namespace Cog
 
 	    case NODE_ID:
 		    for( i = 0 ; i < symbols.size() ; i++ )
-			    if( !strcmpi( symbols[i].name.c_str(), (char*)node->lexData ) )
+			    if( !strcmpi( symbols[i].name.c_str(), node->lexData.stringVal ) )
 			    {
 				    node->type = symbols[i].type;
-				    c.stack.Push( symbols[i].data, TypeSize( symbols[i].type ) );
+				    c.stack.Push( &symbols[i].data, TypeSize( symbols[i].type ) );
 				    break;
 			    }
 		    break;
 
 	    case NODE_INT:
 	    case NODE_HEX:
-		    xi = *(int*)node->lexData;
+		    xi = node->lexData.intVal;
 		    node->type = TYPE_INT;
 		    c.stack.PushInt( xi );
 		    break;
 
 	    case NODE_FLOAT:
-		    xf = *(float*)node->lexData;
+		    xf = node->lexData.floatVal;
 		    node->type = TYPE_FLOAT;
 		    c.stack.PushFloat( xf );
 		    break;
 
 	    case NODE_VECTOR:
-		    xv = *(Math::Vector*)node->lexData;
+		    xv = *node->lexData.vectorVal;
 		    node->type = TYPE_VECTOR;
 		    c.stack.PushVector( xv );
 		    break;

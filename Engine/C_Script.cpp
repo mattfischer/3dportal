@@ -118,7 +118,7 @@ namespace Cog
 
 		    root = ParseString( t, filename );
 		    if( root->nodeType == NODE_COG_FLAGS )
-			    flags = *(int*)root->lexData;
+			    flags = root->lexData.intVal;
 		    else
 			    flags = 0;
 
@@ -144,7 +144,7 @@ namespace Cog
 		    if( symbols[i].local ) continue;
 		    if( symbols[i].noLink ) continue;
 
-		    index = *(int*)symbols[i].data;
+		    index = symbols[i].data.intVal;
 		    if( index == -1 ) continue;
 		    switch( symbols[i].type )
 		    {
@@ -178,8 +178,7 @@ namespace Cog
 		    symbols.push_back( Symbol() );
 		    symbols[i] = c.symbols[i];
 		    if( symbols[i].type == TYPE_MESSAGE ) continue;
-		    symbols[i].data = new char[TypeSize( symbols[i].type )];
-		    memcpy( symbols[i].data, c.symbols[i].data, TypeSize( symbols[i].type ) );
+            symbols[i].data = c.symbols[i].data;
 	    }
 
 	    messages = c.messages;
@@ -221,7 +220,7 @@ namespace Cog
 		    {
 		    case TYPE_FLEX: 
 		    case TYPE_FLOAT:
-			    *(float*)symbols[symbol].data = atof(s.substr( i, j - i ).c_str() );
+			    symbols[symbol].data.floatVal = atof(s.substr( i, j - i ).c_str() );
 			    break;
     		
 		    case TYPE_AI: 
@@ -229,26 +228,26 @@ namespace Cog
 		    case TYPE_KEYFRAME: 
 		    case TYPE_MATERIAL:
 		    case TYPE_MODEL: 
-			    *(int*) symbols[symbol].data = 0;
+			    symbols[symbol].data.intVal = 0;
 			    break;
 
 		    case TYPE_TEMPLATE:
-			    *(int*)symbols[symbol].data = currentLevel.templates.index( s.substr( i, j - i ) );
+			    symbols[symbol].data.intVal = currentLevel.templates.index( s.substr( i, j - i ) );
 			    break;
 
 		    case TYPE_SOUND: 
-			    *(int*)symbols[symbol].data = currentLevel.sounds.index( s.substr( i, j - i ) );
+			    symbols[symbol].data.intVal = currentLevel.sounds.index( s.substr( i, j - i ) );
 			    break;
 
 		    case TYPE_INT: 
 		    case TYPE_SECTOR: 
 		    case TYPE_SURFACE:
 		    case TYPE_THING: 
-			    *(int*)symbols[symbol].data = atoi( s.substr( i, j - i ).c_str() ); 
+			    symbols[symbol].data.intVal = atoi( s.substr( i, j - i ).c_str() ); 
 			    break;
 
 		    case TYPE_VECTOR: 
-			    *(Math::Vector*)symbols[symbol].data = ParseVector( s.substr( i, j - i ) );
+                symbols[symbol].data.vectorVal = new Math::Vector( ParseVector( s.substr( i, j - i ) ) );
 			    break;
 		    }
 		    i = j+1;
@@ -266,7 +265,7 @@ namespace Cog
 	    {
 		    symbols.push_back( Symbol() );	
 		    node = symbolsNode->children[i];
-		    name = (char*)node->lexData;
+		    name = node->lexData.stringVal;
 
 		    if( name == "ai" )       symbols[i].type = TYPE_AI; 
 		    if( name == "cog" )      symbols[i].type = TYPE_COG;
@@ -284,14 +283,13 @@ namespace Cog
 		    if( name == "thing" )    symbols[i].type = TYPE_THING; 
 		    if( name == "vector" )   symbols[i].type = TYPE_VECTOR;
 
-		    symbols[i].name = (char*)node->children[0]->lexData;
+		    symbols[i].name = node->children[0]->lexData.stringVal;
 
 		    switch( symbols[i].type )
 		    {
 		    case TYPE_FLEX: 
 		    case TYPE_FLOAT:
-			    symbols[i].data = new float; 
-			    *(float*)symbols[i].data = 0;
+			    symbols[i].data.floatVal = 0;
 			    break;
     		
 		    case TYPE_AI: 
@@ -306,13 +304,11 @@ namespace Cog
 		    case TYPE_TEMPLATE:
 		    case TYPE_THING: 
 		    case TYPE_MESSAGE:
-			    symbols[i].data = new int; 
-			    *(int*)symbols[i].data = 0;
+			    symbols[i].data.intVal = 0;
 			    break;
 
 		    case TYPE_VECTOR: 
-			    symbols[i].data = new Math::Vector; 
-			    *(Math::Vector*)symbols[i].data = Math::Vector( 0, 0, 0 );
+                symbols[i].data.vectorVal = new Math::Vector( 0, 0, 0 );
 			    break;
 		    }
     		
@@ -329,8 +325,8 @@ namespace Cog
 				    {
 				    case NODE_SYMBOL_USE_LOCAL: symbols[i].local = true; break;
 				    case NODE_SYMBOL_USE_NOLINK: symbols[i].noLink = true; break;
-				    case NODE_SYMBOL_USE_LINKID: symbols[i].linkId = *(int*)node->children[1]->children[j]->children[0]->lexData; break;
-				    case NODE_SYMBOL_USE_MASK: symbols[i].mask = *(int*)node->children[1]->children[j]->children[0]->lexData; break;
+				    case NODE_SYMBOL_USE_LINKID: symbols[i].linkId = node->children[1]->children[j]->children[0]->lexData.intVal; break;
+				    case NODE_SYMBOL_USE_MASK: symbols[i].mask = node->children[1]->children[j]->children[0]->lexData.intVal; break;
 				    }
 			    }
 		    }
@@ -344,18 +340,19 @@ namespace Cog
 			    case TYPE_FLOAT:
 				    if( node->children[0]->nodeType == NODE_INT )
 				    {
-					    x = *(int*)node->children[0]->lexData;
-					    *(float*)symbols[i].data = x;
+					    symbols[i].data.floatVal = node->children[0]->lexData.intVal;
 				    }
 				    else if( node->children[0]->nodeType == NODE_FLOAT )
-					    memcpy( symbols[i].data, node->children[0]->lexData, TypeSize( symbols[i].type ) );
+                    {
+                        symbols[i].data.floatVal = node->children[0]->lexData.floatVal;
+                    }
 				    break;
 			    case TYPE_INT: 
 			    case TYPE_SECTOR: 
 			    case TYPE_SURFACE:
 			    case TYPE_THING: 
 			    case TYPE_MESSAGE:
-				    memcpy( symbols[i].data, node->children[0]->lexData, TypeSize( symbols[i].type ) );
+                    symbols[i].data.intVal = node->children[0]->lexData.intVal;
 				    break;
 			    case TYPE_AI: 
 			    case TYPE_COG: 
@@ -364,45 +361,45 @@ namespace Cog
 
 			    case TYPE_KEYFRAME: 
                     {
-                        string filename = Util::Lowercase( (char*)node->children[0]->lexData );
+                        string filename = Util::Lowercase( node->children[0]->lexData.stringVal );
                         int index = currentLevel.keyframes.index( filename );
                         if( index == -1 )
                         {
                             currentLevel.keyframes.push_back( new Jk::Key( filename ), filename );
                             index = currentLevel.keyframes.index( filename );
                         }
-				        *(int*)symbols[i].data = index;
+				        symbols[i].data.intVal = index;
                     }
                     break;
 
 			    case TYPE_MODEL: 
                     {
-                        string filename = Util::Lowercase( (char*)node->children[0]->lexData );
+                        string filename = Util::Lowercase( node->children[0]->lexData.stringVal );
                         int index = currentLevel.models.index( filename );
                         if( index == -1 )
                         {
                             currentLevel.models.push_back( new Render::Model( filename ), filename );
                             index = currentLevel.models.index( filename );
                         }
-				        *(int*)symbols[i].data = index;
+				        symbols[i].data.intVal = index;
                     }
 				    break;
 
 			    case TYPE_SOUND: 
                     {
-                        string filename = Util::Lowercase( (char*)node->children[0]->lexData );
+                        string filename = Util::Lowercase( node->children[0]->lexData.stringVal );
                         int index = currentLevel.sounds.index( filename );
                         if( index == -1 )
                         {
                             currentLevel.sounds.push_back( new Sound::Buffer( filename ), filename );
                             index = currentLevel.sounds.index( filename );
                         }
-				        *(int*)symbols[i].data = index;
+				        symbols[i].data.intVal = index;
                     }
 				    break;
 
 			    case TYPE_TEMPLATE:
-				    *(int*)symbols[i].data = currentLevel.templates.index( (char*)node->children[0]->lexData );
+				    symbols[i].data.intVal = currentLevel.templates.index( node->children[0]->lexData.stringVal );
 				    break;
 
 			    case TYPE_VECTOR: 
@@ -423,7 +420,7 @@ namespace Cog
 		    node = code->children[i];
 		    if( node->nodeType != NODE_STATEMENT_LABEL ) continue;
 
-		    newMessage.name = (char*)node->lexData;
+		    newMessage.name = node->lexData.stringVal;
 		    newMessage.statementStart = i;
 		    messages.push_back( newMessage );
 	    }

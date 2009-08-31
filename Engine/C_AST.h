@@ -38,12 +38,19 @@ namespace Cog
         NODE_ID, NODE_INT, NODE_FLOAT, NODE_HEX, NODE_VECTOR, NODE_STRING, NODE_LINKID
     };
 
+    typedef union {
+        char *stringVal;
+        int intVal;
+        float floatVal;
+        Math::Vector *vectorVal;
+    } LexData;
+
     struct ASTNode {
 	    NodeType nodeType;
 	    ASTNode **children;
 	    int numChildren;
     	
-	    void *lexData;
+        LexData lexData;
     	
 	    int line;
 

@@ -3,6 +3,9 @@
 
 #include <string>
 
+#include "C_AST.h"
+#include "M_Vector.h"
+
 using std::string;
 
 namespace Cog
@@ -12,7 +15,7 @@ namespace Cog
     struct Token
     {
 	    int type;
-	    void *lexData;
+        LexData lexData;
 	    ASTNode *astnode;
 	    int line;
     };
