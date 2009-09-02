@@ -430,6 +430,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\C_ASTNode.h"
+				>
+			</File>
+			<File
 				RelativePath=".\C_Parse.h"
 				>
 			</File>

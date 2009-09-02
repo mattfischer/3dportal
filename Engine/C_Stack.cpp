@@ -1,6 +1,7 @@
 #include "C_Stack.h"
 #include "C_AST.h"
 #include "M_Vector.h"
+#include "C_Type.h"
 
 #include <assert.h>
 #include <string.h>

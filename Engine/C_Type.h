@@ -3,13 +3,14 @@
 
 #include "M_Vector.h"
 
+enum _SymbolType { TYPE_AI, TYPE_COG, TYPE_FLEX, TYPE_THING=3, TYPE_FLOAT, 
+				  TYPE_SECTOR=5, TYPE_SURFACE=6, TYPE_INT, TYPE_KEYFRAME, 
+				  TYPE_MATERIAL, TYPE_MESSAGE, TYPE_MODEL, TYPE_SOUND, 
+				  TYPE_TEMPLATE, TYPE_VECTOR};
+typedef enum _SymbolType SymbolType;
+
 namespace Cog
 {
-    enum SymbolType { TYPE_AI, TYPE_COG, TYPE_FLEX, TYPE_THING=3, TYPE_FLOAT, 
-					  TYPE_SECTOR=5, TYPE_SURFACE=6, TYPE_INT, TYPE_KEYFRAME, 
-					  TYPE_MATERIAL, TYPE_MESSAGE, TYPE_MODEL, TYPE_SOUND, 
-					  TYPE_TEMPLATE, TYPE_VECTOR};
-
     typedef int Type_AI;
     typedef int Type_Cog;
     typedef float Type_Flex;

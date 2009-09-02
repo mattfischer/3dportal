@@ -5,15 +5,13 @@
 %{
 #include <math.h>
 
-int intval;
-float floatval;
-char *stringval;
-float vecx;
-float vecy;
-float vecz;
+#include "C_ASTNode.h"
+
+C_AST_LexData yylval;
 int linenum;
 
 void parseVector(char *, float*, float*, float*);
+char *copyString(char *, int);
 %}
 
 HEX 0x[[:xdigit:]]+
@@ -29,25 +27,25 @@ STRING \"[^\"]*\"
 
 \r\n linenum++;
 
-{HEX} intval = parseHex(yytext); return 0;
-{VECTOR} parseVector(yytext, &vecx, &vecy, &vecz); return 1;
-{STRING} stringval = yytext; return 2;
-{FLOAT} floatval = atof(yytext); return 3;
-{INT} intval = atoi(yytext); return 4;
+{HEX} yylval.intVal = parseHex(yytext); return 0;
+{VECTOR} parseVector(yytext, &yylval.vectorVal.x, &yylval.vectorVal.y, &yylval.vectorVal.z); return 1;
+{STRING} yylval.stringVal = copyString(yytext + 1, 1); return 2;
+{FLOAT} yylval.floatVal = atof(yytext); return 3;
+{INT} yylval.intVal = atoi(yytext); return 4;
 
-(=|,|;|\{|\}|:|\[|\]|\(|\)|&&|\|\|) stringval = yytext; return 5;
-(!|==|!=|>|<|>=|<=|\+|-|\*|\/|%|&|\|) stringval = yytext; return 5;
+(=|,|;|\{|\}|:|\[|\]|\(|\)|&&|\|\|) yylval.stringVal = yytext; return 5;
+(!|==|!=|>|<|>=|<=|\+|-|\*|\/|%|&|\|) yylval.stringVal = yytext; return 5;
 
-symbols BEGIN(SYMBOLS); stringval = yytext; return 6;
-end BEGIN(INITIAL); stringval = yytext; return 6;
+symbols BEGIN(SYMBOLS); yylval.stringVal = yytext; return 6;
+end BEGIN(INITIAL); yylval.stringVal = yytext; return 6;
 
-(flags|symbols|end|desc|local|nolink|linkid) stringval = yytext; return 6;
-(call|return|stop|if|else|for|while|mask|code) stringval = yytext; return 6;
+(flags|symbols|end|desc|local|nolink|linkid) yylval.stringVal = yytext; return 6;
+(call|return|stop|if|else|for|while|mask|code) yylval.stringVal = yytext; return 6;
 
-<SYMBOLS>-{INT} intval = atoi(yytext); return 4;
-<SYMBOLS>[[:alnum:]_.+\-]+ stringval = yytext; return 7;
+<SYMBOLS>-{INT} yylval.intVal = atoi(yytext); return 4;
+<SYMBOLS>[[:alnum:]_.+\-]+ yylval.stringVal = copyString(yytext, 0); return 7;
 
-[[:alnum:]_\.]+ stringval = yytext; return 7;
+[[:alnum:]_\.]+ yylval.stringVal = copyString(yytext, 0); return 7;
 
 <<EOF>> return 8;
 
@@ -99,3 +97,12 @@ void parseVector(char *string, float *vecx, float *vecy, float *vecz)
 	string[end] = '\'';
 	start = end + 1;
 }
+
+char *copyString(char *string, int endchop)
+{
+	int len = strlen(string);
+	char *result = (char*)malloc(len + 1 - endchop);
+	strncpy(result, string, len - endchop);
+	result[len - endchop] = '\0';
+	return result;
+} 

@@ -4,6 +4,7 @@
 #include "C_Parse.h"
 #include "C_AST.h"
 #include "C_Stack.h"
+#include "C_Type.h"
 
 #include "W_Sector.h"
 #include "W_Surface.h"

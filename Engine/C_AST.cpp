@@ -5,7 +5,7 @@
 
 namespace Cog
 {
-    ASTNode *NewNode(NodeType type, int numArgs, ...)
+    ASTNode *NewNode(C_AST_NodeType type, int numArgs, ...)
     {
 	    va_list list;
 	    int i;

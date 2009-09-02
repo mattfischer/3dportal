@@ -1,5 +1,6 @@
 #include "C_Script.h"
 #include "C_Stack.h"
+#include "C_Type.h"
 #include "M_Vector.h"
 
 #include "G_Console.h"
@@ -388,7 +389,7 @@ namespace Cog
 		    break;
 
 	    case NODE_VECTOR:
-		    xv = *node->lexData.vectorVal;
+            xv = Math::Vector(node->lexData.vectorVal.x, node->lexData.vectorVal.y, node->lexData.vectorVal.z);
 		    node->type = TYPE_VECTOR;
 		    c.stack.PushVector( xv );
 		    break;

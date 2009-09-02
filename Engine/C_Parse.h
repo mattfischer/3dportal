@@ -3,11 +3,12 @@
 
 #include <string>
 
+#include "C_ASTNode.h"
+
 using std::string;
 
 namespace Cog
 {
-    struct ASTNode;
     struct Tokenizer;
 
     ASTNode *ParseString( Tokenizer &t, const string& filename );

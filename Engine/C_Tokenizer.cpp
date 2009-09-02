@@ -3,16 +3,12 @@
 #include "M_Vector.h"
 #include "U_Lowercase.h"
 #include "C_Tokenizer.h"
+#include "C_ASTNode.h"
 
 extern "C" {
     int yylex();
     void yy_scan_string ( const char *str );
-    char *stringval;
-    int intval;
-    float floatval;
-    float vecx;
-    float vecy;
-    float vecz;
+    C_AST_LexData yylval;
     int linenum;
 }
 
@@ -52,36 +48,29 @@ namespace Cog
         {
         case 0:
             newToken.type=hexIndex;
-		    newToken.lexData.intVal=intval;
-            break;
+		    break;
 
         case 1:
             newToken.type=vectorIndex;
-		    newToken.lexData.vectorVal = new Math::Vector(vecx, vecy, vecz);
             break;
 
         case 2:
             newToken.type=stringIndex;
-			newToken.lexData.stringVal=new char[strlen(stringval) - 1];
-			strcpy(newToken.lexData.stringVal, stringval+1);
-            newToken.lexData.stringVal[strlen(newToken.lexData.stringVal)] = '\0';
             break;
 
         case 3:
             newToken.type=floatIndex;
-		    newToken.lexData.floatVal=floatval;
             break;
 
         case 4:
             newToken.type=intIndex;
-		    newToken.lexData.intVal=intval;
             break;
 
         case 5:
         case 6:
             for(int i=0;i<numTerminals;i++)
 		    {
-                if(terminals[i].name == stringval)
+                if(terminals[i].name == yylval.stringVal)
 			    {
 				    newToken.type=terminals[i].index;
                     break;
@@ -91,8 +80,6 @@ namespace Cog
 
         case 7:
 		    newToken.type=idIndex;
-		    newToken.lexData.stringVal=new char[strlen(stringval)+1];
-		    strcpy(newToken.lexData.stringVal, stringval);
             break;
 
         case 8:
@@ -100,6 +87,7 @@ namespace Cog
             break;
         }
 
+        newToken.lexData = yylval;
 	    return newToken;
     }
 }    	

@@ -10,12 +10,10 @@ using std::string;
 
 namespace Cog
 {
-    struct ASTNode;
-
     struct Token
     {
 	    int type;
-        LexData lexData;
+        C_AST_LexData lexData;
 	    ASTNode *astnode;
 	    int line;
     };

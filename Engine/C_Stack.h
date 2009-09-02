@@ -2,6 +2,7 @@
 #define C_STACK_H
 
 #include "C_AST.h"
+#include "M_Vector.h"
 
 #define STACKSIZE 100
 
