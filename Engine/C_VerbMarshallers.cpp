@@ -5,8 +5,6 @@
 #include "W_Thing.h"
 #include "G_Console.h"
 
-extern Render::Model* povModel;
-
 namespace Cog
 {
     void Script::ExecuteVerbCall( C_ASTNode *node, Context &c, bool expression )
