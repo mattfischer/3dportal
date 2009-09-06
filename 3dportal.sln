@@ -2,8 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcproj", "{4FA50E7D-9032-4369-A8DF-587708E5F124}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "COG Parser Generator", "COG Parser Generator\COG Parser Generator.vcproj", "{77ABF0C1-D9DE-45BC-80D2-D50B2CBF9F1D}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "COG Marshaller Generator", "COG Marshaller Generator\COG Marshaller Generator.vcproj", "{95231BC6-343A-4E54-AF1E-836398723CFC}"
 EndProject
 Global
@@ -16,10 +14,6 @@ Global
 		{4FA50E7D-9032-4369-A8DF-587708E5F124}.Debug|Win32.Build.0 = Debug|Win32
 		{4FA50E7D-9032-4369-A8DF-587708E5F124}.Release|Win32.ActiveCfg = Release|Win32
 		{4FA50E7D-9032-4369-A8DF-587708E5F124}.Release|Win32.Build.0 = Release|Win32
-		{77ABF0C1-D9DE-45BC-80D2-D50B2CBF9F1D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{77ABF0C1-D9DE-45BC-80D2-D50B2CBF9F1D}.Debug|Win32.Build.0 = Debug|Win32
-		{77ABF0C1-D9DE-45BC-80D2-D50B2CBF9F1D}.Release|Win32.ActiveCfg = Release|Win32
-		{77ABF0C1-D9DE-45BC-80D2-D50B2CBF9F1D}.Release|Win32.Build.0 = Release|Win32
 		{95231BC6-343A-4E54-AF1E-836398723CFC}.Debug|Win32.ActiveCfg = Debug|Win32
 		{95231BC6-343A-4E54-AF1E-836398723CFC}.Debug|Win32.Build.0 = Debug|Win32
 		{95231BC6-343A-4E54-AF1E-836398723CFC}.Release|Win32.ActiveCfg = Release|Win32

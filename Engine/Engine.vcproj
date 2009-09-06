@@ -193,10 +193,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\C_StateTable.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\C_VerbMarshallers.cpp"
 				>
 			</File>
