@@ -71,7 +71,7 @@ namespace Cog
 	    pointer+=size;
     }
 
-    float Stack::PopFlex(SymbolType destType)
+    float Stack::PopFlex(C_SymbolType destType)
     {
 	    if(destType==TYPE_FLOAT) return PopFloat();
 	    else					   return PopInt();

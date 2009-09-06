@@ -22,7 +22,7 @@ namespace Cog
 	    float PopFloat();
 	    int PopInt();
 	    Math::Vector PopVector();
-	    float PopFlex( SymbolType destType );
+	    float PopFlex( C_SymbolType destType );
 	    void Pop( void *data, int size );
 
     protected:

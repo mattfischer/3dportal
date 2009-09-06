@@ -51,7 +51,7 @@ namespace Cog
 	    ( (Script*)object )->ExecuteStatements( statement, c );
     }
 
-    bool Script::ExecuteStatement( ASTNode *node, Context &c )
+    bool Script::ExecuteStatement( C_ASTNode *node, Context &c )
     {
 	    int i;
 	    int start;
@@ -130,7 +130,7 @@ namespace Cog
 	    return false;
     }
 
-    void Script::ExecuteAssign( ASTNode *node, Context &c )
+    void Script::ExecuteAssign( C_ASTNode *node, Context &c )
     {
 	    int i;
 	    char buffer[100];
@@ -166,7 +166,7 @@ namespace Cog
     	
     }
 
-    int Script::TypeSize(SymbolType type)
+    int Script::TypeSize(C_SymbolType type)
     {
 	    switch(type)
 	    {
@@ -192,7 +192,7 @@ namespace Cog
 	    }
     }
 
-    SymbolType Script::BaseType(SymbolType type)
+    C_SymbolType Script::BaseType(C_SymbolType type)
     {
 	    switch(type)
 	    {
@@ -219,13 +219,13 @@ namespace Cog
     }
 
 
-    void Script::ExecuteExpression( ASTNode *node, Context &c )
+    void Script::ExecuteExpression( C_ASTNode *node, Context &c )
     {
 	    int i;
 	    int xi,yi, ri;
 	    float xf, yf, rf;
 	    Math::Vector xv;
-	    SymbolType type;
+	    C_SymbolType type;
 	    int index;
 
 	    switch( node->nodeType )
@@ -400,9 +400,9 @@ namespace Cog
 	    }
     }
     	
-    void Script::Cast( SymbolType source, SymbolType dest, Context &c )
+    void Script::Cast( C_SymbolType source, C_SymbolType dest, Context &c )
     {
-	    SymbolType sourceBase, destBase;
+	    C_SymbolType sourceBase, destBase;
 	    int intType;
 	    float floatType;
 
@@ -423,10 +423,10 @@ namespace Cog
 	    }
     }
 
-    SymbolType Script::Promote( SymbolType xType, SymbolType yType, Context &c )
+    C_SymbolType Script::Promote( C_SymbolType xType, C_SymbolType yType, Context &c )
     {
-	    SymbolType resultType;
-	    SymbolType xBaseType, yBaseType;
+	    C_SymbolType resultType;
+	    C_SymbolType xBaseType, yBaseType;
 
 	    int intVar;
 	    float floatVar;

@@ -53,7 +53,7 @@ namespace Cog
     {
 	    Type_Variant retval;
 
-	    retval.type = (SymbolType)c.senderType;
+	    retval.type = (C_SymbolType)c.senderType;
 	    retval.v_int = c.sender;
 	    return retval;
     }

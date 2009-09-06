@@ -29,7 +29,7 @@
 extern "C" {
 int yyparse();
 void yy_scan_string ( const char *str );
-extern ASTNode *C_ParseTree;
+extern C_ASTNode *C_ParseTree;
 }
 
 namespace Cog
@@ -98,7 +98,7 @@ namespace Cog
 	    string fullname;
 	    string data;
 
-	    ASTNode *root;
+	    C_ASTNode *root;
 
 	    safe = false;
 
@@ -262,10 +262,10 @@ namespace Cog
 	    }
     }
 
-    void Script::SetupSymbolTable( ASTNode *symbolsNode )
+    void Script::SetupSymbolTable( C_ASTNode *symbolsNode )
     {
 	    int i, j;
-	    ASTNode *node;
+	    C_ASTNode *node;
 	    string name;
 	    int x;
 
@@ -420,7 +420,7 @@ namespace Cog
     void Script::SetupMessages()
     {
 	    int i;
-	    ASTNode *node;
+	    C_ASTNode *node;
         Cog::Message newMessage;
 
 	    for( i = 0 ; i < code->numChildren ; i++ )

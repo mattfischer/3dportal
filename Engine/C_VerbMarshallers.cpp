@@ -9,7 +9,7 @@ extern Render::Model* povModel;
 
 namespace Cog
 {
-    void Script::ExecuteVerbCall( ASTNode *node, Context &c, bool expression )
+    void Script::ExecuteVerbCall( C_ASTNode *node, Context &c, bool expression )
     {
 	    int i;
 	    char buffer[100];

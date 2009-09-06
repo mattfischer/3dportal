@@ -1,13 +1,13 @@
 %{
-	#include "C_ASTNode.h"
+	#include "C_AST.h"
 	#include <malloc.h>
 	#include <stdarg.h>
 	
-	ASTNode *NewNode(C_AST_NodeType type, ...);
-	ASTNode *AddChildren(ASTNode *node1, ASTNode *node2);
-	ASTNode *AddNode(ASTNode *node1, ASTNode *node2);
+	C_ASTNode *NewNode(C_AST_NodeType type, ...);
+	C_ASTNode *AddChildren(C_ASTNode *node1, C_ASTNode *node2);
+	C_ASTNode *AddNode(C_ASTNode *node1, C_ASTNode *node2);
 	
-	ASTNode *C_ParseTree;
+	C_ASTNode *C_ParseTree;
 %}
 
 
@@ -17,7 +17,7 @@
 	int intVal;
 	float floatVal;
 	C_AST_Vector vectorVal;
-	ASTNode *astNode;
+	C_ASTNode *astNode;
 }
 
 %token <intVal> HEX
@@ -536,33 +536,33 @@ int yyerror(char *string)
 return 0;
 }
 
-ASTNode *NewNode(C_AST_NodeType type, ...)
+C_ASTNode *NewNode(C_AST_NodeType type, ...)
 {
     va_list list;
     int i;
 	int numArgs = 0;
-	ASTNode *astnode;
-	ASTNode *temp;	
+	C_ASTNode *astnode;
+	C_ASTNode *temp;	
 	
 	va_start(list, type);
-	while(va_arg(list, ASTNode*)) numArgs++;
+	while(va_arg(list, C_ASTNode*)) numArgs++;
 	    
     va_start(list, type);
     
-    astnode = (ASTNode*)malloc(sizeof(ASTNode));
+    astnode = (C_ASTNode*)malloc(sizeof(C_ASTNode));
     astnode->nodeType = type;
-    astnode->children = (ASTNode**)malloc(sizeof(ASTNode*) * numArgs);
+    astnode->children = (C_ASTNode**)malloc(sizeof(C_ASTNode*) * numArgs);
     astnode->numChildren = numArgs;
     for(i = 0; i < numArgs; i++)
-	    astnode->children[i] = va_arg(list, ASTNode*);
+	    astnode->children[i] = va_arg(list, C_ASTNode*);
 	
     return astnode;
 }
 
-ASTNode *AddChildren(ASTNode *node1, ASTNode *node2)
+C_ASTNode *AddChildren(C_ASTNode *node1, C_ASTNode *node2)
 {
     int i;
-    ASTNode **tempAST = (ASTNode**)malloc(sizeof(ASTNode*) * (node1->numChildren + node2->numChildren));
+    C_ASTNode **tempAST = (C_ASTNode**)malloc(sizeof(C_ASTNode*) * (node1->numChildren + node2->numChildren));
 
     for(i = 0; i < node1->numChildren; i++) 
 	    tempAST[i] = node1->children[i];
@@ -580,11 +580,11 @@ ASTNode *AddChildren(ASTNode *node1, ASTNode *node2)
     return node1;
 }
 
-ASTNode *AddNode(ASTNode *node1, ASTNode *node2)
+C_ASTNode *AddNode(C_ASTNode *node1, C_ASTNode *node2)
 {
     int i;
     int numChildren = node1->numChildren;	
-    ASTNode **tempAST = (ASTNode**)malloc(sizeof(ASTNode*) * (numChildren + 1));
+    C_ASTNode **tempAST = (C_ASTNode**)malloc(sizeof(C_ASTNode*) * (numChildren + 1));
 
     for(i = 0; i < numChildren; i++) 
 	    tempAST[i] = node1->children[i];

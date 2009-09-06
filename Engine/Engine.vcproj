@@ -435,10 +435,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\C_ASTNode.h"
-				>
-			</File>
-			<File
 				RelativePath=".\C_Parse.h"
 				>
 			</File>
@@ -448,14 +444,6 @@
 			</File>
 			<File
 				RelativePath=".\C_Stack.h"
-				>
-			</File>
-			<File
-				RelativePath=".\C_StateTable.h"
-				>
-			</File>
-			<File
-				RelativePath=".\C_Tokenizer.h"
 				>
 			</File>
 			<File

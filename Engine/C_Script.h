@@ -30,7 +30,7 @@ namespace Cog
 
     struct Symbol
     {
-	    SymbolType type;
+	    C_SymbolType type;
 	    string name;
         union {
             int intVal;
@@ -83,7 +83,7 @@ namespace Cog
 
         vector<Cog::Message> messages;
     	
-	    ASTNode *code;
+	    C_ASTNode *code;
 
 	    StartInfo startInfo;
     	
@@ -103,22 +103,22 @@ namespace Cog
 	    static int numSafeCogs;
     	
 	    // C_Script.cpp
-	    void SetupSymbolTable( ASTNode *symbolsNode );
+	    void SetupSymbolTable( C_ASTNode *symbolsNode );
 	    void SetupMessages();
 	    void Hack( string& source );
     	
 	    // C_Execute.cpp
 	    void ExecuteStatements( int start, Context &c );
 
-	    bool ExecuteStatement( ASTNode *node, Context &c );
-	    void ExecuteAssign( ASTNode *node, Context &c );
-	    void ExecuteExpression( ASTNode *node, Context &c );
+	    bool ExecuteStatement( C_ASTNode *node, Context &c );
+	    void ExecuteAssign( C_ASTNode *node, Context &c );
+	    void ExecuteExpression( C_ASTNode *node, Context &c );
 
-	    int TypeSize( SymbolType type );
-	    SymbolType BaseType( SymbolType type );
+	    int TypeSize( C_SymbolType type );
+	    C_SymbolType BaseType( C_SymbolType type );
 
-	    void Cast( SymbolType source, SymbolType dest, Context &c );
-	    SymbolType Promote( SymbolType xType, SymbolType yType, Context &c );
+	    void Cast( C_SymbolType source, C_SymbolType dest, Context &c );
+	    C_SymbolType Promote( C_SymbolType xType, C_SymbolType yType, Context &c );
 
 	    void Timer( float t );
 
@@ -129,7 +129,7 @@ namespace Cog
 	    Math::Vector ParseVector( const string& s );
 
 	    // C_Verb.cpp
-	    void ExecuteVerbCall( ASTNode *node, Context &c, bool expression );
+	    void ExecuteVerbCall( C_ASTNode *node, Context &c, bool expression );
     };
 }
 

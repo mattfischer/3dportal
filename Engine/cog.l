@@ -5,7 +5,7 @@
 %{
 #include <math.h>
 
-#include "C_ASTNode.h"
+#include "C_AST.h"
 #include "cog.tab.h"
 
 int linenum;
