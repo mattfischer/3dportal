@@ -6,12 +6,13 @@
 #include <math.h>
 
 #include "C_ASTNode.h"
+#include "cog.tab.h"
 
-C_AST_LexData yylval;
 int linenum;
 
-void parseVector(char *, float*, float*, float*);
+void parseVector(char *, C_AST_Vector *vector);
 char *copyString(char *, int);
+int findToken(char *token_buffer);
 %}
 
 HEX 0x[[:xdigit:]]+
@@ -27,27 +28,44 @@ STRING \"[^\"]*\"
 
 \r\n linenum++;
 
-{HEX} yylval.intVal = parseHex(yytext); return 0;
-{VECTOR} parseVector(yytext, &yylval.vectorVal.x, &yylval.vectorVal.y, &yylval.vectorVal.z); return 1;
-{STRING} yylval.stringVal = copyString(yytext + 1, 1); return 2;
-{FLOAT} yylval.floatVal = atof(yytext); return 3;
-{INT} yylval.intVal = atoi(yytext); return 4;
+{HEX} yylval.intVal = parseHex(yytext); return HEX;
+{VECTOR} parseVector(yytext, &yylval.vectorVal); return VECTOR;
+{STRING} yylval.stringVal = copyString(yytext + 1, 1); return STRING;
+{FLOAT} yylval.floatVal = atof(yytext); return FLOAT;
+{INT} yylval.intVal = atoi(yytext); return INT;
 
-(=|,|;|\{|\}|:|\[|\]|\(|\)|&&|\|\|) yylval.stringVal = yytext; return 5;
-(!|==|!=|>|<|>=|<=|\+|-|\*|\/|%|&|\|) yylval.stringVal = yytext; return 5;
+(=|,|;|\{|\}|:|\[|\]|\(|\)) return *yytext;
+(!|>|<|\+|-|\*|\/|%|&|\|) return *yytext;
 
-symbols BEGIN(SYMBOLS); yylval.stringVal = yytext; return 6;
-end BEGIN(INITIAL); yylval.stringVal = yytext; return 6;
+&&		return LAND;
+\|\|	return LOR;
+==		return EQUALS;
+!=		return NEQUALS;
+>=		return GEQUALS;
+\<=		return LEQUALS;
+flags	return FLAGS;
+desc	return DESC;
+local	return LOCAL;
+nolink	return NOLINK;
+linkid	return LINKID;
+call	return CALL;
+return	return RETURN;
+stop	return STOP;
+if		return IF;
+else	return ELSE;
+for		return FOR;
+while	return WHILE;
+mask	return MASK;
+code	return CODE;
+symbols BEGIN(SYMBOLS); return SYMBOLS_;
+end BEGIN(INITIAL); return END;
 
-(flags|symbols|end|desc|local|nolink|linkid) yylval.stringVal = yytext; return 6;
-(call|return|stop|if|else|for|while|mask|code) yylval.stringVal = yytext; return 6;
+<SYMBOLS>-{INT} yylval.intVal = atoi(yytext); return INT;
+<SYMBOLS>[[:alnum:]_.+\-]+ yylval.stringVal = copyString(yytext, 0); return ID;
 
-<SYMBOLS>-{INT} yylval.intVal = atoi(yytext); return 4;
-<SYMBOLS>[[:alnum:]_.+\-]+ yylval.stringVal = copyString(yytext, 0); return 7;
+[[:alnum:]_\.]+ yylval.stringVal = copyString(yytext, 0); return ID;
 
-[[:alnum:]_\.]+ yylval.stringVal = copyString(yytext, 0); return 7;
-
-<<EOF>> return 8;
+<<EOF>> return END_FILE;
 
 %%
 
@@ -73,7 +91,7 @@ int parseHex(char *string)
     return retVal;
 }
 
-void parseVector(char *string, float *vecx, float *vecy, float *vecz)
+void parseVector(char *string, C_AST_Vector *vector)
 {
 	int start;
 	int end;
@@ -81,19 +99,19 @@ void parseVector(char *string, float *vecx, float *vecy, float *vecz)
 	start = 1;
 	for(end = start; string[end] != ' '; end++) ;
 	string[end] = '\0';
-	*vecx = atof(string + start);
+	vector->x = atof(string + start);
 	string[end] = ' ';
 	start = end + 1;
 	
 	for(end = start; string[end] != ' '; end++) ;
 	string[end] = '\0';
-	*vecy = atof(string + start);
+	vector->y = atof(string + start);
 	string[end] = ' ';
 	start = end + 1;
 	
 	for(end = start; string[end] != '\''; end++) ;
 	string[end] = '\0';
-	*vecz = atof(string + start);
+	vector->z = atof(string + start);
 	string[end] = '\'';
 	start = end + 1;
 }

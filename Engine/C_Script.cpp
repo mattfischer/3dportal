@@ -1,7 +1,5 @@
 #include "C_Script.h"
 
-#include "C_Tokenizer.h"
-#include "C_Parse.h"
 #include "C_AST.h"
 #include "C_Stack.h"
 #include "C_Type.h"
@@ -27,6 +25,12 @@
 #include <stdio.h>
 
 #include "U_Lowercase.h"
+
+extern "C" {
+int yyparse();
+void yy_scan_string ( const char *str );
+extern ASTNode *C_ParseTree;
+}
 
 namespace Cog
 {
@@ -115,9 +119,12 @@ namespace Cog
             data = Jk::Gob::getFile( fullname );
 		    Hack( data );
 
-		    Tokenizer t( data.c_str() );
+            data = Util::Lowercase( data );
 
-		    root = ParseString( t, filename );
+            yy_scan_string( data.c_str() );
+		    yyparse();
+            root = C_ParseTree;
+
 		    if( root->nodeType == NODE_COG_FLAGS )
 			    flags = root->lexData.intVal;
 		    else

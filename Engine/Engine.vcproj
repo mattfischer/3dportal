@@ -13,7 +13,7 @@
 	</Platforms>
 	<ToolFiles>
 		<ToolFile
-			RelativePath="..\flex.rules"
+			RelativePath="..\FlexBison.rules"
 		/>
 	</ToolFiles>
 	<Configurations>
@@ -27,10 +27,16 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="FlexGenerator"
+				ScannerPrefix=""
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
-				Name="Flex"
+				Name="BisonParser"
+				Defines="true"
+				RenameExternalSymbols=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -97,10 +103,13 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="FlexGenerator"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
-				Name="Flex"
+				Name="BisonParser"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -168,15 +177,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\C_AST.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\C_Execute.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\C_Parse.cpp"
 				>
 			</File>
 			<File
@@ -193,10 +194,6 @@
 			</File>
 			<File
 				RelativePath=".\C_StateTable.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\C_Tokenizer.cpp"
 				>
 			</File>
 			<File
@@ -248,6 +245,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\cog.tab.c"
+				>
+			</File>
+			<File
+				RelativePath=".\cog.y"
+				>
+			</File>
+			<File
 				RelativePath=".\G_Console.cpp"
 				>
 			</File>
@@ -296,7 +301,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\lex.yy.c"
+				RelativePath=".\lex.cog.c"
 				>
 			</File>
 			<File
@@ -459,6 +464,10 @@
 			</File>
 			<File
 				RelativePath=".\C_Verb.h"
+				>
+			</File>
+			<File
+				RelativePath=".\cog.tab.h"
 				>
 			</File>
 			<File
