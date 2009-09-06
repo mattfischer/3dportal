@@ -3,10 +3,11 @@
 	#include <malloc.h>
 	#include <stdarg.h>
 	
-	C_ASTNode *NewNode(C_AST_NodeType type, ...);
-	C_ASTNode *AddChildren(C_ASTNode *node1, C_ASTNode *node2);
-	C_ASTNode *AddNode(C_ASTNode *node1, C_ASTNode *node2);
-	
+	static C_ASTNode *NewNode(C_AST_NodeType type, ...);
+	static C_ASTNode *AddChildren(C_ASTNode *node1, C_ASTNode *node2);
+	static C_ASTNode *AddNode(C_ASTNode *node1, C_ASTNode *node2);
+	static char *copyString(char *string);
+		
 	C_ASTNode *C_ParseTree;
 %}
 
@@ -19,6 +20,8 @@
 	C_AST_Vector vectorVal;
 	C_ASTNode *astNode;
 }
+
+%expect 1
 
 %token <intVal> HEX
 %token <vectorVal> VECTOR
@@ -118,15 +121,13 @@ name: ID '=' literal
 name: FLAGS
 {
 	$$ = NewNode(NODE_NAME, NULL);
-	$$->lexData.stringVal = malloc(6);
-	strcpy($$->lexData.stringVal, "flags");
+	$$->lexData.stringVal = copyString("flags");
 }
 
 name: FLAGS '=' literal
 {
 	$$ = NewNode(NODE_NAME_INIT, $3, NULL);
-	$$->lexData.stringVal = malloc(6);
-	strcpy($$->lexData.stringVal, "flags");
+	$$->lexData.stringVal = copyString("flags");
 }
 
 symbol_use_list: symbol_use
@@ -232,8 +233,7 @@ statement: ID '[' expression ']' '=' expression ';'
 statement: FLAGS '=' expression ';'
 {
 	$$ = NewNode(NODE_STATEMENT_ASSIGN, $3, NULL);
-	$$->lexData.stringVal = malloc(6);
-	strcpy($$->lexData.stringVal, "flags");
+	$$->lexData.stringVal = copyString("flags");
 }
 
 statement: '{' '}'
@@ -491,8 +491,7 @@ literal: ID
 literal: FLAGS
 {
 	$$ = NewNode(NODE_ID, NULL);
-	$$->lexData.stringVal = malloc(6);
-	strcpy($$->lexData.stringVal, "flags");
+	$$->lexData.stringVal = copyString("flags");
 }
 
 literal: INT
@@ -536,7 +535,7 @@ int yyerror(char *string)
 return 0;
 }
 
-C_ASTNode *NewNode(C_AST_NodeType type, ...)
+static C_ASTNode *NewNode(C_AST_NodeType type, ...)
 {
     va_list list;
     int i;
@@ -559,7 +558,7 @@ C_ASTNode *NewNode(C_AST_NodeType type, ...)
     return astnode;
 }
 
-C_ASTNode *AddChildren(C_ASTNode *node1, C_ASTNode *node2)
+static C_ASTNode *AddChildren(C_ASTNode *node1, C_ASTNode *node2)
 {
     int i;
     C_ASTNode **tempAST = (C_ASTNode**)malloc(sizeof(C_ASTNode*) * (node1->numChildren + node2->numChildren));
@@ -580,7 +579,7 @@ C_ASTNode *AddChildren(C_ASTNode *node1, C_ASTNode *node2)
     return node1;
 }
 
-C_ASTNode *AddNode(C_ASTNode *node1, C_ASTNode *node2)
+static C_ASTNode *AddNode(C_ASTNode *node1, C_ASTNode *node2)
 {
     int i;
     int numChildren = node1->numChildren;	
@@ -596,4 +595,11 @@ C_ASTNode *AddNode(C_ASTNode *node1, C_ASTNode *node2)
     node1->numChildren++;
 	
     return node1;
+}
+
+static char *copyString(char *string)
+{
+	char *result = (char*)malloc(strlen(string) + 1);
+	strcpy(result, string);
+	return result;
 }
