@@ -13,7 +13,7 @@
 	</Platforms>
 	<ToolFiles>
 		<ToolFile
-			RelativePath="..\FlexBison.rules"
+			RelativePath=".\FlexBison.rules"
 		/>
 	</ToolFiles>
 	<Configurations>
