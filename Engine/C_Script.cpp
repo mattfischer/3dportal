@@ -27,8 +27,8 @@
 #include "U_Lowercase.h"
 
 extern "C" {
-int yyparse();
-void yy_scan_string ( const char *str );
+int cogparse();
+void cog_scan_string ( const char *str );
 extern C_ASTNode *C_ParseTree;
 }
 
@@ -121,8 +121,8 @@ namespace Cog
 
             data = Util::Lowercase( data );
 
-            yy_scan_string( data.c_str() );
-		    yyparse();
+            cog_scan_string( data.c_str() );
+		    cogparse();
             root = C_ParseTree;
 
 		    if( root->nodeType == NODE_COG_FLAGS )

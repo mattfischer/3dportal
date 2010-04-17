@@ -1,4 +1,5 @@
 import re
+import sys
 
 def LoadFunctionDefs(filename):
 	file = open(filename)
@@ -101,5 +102,5 @@ def OutputMarshallers(funcs, filename):
 		f.write('}\n')
 		f.write('\n')
 	
-funcs = LoadFunctionDefs('Engine\\C_Verb.h')
-OutputMarshallers(funcs, 'Engine\\C_VerbMarshallers.inc')
+funcs = LoadFunctionDefs(sys.argv[1])
+OutputMarshallers(funcs, sys.argv[2])

@@ -28,7 +28,7 @@
 			/>
 			<Tool
 				Name="FlexGenerator"
-				ScannerPrefix=""
+				ScannerPrefix="$(InputName)"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -36,7 +36,7 @@
 			<Tool
 				Name="BisonParser"
 				Defines="true"
-				RenameExternalSymbols=""
+				RenameExternalSymbols="$(InputName)"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -101,10 +101,12 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Generating marshallers..."
+				CommandLine="python marshaller_generator.py C_Verb.h C_VerbMarshallers.inc"
 			/>
 			<Tool
 				Name="FlexGenerator"
-				ScannerPrefix=""
+				ScannerPrefix="$(InputName)"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -112,7 +114,7 @@
 			<Tool
 				Name="BisonParser"
 				Defines="true"
-				RenameExternalSymbols=""
+				RenameExternalSymbols="$(InputName)"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -589,6 +591,10 @@
 			>
 			<File
 				RelativePath=".\C_VerbMarshallers.inc"
+				>
+			</File>
+			<File
+				RelativePath=".\marshaller_generator.py"
 				>
 			</File>
 			<File

@@ -28,14 +28,14 @@ STRING \"[^\"]*\"
 
 \r\n linenum++;
 
-{HEX} yylval.intVal = parseHex(yytext); return HEX;
-{VECTOR} parseVector(yytext, &yylval.vectorVal); return VECTOR;
-{STRING} yylval.stringVal = copyString(yytext + 1, 1); return STRING;
-{FLOAT} yylval.floatVal = atof(yytext); return FLOAT;
-{INT} yylval.intVal = atoi(yytext); return INT;
+{HEX} coglval.intVal = parseHex(cogtext); return HEX;
+{VECTOR} parseVector(cogtext, &coglval.vectorVal); return VECTOR;
+{STRING} coglval.stringVal = copyString(cogtext + 1, 1); return STRING;
+{FLOAT} coglval.floatVal = atof(cogtext); return FLOAT;
+{INT} coglval.intVal = atoi(cogtext); return INT;
 
-(=|,|;|\{|\}|:|\[|\]|\(|\)) return *yytext;
-(!|>|<|\+|-|\*|\/|%|&|\|) return *yytext;
+(=|,|;|\{|\}|:|\[|\]|\(|\)) return *cogtext;
+(!|>|<|\+|-|\*|\/|%|&|\|) return *cogtext;
 
 &&		return LAND;
 \|\|	return LOR;
@@ -60,10 +60,10 @@ code	return CODE;
 symbols BEGIN(SYMBOLS); return SYMBOLS_;
 end BEGIN(INITIAL); return END;
 
-<SYMBOLS>-{INT} yylval.intVal = atoi(yytext); return INT;
-<SYMBOLS>[[:alnum:]_.+\-]+ yylval.stringVal = copyString(yytext, 0); return ID;
+<SYMBOLS>-{INT} coglval.intVal = atoi(cogtext); return INT;
+<SYMBOLS>[[:alnum:]_.+\-]+ coglval.stringVal = copyString(cogtext, 0); return ID;
 
-[[:alnum:]_\.]+ yylval.stringVal = copyString(yytext, 0); return ID;
+[[:alnum:]_\.]+ coglval.stringVal = copyString(cogtext, 0); return ID;
 
 <<EOF>> return END_FILE;
 
