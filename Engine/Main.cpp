@@ -60,7 +60,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst,LPSTR Cmdline,int nShow)
 	}
 	else i=j;
 
-	if(j==i) strcpy(GOBPath, "E:\\");
+	if(j==i) strcpy(GOBPath, "D:\\");
 	else
 	{
 		strncpy(GOBPath, Cmdline+i, 1);

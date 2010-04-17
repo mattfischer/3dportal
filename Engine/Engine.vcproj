@@ -50,7 +50,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\boost_1_39_0&quot;;&quot;C:\Program Files\Microsoft DirectX SDK (November 2008)\Include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\boost\boost_1_35_0&quot;;&quot;C:\Program Files\Microsoft DirectX SDK (June 2008)\Include&quot;"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -65,7 +65,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib dinput8.lib dxguid.lib dsound.lib"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft DirectX SDK (November 2008)\Lib\x86&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft DirectX SDK (June 2008)\Lib\x86&quot;"
 				GenerateDebugInformation="true"
 			/>
 			<Tool
@@ -104,12 +104,15 @@
 			/>
 			<Tool
 				Name="FlexGenerator"
+				ScannerPrefix=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
 				Name="BisonParser"
+				Defines="true"
+				RenameExternalSymbols=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -126,7 +129,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\Microsoft DirectX SDK (November 2008)\Include&quot;;&quot;C:\Program Files\boost_1_39_0&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\Microsoft DirectX SDK (June 2008)\Include&quot;;&quot;C:\Program Files\boost\boost_1_35_0&quot;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -140,7 +143,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib dinput8.lib dxguid.lib dsound.lib"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft DirectX SDK (November 2008)\Lib\x86&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft DirectX SDK (June 2008)\Lib\x86&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"
