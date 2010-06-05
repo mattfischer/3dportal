@@ -47,7 +47,7 @@ namespace World
 	    return adjoinFlags;
     }
 
-    Poly Surface::GetPoly()
+    const Poly &Surface::GetPoly()
     {
 	    return polygon;
     }

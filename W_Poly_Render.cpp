@@ -208,7 +208,7 @@ namespace World
 	    }
     }
 
-    Render::Frustum Poly::CreateFrustum()
+    Render::Frustum Poly::CreateFrustum() const
     {
 	    Poly newPoly(*this);
 	    Render::Frustum frustum;
@@ -253,7 +253,7 @@ namespace World
 	    return frustum;
     }
 
-    void Poly::Draw(Math::Vector tint, float light, bool translucent, bool cullReverse, int cel, float offsetU, float offsetV)
+    void Poly::Draw(Math::Vector tint, float light, bool translucent, bool cullReverse, int cel, float offsetU, float offsetV) const
     {
 	    int k;
     	

@@ -26,7 +26,7 @@ namespace World
 	    if(allocatedVerts>0) delete[] vertices; 
     }
 
-    Poly::Poly(Poly &p)
+    Poly::Poly(const Poly &p)
     {
 	    int i;
 
@@ -38,7 +38,7 @@ namespace World
 	    for(i=0;i<numVerts;i++) vertices[i]=p.vertices[i];
     }
 
-    Poly &Poly::operator=(Poly &p)
+    Poly &Poly::operator=(const Poly &p)
     {
 	    int i;
 
@@ -59,6 +59,11 @@ namespace World
 	    return vertices[(n+numVerts)%numVerts]; 
     }
 
+	const Render::Vertex& Poly::operator[](int n) const
+    { 
+	    return vertices[(n+numVerts)%numVerts]; 
+    }
+
     void Poly::Transform(Math::Matrix &m)
     {
 	    int i;
@@ -73,7 +78,7 @@ namespace World
 	    plane.normal.Normalize();
     }
 
-    Math::Plane Poly::GetPlane()
+    Math::Plane Poly::GetPlane() const
     {
 	    return plane;
     }
@@ -84,7 +89,7 @@ namespace World
 	    plane.normal=normal;
     }
 
-    Render::Texture *Poly::GetTexture()
+    Render::Texture *Poly::GetTexture() const
     {
 	    return texture;
     }
@@ -94,7 +99,7 @@ namespace World
 	    texture=t;
     }
 
-    int Poly::GetNumCels()
+    int Poly::GetNumCels() const
     {
 	    return texture->NumCels();
     }

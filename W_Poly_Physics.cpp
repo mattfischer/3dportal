@@ -2,7 +2,7 @@
 
 namespace World
 {
-    int Poly::VectorIn(Math::Vector &v)
+    int Poly::VectorIn(Math::Vector &v) const
     {
 	    int i;
 	    Math::Vector line;
@@ -19,7 +19,7 @@ namespace World
 	    return 1;
     }
 
-    int Poly::InFrontOfPlane(Math::Plane &c)
+    int Poly::InFrontOfPlane(Math::Plane &c) const
     {
 	    float ndotp;
 	    Math::Vector p, n;
@@ -34,7 +34,7 @@ namespace World
 	    return 0;
     }
 
-    Math::Vector Poly::SpherePlaneOffset(Math::Vector position, float radius, bool &direct)
+    Math::Vector Poly::SpherePlaneOffset(Math::Vector position, float radius, bool &direct) const
     {
 	    float planeD, posD;
 	    int i;

@@ -32,8 +32,8 @@ namespace Render
 
 	    //if(!drawThings) return;
 
-        if( Game::GoodFramerate() ) LOD=0;
-	    else
+        //if( Game::GoodFramerate() ) LOD=0;
+	    //else
 	    {
 		    LOD = numGeoSets - 1;
 		    for( i = 0; i < 4; i++ )

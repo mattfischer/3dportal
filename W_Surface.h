@@ -35,7 +35,7 @@ namespace World
 	    int GetFace();
 	    int GetAdjoinFlags();
 
-	    Poly GetPoly();
+	    const Poly &GetPoly();
 	    Sector *GetAdjoin();
 	    Surface *GetMirror();
 

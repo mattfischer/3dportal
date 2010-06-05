@@ -318,6 +318,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\marshaller_generator.py"
+				>
+			</File>
+			<File
 				RelativePath=".\R_Frame.cpp"
 				>
 			</File>
@@ -591,10 +595,6 @@
 			>
 			<File
 				RelativePath=".\C_VerbMarshallers.inc"
-				>
-			</File>
-			<File
-				RelativePath=".\marshaller_generator.py"
 				>
 			</File>
 			<File

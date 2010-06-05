@@ -4,19 +4,7 @@
 
 namespace Math
 {
-    Vector::Vector(float m_x, float m_y, float m_z)
-    {
-	    x=m_x;
-	    y=m_y;
-	    z=m_z;
-    }
-
-    float Vector::operator*(Vector &b)
-    {
-	    return x*b.x+y*b.y+z*b.z;
-    }
-
-    Vector Vector::operator*(float b)
+    Vector Vector::operator*(float b) const
     {
 	    Vector newVector;
 
@@ -27,7 +15,7 @@ namespace Math
 	    return newVector;
     }
 
-    Vector Vector::operator/(float b)
+    Vector Vector::operator/(float b) const
     {
 	    Vector newVector;
 
@@ -38,7 +26,7 @@ namespace Math
 	    return newVector;
     }
 
-    Vector Vector::operator+(Vector &b)
+    Vector Vector::operator+(const Vector &b) const
     {
 	    Vector newVector;
 
@@ -49,7 +37,7 @@ namespace Math
 	    return newVector;
     }
 
-    Vector Vector::operator-(Vector &b)
+    Vector Vector::operator-(const Vector &b) const
     {
 	    Vector newVector;
 
@@ -60,7 +48,7 @@ namespace Math
 	    return newVector;
     }
 
-    Vector Vector::operator%(Vector &b)
+    Vector Vector::operator%(const Vector &b) const
     {
 	    Vector newVector;
 
@@ -71,7 +59,7 @@ namespace Math
 	    return newVector;
     }
 
-    Vector &Vector::operator+=(Vector &b)
+    Vector &Vector::operator+=(const Vector &b)
     {
 	    x+=b.x;
 	    y+=b.y;
@@ -80,7 +68,7 @@ namespace Math
 	    return *this;
     }
 
-    Vector &Vector::operator-=(Vector &b)
+    Vector &Vector::operator-=(const Vector &b)
     {
 	    x-=b.x;
 	    y-=b.y;
@@ -98,27 +86,27 @@ namespace Math
 	    return *this;
     }
 
-    Vector Vector::operator-()
+    Vector Vector::operator-() const
     {
         return *this * -1;
     }
 
-    Vector Vector::VectorProjection(Vector &b)
+    Vector Vector::VectorProjection(const Vector &b) const
     {
 	    return *this * ((*this * b)/( *this * *this));
     }
 
-    float Vector::Magnitude()
+    float Vector::Magnitude() const
     {
 	    return sqrt(x*x+y*y+z*z);
     }
 
-    float Vector::Magnitude2()
+    float Vector::Magnitude2() const
     {
 	    return x*x+y*y+z*z;
     }
 
-    float Vector::ScalarProjection(Vector &b)
+    float Vector::ScalarProjection(const Vector &b) const
     {
 	    return (*this*b)/Magnitude();
     }
@@ -132,22 +120,14 @@ namespace Math
 	    z/=m;
     }
 
-    Vector &Vector::operator=(const Vector &b)
-    {
-	    x=b.x;
-	    y=b.y;
-	    z=b.z;
 
-	    return *this;
-    }
-
-    bool Vector::operator==(Vector &b)
+    bool Vector::operator==(const Vector &b) const
     {
 	    if(x==b.x && y==b.y && z==b.z) return true;
 	    else return false;
     }
 
-    bool Vector::operator!=(Vector &b)
+    bool Vector::operator!=(const Vector &b) const
     {
 	    if(x!=b.x || y!=b.y || z!=b.z) return true;
 	    else return false;
