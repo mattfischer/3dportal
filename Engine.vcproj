@@ -422,6 +422,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\W_Thing_Ai.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\W_Thing_Load.cpp"
 				>
 			</File>

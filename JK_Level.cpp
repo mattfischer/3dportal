@@ -459,7 +459,7 @@ namespace Jk
 		    line.getFloat( error );
 
 		    filename = line.getString( error );
-			aiclasses.push_back( new Jk::AiClass( filename ), filename );
+			aiClasses.push_back( new Jk::AiClass( filename ), filename );
 	    }
 
 	    // =====================================================================

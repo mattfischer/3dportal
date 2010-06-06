@@ -127,7 +127,15 @@ namespace World
 		        }
 		    }
 	    }
-        
+ 
+		aiClass = NULL;
+		if( thingTemplate->GetString( "aiclass", s ) )
+	    {
+		    aiClass = currentLevel.aiClasses[s];
+
+			InitAi();
+		}
+
 	    explodeTemplate = NULL;
 	    if( thingTemplate->GetString( "explode", s ) )
 	    {

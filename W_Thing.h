@@ -53,7 +53,7 @@ namespace World
     public:
 	    enum Type { ACTOR, WEAPON, ITEM, EXPLOSION, COG, GHOST, CORPSE, PLAYER, PARTICLE};
 
-	    // Thing.cpp
+	    // W_Thing.cpp
         Thing( Jk::Template *t, Math::Vector p, Math::Vector r, Sector *s );
 	    Thing( Thing &c );
 
@@ -113,7 +113,7 @@ namespace World
         void addSound( Sound::Track *track );
         void removeSound( Sound::Track *track );
 
-	    // P_Thing.cpp
+	    // W_Thing_Physics.cpp
 	    static void UpdateThings( float time );
 
 	    void ApplyThrust( Math::Vector thrust );
@@ -144,7 +144,7 @@ namespace World
 	    void ProcessTemplate();
 	    void Explode();
 
-	    // R_Thing.cpp
+	    // W_Thing_Render.cpp
 	    void Draw( Render::Frustum frustum, float light, Math::Vector tint );
 
     protected:
@@ -216,6 +216,8 @@ namespace World
     	
         Jk::AnimClass *animClass;
 
+		Jk::AiClass *aiClass;
+
         Jk::Template *explodeTemplate;
 
 	    Render::Sprite *sprite;
@@ -228,7 +230,7 @@ namespace World
         int num;
         bool pendingDestroy;
 
-	    // P_Thing.cpp
+	    // W_Thing_Physics.cpp
 	    void UpdatePath(float time);
 	    void UpdateForces(float time);
 	    void UpdateFinalize(float time);
@@ -237,6 +239,10 @@ namespace World
 	    void DoFoley();
 	    int GetSurfaceType();
         void RealDestroy();
+
+		// W_Thing_Ai.cpp
+		void InitAi();
+		void UpdateAi();
     };
 }
 #endif

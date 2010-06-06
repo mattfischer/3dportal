@@ -59,7 +59,7 @@ namespace Jk
         Util::VectorMap<Jk::Key*> keyframes;
         Util::VectorMap<Jk::AnimClass*> animClasses;
 	    Util::VectorMap<Render::Sprite*> sprites;
-		Util::VectorMap<Jk::AiClass*> aiclasses;
+		Util::VectorMap<Jk::AiClass*> aiClasses;
 
         std::vector<shared_ptr<World::Thing> > things;
         std::vector<Cog::Script*> cogs;
