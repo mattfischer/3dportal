@@ -270,6 +270,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\JK_AiClass.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\JK_AnimClass.cpp"
 				>
 			</File>
@@ -477,6 +481,10 @@
 			</File>
 			<File
 				RelativePath=".\I_Input.h"
+				>
+			</File>
+			<File
+				RelativePath=".\JK_AiClass.h"
 				>
 			</File>
 			<File

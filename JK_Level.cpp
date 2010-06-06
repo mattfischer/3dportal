@@ -3,6 +3,7 @@
 #include "JK_Template.h"
 #include "JK_GOB.h"
 #include "JK_Key.h"
+#include "JK_AiClass.h"
 #include "JK_AnimClass.h"
 #include "JK_Colormap.h"
 #include "S_SoundClass.h"
@@ -436,6 +437,30 @@ namespace Jk
 		    if(!textures[i].valid)
 			    JK_Level_LoadMAT(textureFilenames[i], &textures[i], &colormaps[0]);
 	    }*/
+
+	    // =====================================================================
+
+	    parser.findString( "Section: AICLASS", error );
+
+	    line = parser.getLine( error );
+	    line.matchString( "World AIClasses", error );
+	    numEntries = line.getInt( error );
+
+	    for( i = 0 ; i < numEntries ; i++ )
+	    {
+		    line = parser.getLine( error );
+    		
+		    line.matchString( "end", error );
+		    if( !error )
+		    {
+			    break;
+		    }
+
+		    line.getFloat( error );
+
+		    filename = line.getString( error );
+			aiclasses.push_back( new Jk::AiClass( filename ), filename );
+	    }
 
 	    // =====================================================================
 

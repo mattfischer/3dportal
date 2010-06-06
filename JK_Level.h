@@ -36,16 +36,17 @@ namespace World
 
 namespace Jk
 {
-    class Colormap;
+	class Colormap;
+	class AiClass;
+    class AnimClass;
+    class Key;
+    class Template;   
 }
 
 using boost::shared_ptr;
 
 namespace Jk
 {
-    class AnimClass;
-    class Key;
-    class Template;
     struct Level {
         void Load( const string &name );
 
@@ -58,6 +59,7 @@ namespace Jk
         Util::VectorMap<Jk::Key*> keyframes;
         Util::VectorMap<Jk::AnimClass*> animClasses;
 	    Util::VectorMap<Render::Sprite*> sprites;
+		Util::VectorMap<Jk::AiClass*> aiclasses;
 
         std::vector<shared_ptr<World::Thing> > things;
         std::vector<Cog::Script*> cogs;
